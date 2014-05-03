@@ -2,8 +2,19 @@ package com.conch.entity;
 import java.sql.Date;
 import java.util.Calendar;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name="UserInfo")
 public class User {
+
+	private int id;
 	private String regname;
 	private String regemail;
 	private String passwd;
@@ -12,12 +23,24 @@ public class User {
 	private Date birthday;
 	private String city;
 	
+	@Id
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name = "system-uuid",strategy="uuid")
+	@Column(length=32)
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	@Column(length=32)
 	public String getRegname() {
 		return regname;
 	}
 	public void setRegname(String regname) {
 		this.regname = regname;
 	}
+	@Column(length=64)
 	public String getRegemail() {
 		return regemail;
 	}
