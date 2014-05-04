@@ -8,7 +8,7 @@
 		version="2.5">
   <display-name>json_test</display-name>
   <welcome-file-list>
-    <welcome-file>login.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <context-param>
     <param-name>contextConfigLocation</param-name>
@@ -26,6 +26,12 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  
+  <servlet-mapping>  
+    <servlet-name>default</servlet-name>  
+    <url-pattern>*.html</url-pattern>  
+   </servlet-mapping> 
+    
   <servlet-mapping>
     <servlet-name>springMVC</servlet-name>
     <url-pattern>/</url-pattern>

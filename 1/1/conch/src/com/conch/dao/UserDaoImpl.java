@@ -40,7 +40,9 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean CheckEmail(String email) {
-		// TODO Auto-generated method stub
+		String hql = "from UserInfo u where u.regemail=?";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setString(0, email);
 		return false;
 	}
 

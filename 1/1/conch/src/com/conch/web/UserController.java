@@ -28,17 +28,19 @@ public class UserController {
 		return "/editUser";
 	}
 	
-	@RequestMapping("/toAddUser")
-	public String toAddUser(){
-		return "/addUser";
+	@RequestMapping("/checkEmail")
+	public String CheckEmail(String email){
+		System.out.println(email);
+		userManager.CheckEmail(email);
+		return "";
 	}
 	
 	@RequestMapping("/addUser")
 	public String addUser(User user,HttpServletRequest request){
 		
 		userManager.addUser(user);
-		
-		return "redirect:/user/getAllUser";
+		System.out.println("regname :" +user.getRegname() + " regemail :" +user.getRegemail() +"passwd :" + user.getPasswd());
+		return "redirect:/index.html";
 	}
 	
 //	@RequestMapping("/delUser")

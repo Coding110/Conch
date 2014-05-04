@@ -14,12 +14,13 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="UserInfo")
 public class User {
 
-	private int id;
+	private String id;
 	private String regname;
 	private String regemail;
 	private String passwd;
 	private String realname;
 	private char sex;
+	private Date regtime;
 	private Date birthday;
 	private String city;
 	
@@ -27,20 +28,21 @@ public class User {
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name = "system-uuid",strategy="uuid")
 	@Column(length=32)
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	@Column(length=32)
+	@Column(length=32,nullable = false)
 	public String getRegname() {
 		return regname;
 	}
+	@Column(length=64,nullable=false)
 	public void setRegname(String regname) {
 		this.regname = regname;
 	}
-	@Column(length=64)
+	@Column(length=64,nullable = false)
 	public String getRegemail() {
 		return regemail;
 	}
@@ -70,6 +72,12 @@ public class User {
 	}
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+	public Date getRegtime() {
+		return regtime;
+	}
+	public void setRegtime(Date regtime) {
+		this.regtime = regtime;
 	}
 	public String getCity() {
 		return city;
