@@ -43,8 +43,7 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public boolean CheckEmail(String email) {
-		// TODO Auto-generated method stub
-		return false;
+		return userDao.CheckEmail(email);
 	}
 
 }

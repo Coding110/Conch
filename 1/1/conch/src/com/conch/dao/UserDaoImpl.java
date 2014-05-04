@@ -43,7 +43,8 @@ public class UserDaoImpl implements UserDao {
 		String hql = "from UserInfo u where u.regemail=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, email);
-		return false;
+		System.out.println(query.executeUpdate());
+		return (query.executeUpdate()>0);
 	}
 
 	@Override

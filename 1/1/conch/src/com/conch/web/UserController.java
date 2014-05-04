@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.annotation.Resource;
+import javax.persistence.AttributeOverrides;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,10 +30,19 @@ public class UserController {
 	}
 	
 	@RequestMapping("/checkEmail")
-	public String CheckEmail(String email){
-		System.out.println(email);
-		userManager.CheckEmail(email);
-		return "";
+	public void CheckEmail(String email,HttpServletResponse response){
+		String result = "{\"result\":\"error\"}";
+		if(userManager.CheckEmail(email))
+		{
+			result = "{\"result\":\"success\"}";
+		}
+		response.setContentType("application/json");
+		try {
+			PrintWriter out = response.getWriter();
+			out.write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@RequestMapping("/addUser")

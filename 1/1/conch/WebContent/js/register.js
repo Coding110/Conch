@@ -88,7 +88,7 @@ function check_em(e) {
     $(e).next().remove();
     $.get("/conch/user/checkEmail", "email=" + csdn.val2(e), function (data) {
         data = csdn.toJSON(data);
-        if (data.status == true){
+        if (data.result == true){
         	showok(e);
         }
         else{ 
