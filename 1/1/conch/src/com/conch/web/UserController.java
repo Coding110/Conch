@@ -31,10 +31,10 @@ public class UserController {
 	
 	@RequestMapping("/checkEmail")
 	public void CheckEmail(String email,HttpServletResponse response){
-		String result = "{\"result\":\"error\"}";
+		String result = "{\"result\":false}";
 		if(userManager.CheckEmail(email))
 		{
-			result = "{\"result\":\"success\"}";
+			result = "{\"result\":true}";
 		}
 		response.setContentType("application/json");
 		try {
