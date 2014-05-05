@@ -15,12 +15,12 @@ a:active {
 h1,h2, h3, h4, h5, h6 {
     font-family: 'Century Gothic', sans-serif;
     line-height: 1.1em;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 h1 {
     text-align: center;
 	margin-top: 30px;
-	margin-bottom: 30px;
+	margin-bottom: 0px;
 }
 .pagetop_notice{ 
 	width:1100px; 
@@ -38,19 +38,20 @@ span.login{
 	  color:#f00;
  }	   
 
-.margin_top { margin-top: 20px; }
+.margin_top { margin-top: 30px; }
 
 /* header */
 header {
-    border-top: 12px solid #9e2630;
+    border-top: 0px solid #9e2630;
     width: 100%;
     background: #fff;
     position: fixed;
     left: 0;
     top: 0;
     z-index: 200;
-    height: 115px;
+    height: 45px;
 }
+
 header #templatemo_logo {
     padding-top: 35px;
     float: left;
@@ -74,40 +75,90 @@ header #templatemo_logo img {
 }
 header ul {
     float: left;
-    min-height: 60px;
-    margin-top: 30px;
+    min-height: 25px;
+    margin-top: 10px;
 }
 header ul li {
     margin: 0;
     padding: 0;
     list-style: none;
     float: left;
-    height: 45px;
+    height: 25px;
 }
 header ul li a {
     font: normal normal normal 18px/20px 'Century Gothic', sans-serif;
     text-align: center;
     float: left;
-    color: #9e2630;
-    height: 43px;
+    color: #00;
+    height: 25px;
 }
 header ul li:hover a, header ul li:active a, header ul li:focus a, header ul li a.current{
-    color: #9e2630;
-    border-bottom: 2px solid #9e2630;
+    color: #00;
+    border-bottom: 2px solid #ff;
     text-decoration: none;
 }
 header .nav li a:hover, header .nav li a:focus {
     background-color: #fff;
-    color: #9e2630;
+    color: #00;
 }
-/* templatemo_slideshow */
-#templatemo_slideshow {
+
+/* conch-header */
+.conch-header {
+    border-top: 0px solid #9e2630;
+    #width: 60%;
+    background: #fff;
+    #position: fixed;
+    #position: flow;
+    float: left;
+    #left: 160;
+    top: 0;
+    margin-top:20px;
+    z-index: 200;
+    height: 25px;
+}
+
+.conch-header ul {
+    float: left;
+    min-height: 15px;
+    #margin-top: 10px;
+}
+.conch-header li {
+	float: left;
+	margin-left: 20px;
+}
+.conch-header ul li {
+   # margin: 0;
+    padding: 10;
+    list-style: none;
+    float: left;
+    height: 15px;
+}
+.conch-header ul li a {
+    font: normal normal normal 18px/20px 'Century Gothic', sans-serif;
+    text-align: center;
+    float: left;
+    color: #00;
+    height: 15px;
+}
+.conch-header ul li:hover a, .conch-header ul li:active a, .conch-header ul li:focus a, .conch-header ul li a.current{
+    color: #00;
+    border-bottom: 2px solid #00;
+    text-decoration: none;
+}
+.conch-header .nav li a:hover, .conch-header .nav li a:focus {
+    background-color: #00;
+    color: #00;
+}
+
+
+/* conch_slideshow */
+#conch_slideshow {
     width: 100%;
     position: relative;
     margin: 0;
-    padding-top: 115px;
+    padding-top: 65px;
 }
-#templatemo_slideshow #main-slider .flex-caption {
+#conch_slideshow #main-slider .flex-caption {
     top: 10%;
     background-color: rgba(255, 255, 255, 0.75);
     color: #fff;
@@ -116,7 +167,7 @@ header .nav li a:hover, header .nav li a:focus {
     position: absolute;
     border-radius: 4px;
 }
-#templatemo_slideshow #main-slider .flex-button a {
+#conch_slideshow #main-slider .flex-button a {
     background: #9e2630;
     color: #fff;
     margin: 0;
@@ -130,23 +181,23 @@ header .nav li a:hover, header .nav li a:focus {
     text-decoration: none;
     font-size: 20px;
 }
-#templatemo_slideshow #main-slider .flex-button a:hover {
+#conch_slideshow #main-slider .flex-button a:hover {
     text-decoration: none;
 }
-#templatemo_slideshow #main-slider .flex-button .btn-theme {
+#conch_slideshow #main-slider .flex-button .btn-theme {
     text-transform: lowercase;
     font-size: 20px;
 }
-#templatemo_slideshow #main-slider .flex-control-nav {
+#conch_slideshow #main-slider .flex-control-nav {
     bottom: 10%;
 }
-#templatemo_slideshow #main-slider .flex-caption h3 {
+#conch_slideshow #main-slider .flex-caption h3 {
     color: #9e2630;
     margin-bottom: 8px;
     font-family: 'Century Gothic', sans-serif;
     font-size: 20px;
 }
-#templatemo_slideshow #main-slider .flex-caption p {
+#conch_slideshow #main-slider .flex-caption p {
     margin: 0 0 15px;
     text-align: justify;
     color: #000;
@@ -158,8 +209,8 @@ header .nav li a:hover, header .nav li a:focus {
 .flex-control-paging li a.flex-active,.flex-control-paging li a:hover {
     background-color: #9e2630;
 }
-#templatemo_slideshow #main-slider .flex-caption p a.sildes-link,
-#templatemo_slideshow #main-slider .flex-caption p a.sildes-link:hover{
+#conch_slideshow #main-slider .flex-caption p a.sildes-link,
+#conch_slideshow #main-slider .flex-caption p a.sildes-link:hover{
 	 color: #000;
 	 cursor: default;
 	 text-decoration: none;
@@ -180,10 +231,12 @@ header .nav li a:hover, header .nav li a:focus {
     background: #222;
     background: url("../images/templatemo_arrow.png")no-repeat;
 }
-/*templatemo_slideshow*/
-#templatemo_slideshow .container .row {
+
+/*conch_slideshow*/
+#conch_slideshow .container .row {
     margin-bottom: 3.5%;
 }
+
 .btn-lg {
     padding: 10px 25px;
     border-radius: 6px;
@@ -191,88 +244,107 @@ header .nav li a:hover, header .nav li a:focus {
     background: #c9cbca;
     font-size: 12px;
 }
-/*templatemo_about*/
-#templatemo_about .row {
+
+/*conch_about*/
+#conch_about .row {
     margin-top: 30px;
 }
-#templatemo_about h2 {
+#conch_about h2 {
     font: normal normal normal  24px/24px 'Century Gothic', sans-serif;
     margin: 0;
     padding: 0 0 15px 0;
 }
-#templatemo_about img {
+#conch_about img {
     float: left;
     max-width: 98%;
     margin: 0 2% 2% 0;
 }
-#templatemo_about p {
+#conch_about p {
     font: normal normal normal 14px/30px 'Century Gothic', sans-serif;
     text-align: justify;
     margin: 0;
     padding: 0 0 10px 0;
 }
-#templatemo_about p a {
+#conch_about p a {
     color: #000;
     text-decoration: underline;
 }
-/*templatemo_services*/
-#templatemo_services h2 {
+
+/*conch_services*/
+#conch_services .row {
+    margin-top: 30px;
+}
+#conch_services h2 {
     font: normal normal normal  24px/26px 'Century Gothic', sans-serif;
     margin: 0;
     padding: 0;
 }
-#templatemo_services p {
+#conch_services p {
     font-size: 14px;
     line-height: 20px;
     font-family: 'Century Gothic', sans-serif;
     color: #000;
     text-align: left;
 }
-#templatemo_services .row {
+#conch_services .row {
     padding-bottom: 30px;
 }
-/*templatemo_blog*/
-#templatemo_blog p {
+
+/*conch_blog*/
+#conch_blog .row {
+    margin-top: 30px;
+}
+#conch_blog p {
     color: #000;
     text-align: justify;
     padding: 0;
 }
-#templatemo_blog a {
+#conch_blog a {
     color: black;
     text-decoration: none;
 }
-#templatemo_blog a span {
+#conch_blog a span {
     font-size: 10px;
 }
-#templatemo_blog a span {
+#conch_blog a span {
     font-size: 10px;
 }
-#templatemo_blog a span {
+#conch_blog a span {
     font-size: 10px;
 }
-#templatemo_blog a span {
+#conch_blog a span {
     font-size: 10px;
 }
-#templatemo_blog .container .row {
+#conch_blog .container .row {
     margin-bottom: 38px;
 }
-/*templatemo_gallery*/
-#templatemo_gallery {
+
+/*conch_gallery*/
+#conch_gallery .row {
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
+/* conch_gallery .section_title{
+	float: left;
+} */
 .thumbs {
     margin: 0;
     padding: 0;
+    margin-bottom: 15px;
 }
 .thumbs li {
     list-style: none;
-    margin-bottom: 45px;
+    margin-bottom: 15px;
 }
 .thumbs li.item-thumbs div {
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
+    width: 60;
+    height: 60;
     float: left;
     background: #c0c0c0;
     position: relative;
+    margin-left:20px;
 }
 .thumbs li.item-thumbs .overlay {
     position: absolute;
@@ -309,13 +381,17 @@ header .nav li a:hover, header .nav li a:focus {
     width: 100%;
 }
 .copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
-/*templatemo_contact*/
-#templatemo_contact #templatemo_contact_gray_wap {
+
+/*conch_contact*/
+#conch_contact .row {
+    margin-top: 30px;
+}
+#conch_contact #templatemo_contact_gray_wap {
     background-color: #73737b;
     border-radius: 6px;
     padding-bottom: 25px;
 }
-#templatemo_contact h1 {
+#conch_contact h1 {
     font-family: 'Century Gothic', sans-serif;
     text-align: center;
     padding-top: 20px;
@@ -323,7 +399,7 @@ header .nav li a:hover, header .nav li a:focus {
     color: #fff;
     font-size: 30px;
 }
-#templatemo_contact p {
+#conch_contact p {
     font-family: 'Century Gothic', sans-serif;
     text-align: left;
     color: #fff;
@@ -371,39 +447,41 @@ header .nav li a:hover, header .nav li a:focus {
     margin-left: 20%;
     padding: 0;
 }
-#templatemo_contact ul {
+#conch_contact ul {
     margin: 0;
     padding: 0;
 }
-#templatemo_contact ul li {
+#conch_contact ul li {
     list-style: none;
     float: left;
     padding: 30px 5% 30px 0;
 }
-#templatemo_contact ul li a {
+#conch_contact ul li a {
     float: left;
 }
-#templatemo_contact ul li a:hover {
+#conch_contact ul li a:hover {
     transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     transition-duration: .3s;
     -webkit-transition-duration: .3s;
 }
-#templatemo_contact p {
+#conch_contact p {
     text-align: left;
     font: normal normal normal 14px/25px 'Century Gothic';
     color: #fff;
     margin-bottom: 0;
 }
-#templatemo_contact p a {
+#conch_contact p a {
     color: #000;
 }
-#templatemo_contact #map-canvas {
+#conch_contact #map-canvas {
     float: left;
 	width: 100%;
 	height: 360px;
 	margin-bottom: 40px;
 }
+
+
 /*templatemo_footer*/
 #templatemo_footer {
     height: 55px;
@@ -423,15 +501,15 @@ header .nav li a:hover, header .nav li a:focus {
         margin: 0;
         padding: 0 5% 0 5%;
     }
-    #templatemo_services p {
+    #conch_services p {
         line-height: 30px;
         padding: 17px 0;
     }
-    #templatemo_blog h2 {
+    #conch_blog h2 {
         font: normal normal normal  24px/30px 'Century Gothic', sans-serif;
         margin: 0px 0 25px 0;
     }
-    #templatemo_blog p {
+    #conch_blog p {
         font: normal normal normal 14px/30px 'Century Gothic', sans-serif;
     }
 }
@@ -443,22 +521,22 @@ header .nav li a:hover, header .nav li a:focus {
         margin: 0;
         padding: 0px 2% 0 2%;
     }
-    #templatemo_slideshow #main-slider .flex-caption p {
+    #conch_slideshow #main-slider .flex-caption p {
         font-size: 11px !important;
         line-height: 20px;
     }
-    #templatemo_slideshow #main-slider .flex-button a {
+    #conch_slideshow #main-slider .flex-button a {
         bottom: 14%;
     }
-    #templatemo_services p {
+    #conch_services p {
         line-height: 28px;
         padding: 8px 0;
     }
-    #templatemo_blog h2 {
+    #conch_blog h2 {
         font: normal normal normal  20px/30px 'Century Gothic', sans-serif;
         margin: 5px 0 10px 0;
     }
-    #templatemo_blog p {
+    #conch_blog p {
         font: normal normal normal 14px/26px 'Century Gothic', sans-serif;
     }
 }
@@ -471,27 +549,27 @@ header .nav li a:hover, header .nav li a:focus {
         margin: 0;
         padding: 0 12px 0 12px !important;
     }
-    #templatemo_slideshow #main-slider .flex-caption p {
+    #conch_slideshow #main-slider .flex-caption p {
         font-size: 10px !important;
         line-height: 18px;
     }
-    #templatemo_about p {
+    #conch_about p {
         font: normal normal normal 14px/22px 'Century Gothic', sans-serif;
         text-align: justify;
     }
-    #templatemo_services p {
+    #conch_services p {
         font-size: 14px;
         line-height: 18px;
         padding: 3px 0;
     }
-    #templatemo_blog h2 {
+    #conch_blog h2 {
         font: normal normal normal  18px/30px 'Century Gothic', sans-serif;
         margin: 3px 0 10px 0;
     }
-    #templatemo_blog p {
+    #conch_blog p {
         font: normal normal normal 14px/20px 'Century Gothic', sans-serif;
     }
-    #templatemo_blog p a span {
+    #conch_blog p a span {
         font-size: 8px;
     }
 }
@@ -535,35 +613,35 @@ header .nav li a:hover, header .nav li a:focus {
         border-bottom: none;
         text-decoration: none;
     }
-    #templatemo_slideshow #main-slider .flex-button a {
+    #conch_slideshow #main-slider .flex-button a {
         width: 90%;
         bottom: auto;
         margin-top: -120px;
     }
-    #templatemo_services p {
+    #conch_services p {
         line-height: 20px;
         padding: 10px 0;
         text-align: center;
     }
-    #templatemo_services h2 {
+    #conch_services h2 {
         font-size: 20px;
         line-height: 30px;
         padding: 20px 0 10px 0;
         text-align: center;
     }
-    #templatemo_about img {
+    #conch_about img {
         max-width: 100%;
         margin: 20px auto 20px auto;
     }
-    #templatemo_services img {
+    #conch_services img {
         max-width: 100%;
         margin: 0 auto 0 auto;
     }
-    #templatemo_blog h2 {
+    #conch_blog h2 {
         font: normal normal normal  25px/30px 'Century Gothic', sans-serif;
         margin: 15px 0 15px 0;
     }
-    #templatemo_blog p a span {
+    #conch_blog p a span {
         font-size: 10px;
     }
     .thumbs li.item-thumbs .overlay {
