@@ -46,4 +46,9 @@ public class UserManagerImpl implements UserManager {
 		return userDao.CheckEmail(email);
 	}
 
+	@Override
+	public boolean CheckNick(String nick) {
+		return userDao.CheckNick(nick);
+	}
+
 }

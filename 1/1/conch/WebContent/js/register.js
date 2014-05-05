@@ -1,3 +1,12 @@
+function registerInfo()
+{   
+	if(!chk_sign()){
+		alert("fasle");
+		return false;
+	}
+    $("#subform").submit() ;
+}
+
 $(function () {
 
 	$("#em").blur(function(){	
@@ -88,13 +97,13 @@ function check_em(e) {
     $(e).next().remove();
     $.get("/conch/user/checkEmail", "email=" + csdn.val2(e), function (data) {
         data = csdn.toJSON(data);
+        alert(data.result);
         if (data.result == true){
         	showok(e);
         }
         else{ 
-        	alert("email 赋值=1");
         	chkflag=1;
-        	showerr(e, data.error);
+        	showerr(e, data.mess);
         }
     });
 }
@@ -211,15 +220,15 @@ function check_nick(ev) {
         showerr($(this), '昵称不合法');
         return false;
     }
-    $.get("register.jsp?check=chknick",{nick : nick},function (data){
+    $.get("/conch/user/checkNick",{nick : nick},function (data){
     	data=toJSON(data);
     	//data.id;
-    	if(data.status){
+    	if(data.result){
     		showok(ev);
     	}
     	else {
     		chkflag=1;
-    		showerr(ev,data.error);
+    		showerr(ev,data.mess);
     	}
     });
 }
@@ -228,14 +237,14 @@ function check_verifyCode(e) {
 	  //integer n = new integer();	  
 	  if (!chk_val($("#cd"), "请输入验证码")) return false;
 	    $(e).next().remove();
-	    $.get("register.jsp?check=chkCode", "rand=" + e.val(), function (data) {
+	    $.get("/conch/user/checkVerifyCode", "inputCode=" + e.val(), function (data) {
 	    	data = toJSON(data);
-	        if (data.status == true){
+	        if (data.result == true){
 	        	showok(e);
 	        	}
 	        else{
 	        	chkflag=1;
-	        	showerr(e, data.error);
+	        	showerr(e, data.mess);
 	        	}
 	    });
 	   // return true;

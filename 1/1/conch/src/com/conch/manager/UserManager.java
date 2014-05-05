@@ -10,6 +10,8 @@ public interface UserManager {
 	
 	public boolean CheckEmail(String email);
 	
+	public boolean CheckNick(String nick);
+	
 	public void addUser(User user);
 	
 //	public boolean delUser(String id);

@@ -23,18 +23,49 @@ public class UserController {
 	
 	@RequestMapping("/getUser")
 	public String getUser(User user,HttpServletRequest request){
-		
-		request.setAttribute("user", userManager.getUser(user));
-	
+		request.setAttribute("user", userManager.getUser(user));	
 		return "/editUser";
 	}
 	
 	@RequestMapping("/checkEmail")
 	public void CheckEmail(String email,HttpServletResponse response){
-		String result = "{\"result\":false}";
+		String result = "{\"result\":true,\"mess\":\"\"}";
 		if(userManager.CheckEmail(email))
 		{
-			result = "{\"result\":true}";
+			result = "{\"result\":false,\"mess\":\"该邮箱已注册\"}";
+		}
+		response.setContentType("application/json");
+		try {
+			PrintWriter out = response.getWriter();
+			out.write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("/checkNick")
+	public void CheckNick(String nick,HttpServletResponse response){
+		String result = "{\"result\":true,\"mess\":\"\"}";
+		if(userManager.CheckNick(nick))
+		{
+			result = "{\"result\":false,\"mess\":\"该用户名已经被注册\"}";
+		}
+		response.setContentType("application/json");
+		try {
+			PrintWriter out = response.getWriter();
+			out.write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("/checkVerifyCode")
+	public void CheckVerifyCode(String inputCode,HttpServletRequest request,HttpServletResponse response){
+		String result = "{\"result\":true,\"mess\":\"\"}";	
+		String rand=(String)request.getSession().getAttribute("rand");;
+		if(!inputCode.equals(rand))
+		{
+			result = "{\"result\":false,\"mess\":\"验证码输入错误\"}";
 		}
 		response.setContentType("application/json");
 		try {
@@ -47,7 +78,6 @@ public class UserController {
 	
 	@RequestMapping("/addUser")
 	public String addUser(User user,HttpServletRequest request){
-		
 		userManager.addUser(user);
 		System.out.println("regname :" +user.getRegname() + " regemail :" +user.getRegemail() +"passwd :" + user.getPasswd());
 		return "redirect:/index.html";
