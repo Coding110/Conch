@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUser(User user) {
 		
-		String hql = "from UserInfo u where u.regname=? and u.passwd=?";
+		String hql = "from User u where u.regname=? and u.passwd=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, user.getRegname());
 		query.setString(1, user.getPasswd());
@@ -33,30 +33,53 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean CheckUser(User user, int flag) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean CheckUser(String username, String passwd) {
+		 List arr=null; 
+		String hql = "from User u where u.regname=? and u.passwd=?";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setString(0, username);
+		query.setString(1, passwd);
+	    arr=query.list(); 
+	    if(arr.isEmpty()){
+			return false;
+		 }
+		return true;
 	}
 
 	@Override
 	public boolean CheckEmail(String email) {
-		String hql = "from User u where u.regemail=?";
+		  List arr=null; 
+		String hql = " from User u where u.regemail=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, email);
-		//System.out.println("RES: " + query.getQueryString());
-		List list = query.list();
-		System.out.println("size: " + list.size());
-		if(list.size()>0){
-			System.out.println("RES: " + list.get(0));
-			return true;
-		}
-		return false;
+		 arr=query.list(); 
+		//System.out.println(query.executeUpdate());
+		 if(arr.isEmpty()){
+			System.out.println("false");
+			 return false;
+		 }
+		return true;
 	}
 
 	@Override
 	public boolean updateUser(User user) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean CheckNick(String nick) {
+		  List arr=null; 
+			String hql = " from User u where u.regname=?";
+			Query query = sessionFactory.getCurrentSession().createQuery(hql);
+			query.setString(0, nick);
+			 arr=query.list(); 
+			//System.out.println(query.executeUpdate());
+			 if(arr.isEmpty()){
+				System.out.println("false");
+				 return false;
+			 }
+			return true;
 	}
 
 //	@Override

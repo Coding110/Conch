@@ -24,6 +24,7 @@ public class User {
 	private Date birthday;
 	private String city;
 	
+
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name = "system-uuid",strategy="uuid")

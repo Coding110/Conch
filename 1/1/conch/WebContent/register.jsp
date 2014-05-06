@@ -5,8 +5,7 @@
 <head>
 <link href="files/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="files/ga.js"></script>
-<!-- <script type="text/javascript" src="files/jquery-1.4.1.min.js"></script> -->
-<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="files/jquery-1.4.1.min.js"></script>
 <script type="text/javascript" src="files/csdn.js"></script>
 <script type="text/javascript" charset="utf-8" src="files/tracking.js"></script>
 <script type="text/javascript" charset="utf-8" src="files/main.js"></script>
@@ -23,7 +22,7 @@
 		</div>
 
 <div class="content_login">
-  <form id="subform" name="fm" action ="/conch/user/addUser" method="post">
+  <form id="subform" name="fm" action ="/conch/user/addUser" method="post" onsubmit="return checkInfo()">
 			<div class="top_bg"></div>
 			<ul class="login_top">
 				<!--
@@ -112,7 +111,7 @@
 								<td>
 									<div class="oneline">
 										<p class="error_two">
-											<input type="checkbox" id="chkTerms" name="chkTerms"
+											<input type="checkbox" id="chkTerms" name="chkTerms" checked="checked" 
 												value="1"/> <label for="chkTerms">我已仔细阅读并接受 <a
 													href="voice.html"
 													class="font_gray14" target="_blank">贝壳图注册条款</a>。
@@ -133,7 +132,7 @@
 							<tr>
 								<td width="150" class="right" valign="top"></td>
 								<td><a id="aReg" class="btn_logintwo"
-									href="javascript:void(0)" onclick="document.getElementById('subform').submit();" ><span>注 册</span></a></td>
+									href="javascript:registerInfo()" ><span>注 册</span></a></td>
 							</tr>
 						</tbody>
 					</table>

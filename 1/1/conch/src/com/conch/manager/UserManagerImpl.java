@@ -36,9 +36,8 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public boolean CheckUser(User user, int flag) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean CheckUser(String username, String passwd) {
+		return userDao.CheckUser(username, passwd);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ public interface UserManager {
 
 	public User getUser(User user);
 	
-	public boolean CheckUser(User user, int flag); // flag=0, login; flag=1, register.
+	public boolean CheckUser(String username, String passwd); 
 	
 	public boolean CheckEmail(String email);
 	

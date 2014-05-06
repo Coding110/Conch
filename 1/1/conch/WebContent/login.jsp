@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!-- <script type="text/javascript" src="js/jquery-1.7.1.js"></script> -->
+<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
 <script type='text/javascript' src='js/jquery.min.js'></script>
 <script type='text/javascript' src='js/login.js'></script>
 <script type='text/javascript' src='files/register.js'></script>
@@ -11,6 +11,7 @@
 <link type="text/css" rel="stylesheet" href="css/login.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>帐号登录</title>
+
 </head>
 <body>
 	<div class="header"></div>
@@ -25,13 +26,11 @@
 						<h3>帐号登录</h3>
 						<div class="user-info">
 							<div class="user-pass">
-
-								<form id="fm1" action="login" method="post" onsubmit="return loginCheck()">
-
-									<input id="username" name="username" tabindex="1"
+								<form id="loginfm" action="/conch/user/loginCheck" method="post" onsubmit="return loginCheck()">
+									<input id="username" name="regname" tabindex="1"
 										placeholder="输入用户名/邮箱" class="user-name" type="text" value="" />
 
-									<input id="password" name="password" tabindex="2"
+									<input id="password" name="passwd" tabindex="2"
 										placeholder="输入密码" class="pass-word" type="password" value=""
 										autocomplete="off" />
      
@@ -52,9 +51,8 @@
 										value="LT-684-caQE9zqxC1s7GM2EMdqSvdTbAhWTd0" /> <input
 										type="hidden" name="execution" value="e5s1" /> <input
 										type="hidden" name="_eventId" value="submit" /> <input
-										class="logging" accesskey="l" value="登 录" tabindex="5"
-										type="submit"/>
-
+										class="logging" accesskey="l" value="登 录" tabindex="5" onclick="loginInfo();"
+										type="button"/>
 								</form>
 							</div>
 						</div>
@@ -75,7 +73,7 @@
 								class="github"></a> -->
 							<div class="register-now">
 								<span>还没有贝壳图帐号？</span> <span class="register"> <a
-									href="register.html">马上注册</a>
+									href="register.jsp">马上注册</a>
 								</span>
 							</div>
 						</div>

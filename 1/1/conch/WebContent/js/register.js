@@ -1,7 +1,6 @@
 function registerInfo()
 {   
 	if(!chk_sign()){
-		alert("fasle");
 		return false;
 	}
     $("#subform").submit() ;
@@ -32,6 +31,7 @@ $(function () {
 //	            $("#tr_vc").show();
 //	        }
 //	   });
+	   $("#chkTerms").attr("checked")=="true";
 	    $("#aRecode").click(function () {
 	         $("#vcImg").attr("src", "image.jsp?r=" + Math.random()); return false;
 	    });
@@ -97,7 +97,6 @@ function check_em(e) {
     $(e).next().remove();
     $.get("/conch/user/checkEmail", "email=" + csdn.val2(e), function (data) {
         data = csdn.toJSON(data);
-        alert(data.result);
         if (data.result == true){
         	showok(e);
         }

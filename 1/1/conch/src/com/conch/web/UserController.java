@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import javax.annotation.Resource;
 import javax.persistence.AttributeOverrides;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,7 +33,7 @@ public class UserController {
 		String result = "{\"result\":true,\"mess\":\"\"}";
 		if(userManager.CheckEmail(email))
 		{
-			result = "{\"result\":false,\"mess\":\"¸ÃÓÊÏäÒÑ×¢²á\"}";
+			result = "{\"result\":false,\"mess\":\"è¯¥é‚®ç®±å·²æ³¨å†Œ\"}";
 		}
 		response.setContentType("application/json");
 		try {
@@ -48,7 +49,7 @@ public class UserController {
 		String result = "{\"result\":true,\"mess\":\"\"}";
 		if(userManager.CheckNick(nick))
 		{
-			result = "{\"result\":false,\"mess\":\"¸ÃÓÃ»§ÃûÒÑ¾­±»×¢²á\"}";
+			result = "{\"result\":false,\"mess\":\"è¯¥ç”¨æˆ·åå·²ç»è¢«æ³¨å†Œ\"}";
 		}
 		response.setContentType("application/json");
 		try {
@@ -65,7 +66,7 @@ public class UserController {
 		String rand=(String)request.getSession().getAttribute("rand");;
 		if(!inputCode.equals(rand))
 		{
-			result = "{\"result\":false,\"mess\":\"ÑéÖ¤ÂëÊäÈë´íÎó\"}";
+			result = "{\"result\":false,\"mess\":\"éªŒè¯ç è¾“å…¥é”™è¯¯\"}";
 		}
 		response.setContentType("application/json");
 		try {
@@ -82,7 +83,24 @@ public class UserController {
 		System.out.println("regname :" +user.getRegname() + " regemail :" +user.getRegemail() +"passwd :" + user.getPasswd());
 		return "redirect:/index.html";
 	}
-	
+	@RequestMapping("/loginCheck")
+	public void loginCheck(String username,String passwd,HttpServletResponse response,HttpServletRequest request){
+		String result = "{\"result\":true,\"mess\":\"\",\"to\":\"index.html\"}";	
+		response.setContentType("application/json");
+		if(!userManager.CheckUser(username, passwd)){
+			result = "{\"result\":false,\"mess\":\"ç”¨å›åæˆ–å¯†ç é”™è¯¯\",\"to\":\"\"}";
+		}else{
+			  Cookie cki = new Cookie("uid",username);
+			  response.addCookie(cki);
+		}
+		try {
+			PrintWriter out = response.getWriter();
+			out.write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 //	@RequestMapping("/delUser")
 //	public void delUser(String id,HttpServletResponse response){
 //		
