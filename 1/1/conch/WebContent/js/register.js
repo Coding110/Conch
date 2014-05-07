@@ -37,7 +37,6 @@ $(function () {
 	    });
 	  $('#em').focus();
 });
-var chkflag=0;
 
 function removeError(e) {
     e.parent().children().each(function () {
@@ -91,17 +90,18 @@ function chk_em(e) {
     }
     return true;
 }
-
+var chkEmailflag=0;
 function check_em(e) {
     if (!chk_em(e)) return false;
     $(e).next().remove();
     $.get("/conch/user/checkEmail", "email=" + csdn.val2(e), function (data) {
         data = csdn.toJSON(data);
         if (data.result == true){
+        	chkEmailflag=0;
         	showok(e);
         }
         else{ 
-        	chkflag=1;
+        	chkEmailflag=1;
         	showerr(e, data.mess);
         }
     });
@@ -202,6 +202,7 @@ function chk_val(e, err) {
     return true;
 }
 
+var chkNickflag=0;
 function check_nick(ev) {
     $(this).next().remove();
     var nick = ev.val();
@@ -223,15 +224,17 @@ function check_nick(ev) {
     	data=toJSON(data);
     	//data.id;
     	if(data.result){
+    		chkNickflag=0;
     		showok(ev);
     	}
     	else {
-    		chkflag=1;
+    		chkNickflag=1;
     		showerr(ev,data.mess);
     	}
     });
 }
 
+var chkVerifyflag=0;
 function check_verifyCode(e) {
 	  //integer n = new integer();	  
 	  if (!chk_val($("#cd"), "请输入验证码")) return false;
@@ -239,10 +242,11 @@ function check_verifyCode(e) {
 	    $.get("/conch/user/checkVerifyCode", "inputCode=" + e.val(), function (data) {
 	    	data = toJSON(data);
 	        if (data.result == true){
+	        	chkVerifyflag=0;
 	        	showok(e);
 	        	}
 	        else{
-	        	chkflag=1;
+	        	chkVerifyflag=1;
 	        	showerr(e, data.mess);
 	        	}
 	    });
@@ -265,14 +269,10 @@ function chk_sign() {
 
   }
 	check_verifyCode($("#cd"));
-	alert(!chkflag);
-	alert(chkflag);
-	if(!chkflag){
-		chkflag=0;
+	if(!chkEmailflag && !chkNickflag && !chkVerifyflag){
      return true;
 	}
 	else{
-		chkflag=0;
 	 return false;
 	}
 }

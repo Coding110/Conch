@@ -10,7 +10,6 @@
 <script type="text/javascript" charset="utf-8" src="files/tracking.js"></script>
 <script type="text/javascript" charset="utf-8" src="files/main.js"></script>
 <script type="text/javascript" src="js/register.js"></script>
-<script type="text/javascript" src="js/login.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>用户注册</title>
@@ -22,7 +21,7 @@
 		</div>
 
 <div class="content_login">
-  <form id="subform" name="fm" action ="/conch/user/addUser" method="post" onsubmit="return checkInfo()">
+  <form id="subform" name="fm" action ="/conch/user/addUser" method="post" >
 			<div class="top_bg"></div>
 			<ul class="login_top">
 				<!--

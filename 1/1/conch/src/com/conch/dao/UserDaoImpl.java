@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean CheckUser(String username, String passwd) {
 		 List arr=null; 
-		String hql = "from User u where u.regname=? and u.passwd=?";
+		String hql = "from User u where u.regemail=? and u.passwd=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, username);
 		query.setString(1, passwd);

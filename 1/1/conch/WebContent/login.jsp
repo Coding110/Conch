@@ -28,7 +28,7 @@
 							<div class="user-pass">
 								<form id="loginfm" action="/conch/user/loginCheck" method="post" onsubmit="return loginCheck()">
 									<input id="username" name="regname" tabindex="1"
-										placeholder="输入用户名/邮箱" class="user-name" type="text" value="" />
+										placeholder="输入邮箱" class="user-name" type="text" value="" />
 
 									<input id="password" name="passwd" tabindex="2"
 										placeholder="输入密码" class="pass-word" type="password" value=""
