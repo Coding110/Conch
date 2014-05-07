@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
-<title>贝壳图</title>
+<title>贝壳图 — 帮你留住记忆</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="" />
 <meta name="author" content="conch" />
@@ -20,8 +20,6 @@
 <link href="css/font-awesome.min.css" rel="stylesheet"/>
 <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
 <link href="css/front_common.css" rel="stylesheet"/>
-
-
 <script type="text/javascript" src="js/login.js"></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -30,17 +28,8 @@
 <![endif]-->
 </head>
 <script type="text/javascript">
-
 window.onload=function(){
 	  var uid =  getCookie("uid");
-	   var str = document.getElementById("login");
-	   if(uid!=undefined){
-		   var p = document.createElement("p");
-		    p.className = "error_one";
-		    p.innerHTML = '<img src="images/pic_02.gif" style="vertical-align:middle" /><span> haha</span>';
-		    str.parent().append(p);
-	   }
-	 //  str.setAttribute("style", "display:none")
   };
   
  function getCookie(objName){//获取指定名称的cookie的值
@@ -49,9 +38,7 @@ window.onload=function(){
 	        var temp = arrStr[i].split("=");
 	        if(temp[0] == objName) return unescape(temp[1]);
 	   } 
- }
-	 
- 
+ } 
 </script>
 
 <body>
@@ -60,31 +47,28 @@ window.onload=function(){
   <div class="navbar-inner">
     <div class="container"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse" style="color: #000"> 导航栏 <span> </span> </a>
     <!-- <a class="brand" href="./" name="top">贝壳图</a>  -->
-       <a class="brand" href=""><img src="images/conch_logo.png" width="82" height="30" alt=""></a>
+       <a class="brand" href="" name="top"><img src="images/conch_logo.png" width="82" height="30" alt=""></a>
        
        <div class="conch-header">
-            <!-- <div class="col-md-16 col-sm-18 hidden-xs" id="templatemo-nav-bar">
-                <ul class="nav navbar-right"> </ul>            
-       		</div> -->
        		<ul>
                     <li><a href="#conch_slideshow">每日欣赏</a></li>
                     <li><a href="#conch_gallery">热图秀</a></li>
-                    <li><a href="#conch_about">周热图</a></li>
+                    <!-- <li><a href="#conch_about">周热图</a></li>
                     <li><a href="#conch_services">月热图</a></li>
-                    <li><a href="#conch_blog">热图</a></li>                    
+                    <li><a href="#conch_blog">热图</a></li> -->                    
                     <li><a href="#conch_contact">关于我们</a></li>
               </ul> 
        </div>
        
-      <!-- <div class="nav-collapse collapse">	
+      <div class="nav-collapse collapse">	
       <ul class="nav pull-right">        
 		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="userhome.html">Jack Smith<b class="caret"></b> </a>
 		<ul class="dropdown-menu">
 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
 			<li> <a href=""> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-			<li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
-			<li class="divider">&nbsp;</li>
-			<li> <a href=""> <i class="icon-cog"></i> 个人设置 </a> </li>
+			<!-- <li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
+			<li class="divider">&nbsp;</li> -->
+			<li> <a href="./setting.html"> <i class="icon-cog"></i> 个人设置 </a> </li>
 			<li class="divider">&nbsp;</li>
 			<li><a href=""><i class="icon-off"></i>  退出</a></li>
 		</ul>
@@ -93,56 +77,17 @@ window.onload=function(){
 			 </div>
 		</li>
       </ul>
-      </div> -->
+      </div>
 
-		<div class="pagetop_notice">
-		<cite id="login"  ><!-- <span class="login">您还未登录！</span>| -->
+		<!-- <div class="pagetop_notice">
+		<cite id="login"  ><span class="login">您还未登录！</span>|
 		<a href="login.jsp" >登录</a>|<a href="register.jsp" >注册</a>
 		</cite>
-		</div>
+		</div> -->
 	      
     </div>
   </div>
 </div>
-
-<!-- <header>
-	<div class="pagetop_notice">
-	<cite id="login"  >
-		<a href="login.jsp" >登录</a>|<a href="register.jsp" >注册</a>
-	</cite>
-	</div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5 col-md-push-1 col-sm-6">
-                <a href=""  id=" logo"><img src="images/conch_logo.png" width="164" height="60" alt="tamarillo"></a>
-            </div>
-            <div class="col-md-3 hidden-xs"></div>
-            <div class="col-xs-3 col-xs-offset-20 visible-xs">
-                <a href="#" id="mobile_menu"><span class="glyphicon glyphicon-align-justify"></span></a>
-            </div>
-            <div class="col-xs-24 visible-xs" id="mobile_menu_list">
-                <ul>
-                    <li><a href="#conch_slideshow">Top 5</a></li>
-                    <li><a href="#conch_gallery">Hot Show</a></li>
-                    <li><a href="#conch_about">Hot Week</a></li>
-                    <li><a href="#conch_services">Hot Month</a></li>
-                    <li><a href="#conch_blog">Hot All</a></li>                    
-                    <li><a href="#conch_contact">About</a></li>
-                </ul>
-            </div>
-            <div class="col-md-16 col-sm-18 hidden-xs" id="templatemo-nav-bar">
-                <ul class="nav navbar-right">
-                    <li><a href="#conch_slideshow">Top 5</a></li>
-                    <li><a href="#conch_gallery">Hot Show</a></li>
-                    <li><a href="#conch_about">Hot Week</a></li>
-                    <li><a href="#conch_services">Hot Month</a></li>
-                    <li><a href="#conch_blog">Hot All</a></li>                    
-                    <li><a href="#conch_contact">About</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header> -->
 
 <!-- end of header -->
 
@@ -186,8 +131,6 @@ window.onload=function(){
         </div><!-- end of main-slider -->
     </div>	
 </section><!-- end of conch_slideshow -->
-
-<!-- <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >Website Template</a></div> -->
 
 <section id="conch_gallery">
     <div id="gallery" class="container">
@@ -344,203 +287,7 @@ window.onload=function(){
     </div>
 </section> <!-- end of conch_gallery -->
 
-<!-- solid line -->
-<div class="container">
-    <div class="solidline"></div>
-</div>
 
-<section id="conch_about">
-    <div class="container">
-        <div class="row">
-            <h1>About</h1>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>	
-            <div class="col-md-5 col-sm-7 col-xs-24">
-                <img src="images/templatemo_image_1.jpg" alt="image 1"/>
-            </div>
-            <div class="col-md-1"></div>	
-            <div class="col-md-16">
-                <h2>Donec vel massa sed neque dignissim</h2>
-                <p>You may download and use this template for your websites. 
-                   Validate <a href="#"  target="_blank">XHTML</a> &amp; 
-                   <a href="#"  target="_blank">CSS</a>. 
-                   Responsive layout is based on <a  href="#" target="_blank">Bootstrap</a>. 
-                   Images used in this template are from <a  href="#" target="_blank">Unsplash</a>. 
-                   Icons are from <a href="#" target="_blank">Glyphicons</a> and <a href="http://picons.me" target="_blank">Picons Social</a>. 
-                   Gallery page is integrated with <a href="#" target="_blank">Responsive Lightbox</a>.
-                </p>	
-                <a href="#" class="btn btn-default">read more</a>
-            </div>
-        </div><!-- end of row -->
-        <div class="clear"></div>
-        <div class="row">
-            <div class="col-md-1"></div>	
-            <div class="col-md-5 col-sm-7 col-xs-24">
-            <img src="images/templatemo_image_2.jpg" alt="image 2"/>
-            </div>
-            <div class="col-md-1"></div>	
-            <div class="col-md-16">
-                <h2>Lorem ipsum dolor sit amet, consectetur </h2>
-                <p>
-                    adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
-                    irure dol or in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </p>
-                <a href="#" class="btn btn-default">read more</a>
-            </div>
-        </div><!-- end of row -->
-        <div class="clear"></div>
-        <div class="row">
-            <div class="col-md-1"></div>	
-            <div class="col-md-5 col-sm-7 col-xs-24">
-                <img src="images/templatemo_image_3.jpg" alt="image 3"/>
-            </div>
-            <div class="col-md-1"></div>	
-            <div class="col-md-16">
-                <h2>Lorem ipsum dolor sit amet, consectetur </h2>
-                <p>
-                    adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
-                    irure dol or in reprehenderit in voluptate velit esse <a href="/free-photos/fried" title=""  class="sildes-link" >cillum</a> dolore eu fugiat nulla pariatur.
-                </p>	
-                <a href="#" class="btn btn-default">read more</a>
-            </div>
-        </div><!-- end of row -->
-    </div> 
-</section><!-- end of conch_about -->
-
-<!-- solid line -->
-<div class="container">
-    <div class="solidline"></div>
-</div>
-
-<section id="conch_services">
-    <div class="container">
-        <div class="row">
-            <h1>Services</h1>
-        </div>
-        <div class="row">
-            <div class="col-sm-5">	
-                <img class="img-responsive" src="images/templatemo_image_4.jpg" alt="image 4" />	
-            </div>
-            <div class="col-sm-6">
-                <h2>Nullam vel tellus</h2>
-                <p>Proin at ipsum pellentesque nibh ullamcorper vehicula. Donec elit orci, auctor ut porta at, porta eget elit. Vivamus dapibus nec ipsum nec consequat.</p>
-            </div>	
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5">
-                <img class="img-responsive" src="images/templatemo_image_5.jpg" alt="image 5" />
-            </div>
-            <div class="col-sm-6">
-                <h2>Vivamus non est</h2>
-                <p>In diam tortor, posuere sed mi placerat, tempor viverra dolor. Suspendisse ultrices velit ac tempus dictum. Donec sagittis aliquam consequat. Nunc vitae pulvinar libero.</p>
-            </div>
-        </div><!-- end of row -->
-        <div class="row">
-            <div class="col-md-5 col-sm-5 col-xs-24">	
-                <img class="img-responsive" src="images/templatemo_image_6.jpg" alt="image 6" />	
-            </div>
-            <div class="col-sm-6">
-                <h2>Suspendisse luctus</h2>
-                <p>Proin consequat, sapien vel vehicula varius, libero nisl congue tellus, in adipiscing dui nulla sit amet massa. Curabitur tincidunt interdum porta.</p>
-            </div>
-            <div class="col-md-1 col-sm-1"></div>
-            <div class="col-md-5 col-sm-5 col-xs-24">
-                <img class="img-responsive" src="images/templatemo_image_7.jpg" alt="image 7" />
-            </div>
-            <div class="col-sm-6">
-                <h2>Integer accumsan</h2>
-                <p>Proin at ipsum pellentesque nibh ullamcorper vehicula. Donec elit orci, auctor ut porta at, porta eget elit. Vivamus dapibus nec ipsum nec consequat.</p>
-            </div>
-        </div><!-- end of row -->
-        <div class="row">
-            <div class="col-md-5 col-sm-5 col-xs-24">	
-                <img class="img-responsive" src="images/templatemo_image_8.jpg" alt="image 8" />	
-            </div>
-            <div class="col-sm-6">
-                <h2>Aliquam massa</h2>
-                <p>Quisque a arcu sit amet justo euismod bibendum nec sed enim. Sed vel metus erat. Sed fringilla magna felis, nec mollis tortor eleifend non.</p>
-            </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5">
-                <img class="img-responsive" src="images/templatemo_image_9.jpg" alt="image 9" />
-            </div>
-            <div class="col-sm-6">
-                <h2>Fusce feugiat</h2>
-                <p>Vestibulum imperdiet dui eu nunc blandit varius. Duis at odio at nisl tincidunt porttitor. In blandit nisl vel iaculis euismod.</p>
-            </div>
-        </div><!-- end of row -->
-    </div>
-</section> <!-- end of conch_services -->
-
-<!-- solid line -->
-<div class="container">
-    <div class="solidline"></div>
-</div>
-
-<section id="conch_blog">
-    <div class="container">
-        <div class="row">
-            <h1>Blog</h1>
-        </div>
-        <div class="row">
-            <div class="col-sm-9">
-                <img class="img-responsive" src="images/templatemo_image_10.jpg" alt="image 10" />
-            </div>
-            <div class="col-sm-15">
-                <h2>Proin varius magna sed orci venenatis</h2>
-                <p>
-                    <span class="glyphicon glyphicon-tag"></span> Web Design &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-user"></span> Martin &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-calendar"></span> 22 April 2084 &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-thumbs-up"></span> 18 &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-thumbs-down"></span> 2 &nbsp;&nbsp;
-                </p>
-                <p>In vulputate eros in auctor vulputate. Sed tempus libero consectetur pulvinar lobortis. Quisque dictum diam enim, non facilisis enim fermentum vitae. Sed faucibus ullamcorper iaculis. Quisque a laoreet purus, sed fringilla velit. Phasellus ut eleifend leo. Curabitur vitae tristique tortor, eu fermentum arcu. <br />
-                    <a href="#" class="btn btn-default margin_top">read more</a>
-                </p>
-            </div>
-        </div><!-- end of row -->
-
-        <div class="row">
-            <div class="col-sm-9">
-                <img class="img-responsive" src="images/templatemo_image_11.jpg" alt="image 11" />
-            </div>
-            <div class="col-sm-15">
-                <h2>Lorem ipsum dolor sit amet, consectetur</h2>
-                <p>
-                    <span class="glyphicon glyphicon-tag"></span> Digital Life &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-user"></span> Johnny &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-calendar"></span> 18 April 2084 &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-thumbs-up"></span> 24 &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-thumbs-down"></span> 3 &nbsp;&nbsp;
-                </p>
-                <p>Fusce ut iaculis tortor, vel aliquam nunc. Vivamus a consequat turpis. Praesent quis arcu eget justo cursus vulputate. Vestibulum scelerisque ante id nunc viverra, ac consectetur mauris auctor. Quisque vulputate, diam at euismod fringilla, dolor nibh imperdiet urna, ac facilisis nunc ante eget lorem.<br />
-                    <a href="#" class="btn btn-default margin_top">read more</a>
-                </p>
-            </div>
-        </div><!-- end of row -->
-        <div class="row">
-            <div class="col-sm-9">
-                <img class="img-responsive" src="images/templatemo_image_12.jpg" alt="image 12" />
-            </div>
-            <div class="col-sm-15">
-                <h2>Sed tempus libero consectetur</h2>
-                <p>
-                    <span class="glyphicon glyphicon-tag"></span> Security &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-user"></span> Jesica &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-calendar"></span> 10 April 2084 &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-thumbs-up"></span> 48 &nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-thumbs-down"></span> 4 &nbsp;&nbsp;
-                </p>
-                <p>Sed faucibus ullamcorper iaculis. Quisque a laoreet purus, sed fringilla velit. Phasellus ut eleifend leo. Curabitur vitae tristique tortor, eu fermentum arcu. Vivamus adipiscing urna et nisl fringilla sagittis. Nunc sapien est, scelerisque non aliquet a, malesuada vulputate dolor.<br />
-                    <a href="#" class="btn btn-default margin_top">read more</a>
-                </p>
-            </div>
-        </div><!-- end of row -->
-    </div>
-</section> <!-- end of conch_blog -->
 
 <!-- solid line -->
 <div class="container">
@@ -550,7 +297,7 @@ window.onload=function(){
 
 <section id="conch_contact">
     <div class="container">
-        <div class="row" id="templatemo_contact_gray_wap">
+        <div class="row">
             <div class="col-md-24 col-sm-24">
                 <h1 class="margin_top">关于我们</h1>
             </div>
@@ -558,12 +305,12 @@ window.onload=function(){
                 <div id="map-canvas">贝壳图，一个神奇的网站！</div>
             </div>
             <div class="col-md-9 col-sm-18 col-sm-push-3">
-                <p>
+                <!-- <p>
                     <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp; 120 Digital Studio, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inya Lake, Yangon 10620, Myanmar<br />
                     <span class="glyphicon glyphicon-phone-alt"></span>&nbsp;&nbsp; Tel: 010-020-0340<br />
                     <span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp; Email: info@company.com<br />
                     <span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp; Website: www.company.com
-                </p>
+                </p> -->
                 <ul class="icon">
                     <li><a href="#"><img src="images/templatemo_icon_1.png" alt="Skype" /></a></li>
                     <li><a href="#"><img src="images/templatemo_icon_2.png" alt="Google+" /></a></li>
@@ -572,37 +319,14 @@ window.onload=function(){
                 </ul>
             </div>
             <div class="col-md-1"></div>
-            <div class="col-md-9  col-sm-18 col-sm-push-3">
-                <form id="contact-form" action="#conch_contact" method="post">
-                    <label>
-                        <span>Name</span>
-                        <input name="name" type="text" id="name" maxlength="40" />
-                  </label>
-                    <label>
-                        <span>Email</span>
-                        <input name="email" type="text" id="email" maxlength="40" />
-                  </label>
-                    <label>
-                        <span>Subject</span>
-                        <input name="subject" type="text" id="subject" maxlength="100" />
-                  </label>
-                    <label>
-                        <span>Message</span>
-                        <textarea name="message" id="message"></textarea>
-                    </label>
-                    <label>
-                        <button name="submit" type="submit">Send</button>
-                    </label>
-                </form>
-            </div>
-            
+           
         </div> <!-- end of row -->
         
-        <div class="row" id="templatemo_footer">
+        <div class="row" id="conch_footer">
             <div class="col-md-24" >
                 <p>Copyright &copy; 2084 Your Company Name </p>
             </div>
-        </div><!-- end of templatemo_footer -->
+        </div><!-- end of conch_footer -->
     </div>	
     <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 </section><!-- end of conch_contact -->

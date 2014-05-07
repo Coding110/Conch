@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>上传文件</title>
+
+<script>
+/**
+ * 跳转到上传页
+ * functionId:功能ID
+ * fileType:文件类型
+ * maxSize:文件容量上限
+ * callback:回调函数，返回三个参数：文件真名、文件存放名和文件大小
+ */
+function openUpload(functionId,fileType,maxSize,callback){
+	var url = root+"/CommonController.jhtml?method=goFileUpload&";
+	if(functionId!=null){
+		url = url + "functionId="+functionId+"&";
+	}
+	if(fileType!=null){
+		url = url + "fileType="+fileType+"&";
+	}
+	if(maxSize!=null){
+		url = url + "maxSize="+maxSize;
+	}
+	var win = window.showModalDialog(url,"","dialogWidth:300px;dialogHeight:150px;scroll:no;status:no");
+	if(win != null){
+		var arrWin = win.split(",");
+		callback(arrWin[0],arrWin[1],arrWin[2]);
+	}
+}
+function openUpload_(){
+	openUpload(null,'JPG,GIF,JPEG,PNG','5',callback);
+}
+
+/**
+ * 回调函数,获取上传文件信息
+ * realName真实文件名
+ * saveName文件保存名
+ * maxSize文件实际大小
+ */
+function callback(realName,saveName,maxSize){
+	$("#photo_").val(saveName);
+	//回调后其它操作
+}
+</script>
+		
+</head>
+<body>
+
+<body>
+	<h5>文件上传</h5><hr/>
+	<form id="file_upload_id" name="file_upload_name" action="load/ffileupload" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="functionId" value="funcid"/>
+		<input type="hidden" name="fileType" value="JPG,GIF,JPEG,PNG"/>
+		<input type="hidden" name="maxSize" value="50"/>
+		<div><input type="file" name="file_upload"/></div>
+			<div style="font: 12">文件最大不能超过50MB</div>
+			<div style="font: 12">文件格式必须是：JPG,GIF,JPEG,PNG</div>
+		<div><input type="submit" value="上传"/></div>
+	</form>
+	<hr/>
+	<div><input type="file" name="file_upload2"/></div>
+</body>
+</html>
