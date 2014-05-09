@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>上传文件</title>
 
+<script type="text/javascript" src="./jspl/plupload.full.min.js"></script>
 <script>
 /**
  * 跳转到上传页
@@ -50,7 +51,7 @@ function callback(realName,saveName,maxSize){
 
 <body>
 	<h5>文件上传</h5><hr/>
-	<form id="file_upload_id" name="file_upload_name" action="load/ffileupload" method="post" enctype="multipart/form-data">
+	<form id="file_upload_id" name="file_upload_name" action="load/mfileupload" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="functionId" value="funcid"/>
 		<input type="hidden" name="fileType" value="JPG,GIF,JPEG,PNG"/>
 		<input type="hidden" name="maxSize" value="50"/>
@@ -60,6 +61,69 @@ function callback(realName,saveName,maxSize){
 		<div><input type="submit" value="上传"/></div>
 	</form>
 	<hr/>
-	<div><input type="file" name="file_upload2"/></div>
+	<h1>Custom example</h1>
+
+<p>Shows you how to use the core plupload API.</p>
+
+<div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
+<br />
+
+<div id="container">
+    <a id="pickfiles" href="javascript:;">[Select files]</a>
+    <a id="uploadfiles" href="javascript:;">[Upload files]</a>
+</div>
+
+<br />
+<pre id="console"></pre>
+
+
+<script type="text/javascript">
+// Custom example logic
+
+var uploader = new plupload.Uploader({
+	runtimes : 'html5,flash,silverlight,html4',
+	browse_button : 'pickfiles', // you can pass in id...
+	container: document.getElementById('container'), // ... or DOM Element itself
+	url : 'load/doFileUploadTest',
+	flash_swf_url : './jspl/Moxie.swf',
+	silverlight_xap_url : './jspl/Moxie.xap',
+	
+	filters : {
+		max_file_size : '50mb',
+		mime_types: [
+			{title : "Image files", extensions : "jpg,gif,png"},
+			{title : "Zip files", extensions : "zip"}
+		]
+	},
+
+	init: {
+		PostInit: function() {
+			document.getElementById('filelist').innerHTML = '';
+
+			document.getElementById('uploadfiles').onclick = function() {
+				uploader.start();
+				return false;
+			};
+		},
+
+		FilesAdded: function(up, files) {
+			plupload.each(files, function(file) {
+				document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+			});
+		},
+
+		UploadProgress: function(up, file) {
+			document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+		},
+
+		Error: function(up, err) {
+			document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+		}
+	}
+});
+
+uploader.init();
+
+</script>
 </body>
 </html>
