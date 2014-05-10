@@ -6,9 +6,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	<!-- User -->
 	<bean id="userDao" class="com.conch.dao.UserDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
+	</bean>	
 
 	<bean id="userManagerBase" class="com.conch.manager.UserManagerImpl">
 		<property name="userDao" ref="userDao"></property>
@@ -18,4 +19,21 @@
 	<bean name="userManager" parent="transactionProxy">
 		<property name="target" ref="userManagerBase"></property>
 	</bean>	
+	<!-- User end -->
+	
+	<!-- PhotoMail -->
+	<bean id="photoMailDao" class="com.conch.dao.PhotoMailDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="photoMailManagerBase" class="com.conch.manager.UserManagerImpl">
+		<property name="photoMailDao" ref="photoMailDao"></property>
+	</bean>
+	
+	<!-- 此处为代理 -->
+	<bean name="photoMailManager" parent="transactionProxy">
+		<property name="target" ref="photoMailManagerBase"></property>
+	</bean>
+	<!-- PhotoMail end -->
+	
 </beans>

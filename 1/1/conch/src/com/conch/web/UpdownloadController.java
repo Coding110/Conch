@@ -1,5 +1,4 @@
 package com.conch.web;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +17,16 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.conch.entity.PhotoMail;
+import com.conch.entity.PhotoMail;
+
+import com.conch.entity.User;
+import com.conch.manager.UserManager;
+
+import com.conch.manager.*;
+
+
 
 @Controller
 @RequestMapping("/load")
