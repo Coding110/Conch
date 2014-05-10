@@ -27,7 +27,7 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
-	<bean id="photoMailManagerBase" class="com.conch.manager.UserManagerImpl">
+	<bean id="photoMailManagerBase" class="com.conch.manager.PhotoMailManagerImpl">
 		<property name="photoMailDao" ref="photoMailDao"></property>
 	</bean>
 	

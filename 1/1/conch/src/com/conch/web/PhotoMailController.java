@@ -12,7 +12,7 @@ import com.conch.manager.PhotoMailManager;
 @Controller
 @RequestMapping("/photo")
 public class PhotoMailController {
-	@Resource(name="PhotoMailManager")
+	@Resource(name="photoMailManager")
 	private PhotoMailManager photoMailManager;
 	
 	@RequestMapping("/getPhotoMail")
