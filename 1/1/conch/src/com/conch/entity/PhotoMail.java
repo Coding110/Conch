@@ -70,10 +70,10 @@ public class PhotoMail {
 		this.imapport = imapport;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID", nullable = false)
 	public User getUser() {
 		return this.user;
-	}
+	}*/
 	
 }

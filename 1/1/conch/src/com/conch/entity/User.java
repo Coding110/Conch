@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="UserInfo")
 public class User {
 
-	private String id;
+	private String uid;
 	private String regname;
 	private String regemail;
 	private String passwd;
@@ -35,10 +35,10 @@ public class User {
 	@GenericGenerator(name = "system-uuid",strategy="uuid")
 	@Column(length=32)
 	public String getId() {
-		return id;
+		return uid;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String uid) {
+		this.uid = uid;
 	}
 	
 	@Column(length = 64, nullable = false)
@@ -99,7 +99,7 @@ public class User {
 		this.city = city;
 	}
 	
-	//一个用户可以配置多个存储邮箱
+/*	//一个用户可以配置多个存储邮箱
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "PhotoMail")
 	@JoinColumn(name="userId",updatable=false)
 	public Set<PhotoMail> getPhotoMailSet() {
@@ -108,5 +108,5 @@ public class User {
 	
 	public void setPhotoMailSet(Set<PhotoMail> photoMailSet) {
 		this.photoMailSet = photoMailSet ;
-    }
+    }*/
 }

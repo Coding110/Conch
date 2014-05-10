@@ -21,6 +21,7 @@
 	</bean>	
 	<!-- User end -->
 	
+	
 	<!-- PhotoMail -->
 	<bean id="photoMailDao" class="com.conch.dao.PhotoMailDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
