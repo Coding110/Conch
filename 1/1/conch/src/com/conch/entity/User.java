@@ -2,8 +2,10 @@ package com.conch.entity;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+//import antlr.collections.List;
+//import org.hibernate.mapping.List;
 
 @Entity
 @Table(name="UserInfo")
@@ -26,18 +31,19 @@ public class User {
 	private char sex;
 	private Date regtime;
 	private Date birthday;
-	private String city;
-	private Set<PhotoMail> photoMailSet;
+	private String city;	
 	
+	
+	private Set<PhotoMail> photoMails;
 
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name = "system-uuid",strategy="uuid")
 	@Column(length=32)
-	public String getId() {
+	public String getUid() {
 		return uid;
 	}
-	public void setId(String uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 	
@@ -99,14 +105,14 @@ public class User {
 		this.city = city;
 	}
 	
-/*	//一个用户可以配置多个存储邮箱
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "PhotoMail")
-	@JoinColumn(name="userId",updatable=false)
-	public Set<PhotoMail> getPhotoMailSet() {
-		return photoMailSet;
+	//一个用户可以配置多个存储邮箱
+	@OneToMany(mappedBy = "userinfo",targetEntity=com.conch.entity.PhotoMail.class)
+	//@JoinColumn(name="uid"/*,updatable=false*/)
+	public Set<PhotoMail> getPhotoMails() {
+		return photoMails;
     }
 	
-	public void setPhotoMailSet(Set<PhotoMail> photoMailSet) {
-		this.photoMailSet = photoMailSet ;
-    }*/
+	public void setPhotoMails(Set<PhotoMail> photoMails) {
+		this.photoMails = photoMails ;
+    }
 }
