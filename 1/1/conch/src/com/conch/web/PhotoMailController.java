@@ -21,4 +21,9 @@ public class PhotoMailController {
 		//return "/getMail";
 		return "redirect:/index.html";
 	}
+	
+	@RequestMapping("/upload")
+	public void uploadFile(PhotoMail photoMail,HttpServletRequest request){
+		
+	}
 }
