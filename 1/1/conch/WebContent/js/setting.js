@@ -24,4 +24,6 @@ $(document).ready(function(){
 	// open ok
 	// hello world
 	
+	// Welcome to eclipse.
 });
+
