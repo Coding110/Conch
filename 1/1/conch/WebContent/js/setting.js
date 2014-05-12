@@ -19,5 +19,5 @@ $(document).ready(function(){
 			$("#tab-content-id").load("jsp/setuserinfo.jsp");
 		}
 	});
-	
+	// Welcome to eclipse.
 });
