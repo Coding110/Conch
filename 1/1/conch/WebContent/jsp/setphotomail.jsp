@@ -8,13 +8,43 @@
 </head>
 <body>
 
-<div class="control-group">
-	<div class="controls">
-	<label class="control-label">存储邮箱</label>	
-	<input type="text" class="input-photoemail" onblur="" id="photoemail" value="example@conch.com"></input>
-	<span id="for_photoemail"></span>
-	</div>
-</div>
+<div class="form-horizontal" id="pmform"> <!--  action="./photo/pmprofile" method="post" -->
 
+	<div class="control-group">
+	      <label class="control-label"><font color="#FF0000">*</font>用户</label>
+	      <div class="controls">
+	        <input type="text" class="input-xlarge" id="input-user" value="" />
+	      </div>
+	 </div>
+	 
+	<div class="control-group">
+		<label class="control-label"><font color="#FF0000">*</font>邮箱</label>	
+		<div class="controls">
+			<input type="text" class="input-xlarge input-photoemail" name="photomail" onblur="" id="input-photoemail" value="example@conch.com"></input>
+			<span id="for_photoemail"></span>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label"><font color="#FF0000">*</font>密码</label>	
+		<div class="controls">
+			<input type="password" class="input-xlarge" onblur="" name="passwd" id="input-pmpasswd" value=""></input>
+			<span id="for_pmpasswd"></span>
+		</div>
+	</div>
+ 
+ 	<div class="control-group">
+          <label class="control-label"></label>
+
+          <!-- Button -->
+          <div class="controls">
+         <a href="javascript:sub_pmprofile()" class="btn btn-primary">提交</a>&nbsp;&nbsp;&nbsp; <a href="" class="btn">跳过</a>
+      </div>
+    </div>
+    
+ </div>
+<script>
+
+</script>
 </body>
 </html>

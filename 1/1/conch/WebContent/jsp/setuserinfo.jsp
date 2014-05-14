@@ -141,7 +141,7 @@
       </div>
     </div>
 </form>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 function sub_profile(){
         var nick = $.trim($("#nickname").val());
         if(nick ==''){
@@ -169,6 +169,6 @@ function sub_profile(){
     }
     $("#myform").submit();
 }
-</script>
+</script> -->
 </body>
 </html>

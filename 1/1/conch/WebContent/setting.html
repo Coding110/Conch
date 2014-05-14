@@ -2,9 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-<script type="text/javascript">
-    var _speedMark = new Date();
-</script>
 <title>贝壳图</title>
 <meta name="keywords" content=""></meta>
 <meta name="description" content=""></meta>
@@ -18,6 +15,13 @@ body {padding-top: 60px; }
 <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
 <link href="css/front_common.css" rel="stylesheet"/>
 <link rel="shortcut icon" href="images/conch.ico">
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/common_foot.js"></script>
+<script type="text/javascript" src="./js/login.js"></script>
+<script type="text/javascript" src="./js/setting.js"></script>
 
 </head>
 
@@ -33,8 +37,6 @@ body {padding-top: 60px; }
 		<ul class="dropdown-menu">
 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
 			<li> <a href=""> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-			<!-- <li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
-			<li class="divider">&nbsp;</li> -->
 			<li> <a href="./setting.html"> <i class="icon-cog"></i> 个人设置 </a> </li>
 			<li class="divider">&nbsp;</li>
 			<li><a href=""><i class="icon-off"></i>  退出</a></li>
@@ -50,15 +52,7 @@ body {padding-top: 60px; }
   </div>
 </div>
 
-<script src="./js/jquery.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/common_foot.js"></script>
-<script type="text/javascript" src="./js/setting.js"></script>
 
-<!-- <div class="container"> 
-
-</div>
- -->
 <div class="container">	
   <div class="row-fluid">   
     <div class="span9">
@@ -109,45 +103,9 @@ body {padding-top: 60px; }
 	<ul class="nav nav-list">
 		<li class="divider"></li>
     </ul>	
+  </div> 
+   
   </div>
- <!---资料---->
-
-
-<script type="text/javascript">
-     $(function(){
-	//get_ychui();
-    });
-    //获取一条问题
-    function get_ychui() {
-        $.ajax({
-            type: "get",
-            url: "http://www.becktu.com/ychui/ajax_left",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_ychui").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  <div id="left_huodong"></div>
-<script type="text/javascript">
-     $(function(){
-	//get_huodong();
-    });
-    //获取一条问题
-    function get_huodong() {
-        $.ajax({
-            type: "get",
-            url: "http://www.becktu.com/huodong/ajax_left",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_huodong").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  
-   </div>
    
 </div>  
 </div>

@@ -1,4 +1,5 @@
 package com.conch.entity;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Set;
@@ -21,8 +22,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="UserInfo")
-public class User {
+public class User implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String uid;
 	private String regname;
 	private String regemail;

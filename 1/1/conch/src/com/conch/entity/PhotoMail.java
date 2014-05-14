@@ -1,5 +1,7 @@
 package com.conch.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -16,7 +18,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="PhotoMail")
-public class PhotoMail {
+public class PhotoMail implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3421215593971870441L;
+
 	private Integer pmid;	
 	private String photomail;
 	private String passwd;
