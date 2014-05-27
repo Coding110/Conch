@@ -4,7 +4,8 @@ import com.conch.entity.User;
 
 public interface UserManager {
 
-	public User getUser(User user);
+	public User getUser(User user);	
+	public String getUserId(String username);
 	
 	public boolean CheckUser(String username, String passwd); 
 	
