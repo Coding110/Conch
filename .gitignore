@@ -1,6 +1,7 @@
 #ignore class files
 1/1/conch/WebContent/WEB-INF/classes
 *.class
+*.bak.html
 
 #1/1/conch/.settings
 
