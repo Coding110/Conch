@@ -6,44 +6,7 @@
 
 <script type="text/javascript" src="./jspl/plupload.full.min.js"></script>
 <script>
-/**
- * 跳转到上传页
- * functionId:功能ID
- * fileType:文件类型
- * maxSize:文件容量上限
- * callback:回调函数，返回三个参数：文件真名、文件存放名和文件大小
- */
-function openUpload(functionId,fileType,maxSize,callback){
-	var url = root+"/CommonController.jhtml?method=goFileUpload&";
-	if(functionId!=null){
-		url = url + "functionId="+functionId+"&";
-	}
-	if(fileType!=null){
-		url = url + "fileType="+fileType+"&";
-	}
-	if(maxSize!=null){
-		url = url + "maxSize="+maxSize;
-	}
-	var win = window.showModalDialog(url,"","dialogWidth:300px;dialogHeight:150px;scroll:no;status:no");
-	if(win != null){
-		var arrWin = win.split(",");
-		callback(arrWin[0],arrWin[1],arrWin[2]);
-	}
-}
-function openUpload_(){
-	openUpload(null,'JPG,GIF,JPEG,PNG','5',callback);
-}
 
-/**
- * 回调函数,获取上传文件信息
- * realName真实文件名
- * saveName文件保存名
- * maxSize文件实际大小
- */
-function callback(realName,saveName,maxSize){
-	$("#photo_").val(saveName);
-	//回调后其它操作
-}
 </script>
 		
 </head>
@@ -53,15 +16,17 @@ function callback(realName,saveName,maxSize){
 	<h5>文件上传</h5><hr/>
 
 	<h1>Custom example</h1>
-
 <p>Shows you how to use the core plupload API.</p>
 
 <div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
 <br />
 
 <div id="container">
-    <a id="pickfiles" href="javascript:;">[Select files]</a>
-    <a id="uploadfiles" href="javascript:;">[Upload files]</a>
+    <!-- <a id="pickfiles" href="javascript:;">[Select files]</a>
+    <a id="uploadfiles" href="javascript:;">[Upload files]</a> -->
+    
+     <a id="pickfiles" href="javascript:;"><button>select files</button></a>
+    <a id="uploadfiles" href="javascript:;"><button>Upload files</button></a>
 </div>
 
 <br />
@@ -115,6 +80,44 @@ var uploader = new plupload.Uploader({
 
 uploader.init();
 
+/**
+ * 跳转到上传页
+ * functionId:功能ID
+ * fileType:文件类型
+ * maxSize:文件容量上限
+ * callback:回调函数，返回三个参数：文件真名、文件存放名和文件大小
+ */
+function openUpload(functionId,fileType,maxSize,callback){
+	var url = root+"/CommonController.jhtml?method=goFileUpload&";
+	if(functionId!=null){
+		url = url + "functionId="+functionId+"&";
+	}
+	if(fileType!=null){
+		url = url + "fileType="+fileType+"&";
+	}
+	if(maxSize!=null){
+		url = url + "maxSize="+maxSize;
+	}
+	var win = window.showModalDialog(url,"","dialogWidth:300px;dialogHeight:150px;scroll:no;status:no");
+	if(win != null){
+		var arrWin = win.split(",");
+		callback(arrWin[0],arrWin[1],arrWin[2]);
+	}
+}
+function openUpload_(){
+	openUpload(null,'JPG,GIF,JPEG,PNG','5',callback);
+}
+
+/**
+ * 回调函数,获取上传文件信息
+ * realName真实文件名
+ * saveName文件保存名
+ * maxSize文件实际大小
+ */
+function callback(realName,saveName,maxSize){
+	$("#photo_").val(saveName);
+	//回调后其它操作
+}
 </script>
 </body>
 </html>

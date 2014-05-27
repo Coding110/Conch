@@ -5,6 +5,7 @@ import com.conch.entity.User;
 public interface UserDao {
 
 	public User getUser(User user);
+	public String getUserId(String username);
 	
 	public boolean CheckUser(String username, String passwd); 
 	

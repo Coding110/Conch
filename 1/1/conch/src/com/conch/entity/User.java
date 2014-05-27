@@ -39,7 +39,7 @@ public class User implements Serializable {
 	private String city;	
 	
 	
-	private Set<PhotoMail> photoMails;
+	//private Set<PhotoMail> photoMails;
 
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -110,14 +110,4 @@ public class User implements Serializable {
 		this.city = city;
 	}
 	
-	//一个用户可以配置多个存储邮箱
-	@OneToMany(mappedBy = "userinfo",targetEntity=com.conch.entity.PhotoMail.class)
-	//@JoinColumn(name="uid"/*,updatable=false*/)
-	public Set<PhotoMail> getPhotoMails() {
-		return photoMails;
-    }
-	
-	public void setPhotoMails(Set<PhotoMail> photoMails) {
-		this.photoMails = photoMails ;
-    }
 }
