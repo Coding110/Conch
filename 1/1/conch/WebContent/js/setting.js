@@ -75,3 +75,4 @@ function sub_profile(){
 	}*/
 	$("#myform").submit();
 }
+
