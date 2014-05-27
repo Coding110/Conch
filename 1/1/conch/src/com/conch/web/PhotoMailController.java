@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.conch.entity.PhotoMail;
 import com.conch.entity.User;
 import com.conch.manager.PhotoMailManager;
+import com.conch.manager.UserManager;
 
 @Controller
 @RequestMapping("/photo")
 public class PhotoMailController {
 	@Resource(name="photoMailManager")
 	private PhotoMailManager photoMailManager;
+	
+	@Resource(name="userManager")
+	private UserManager userManager;
 	
 	@RequestMapping("/getPhotoMail")
 	public String getPhotoMail(PhotoMail photoMail,HttpServletRequest request){
@@ -37,16 +41,16 @@ public class PhotoMailController {
 		
 		String result;	
 		String username =(String)request.getParameter("username");
-		String photomail =(String)request.getParameter("photomail");
-		String passwd =(String)request.getParameter("passwd");
-		
-		User user;
-		//user.get
 
-		System.out.println("set photo mail: " + photoMail.getPhotomail() + " - " + photoMail.getPasswd());
+		photoMail.setUid(userManager.getUserId(username));
+
+		System.out.println("set photo mail: " + photoMail.getPhotomail() + " - " + photoMail.getPasswd() + " - " + photoMail.getUid());
 		
-		result = "{\"result\":false,\"data\":\"" + username + "+" + photomail + "+" + passwd + "\"}";
+		result = "{\"result\":false,\"data\":\"" + username + "+" + photoMail.getPhotomail() + "+" + photoMail.getPasswd() + 
+				"+" + /*photoMail.getUid() +*/ "\"}";
 		response.setContentType("application/json");
+		
+		photoMailManager.addPhotoMail(photoMail);
 		
 		try {
 			PrintWriter out = response.getWriter();

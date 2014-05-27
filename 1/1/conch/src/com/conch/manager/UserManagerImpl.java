@@ -50,4 +50,10 @@ public class UserManagerImpl implements UserManager {
 		return userDao.CheckNick(nick);
 	}
 
+	@Override
+	public String getUserId(String username) {
+		// TODO Auto-generated method stub
+		return userDao.getUserId(username);
+	}
+
 }
