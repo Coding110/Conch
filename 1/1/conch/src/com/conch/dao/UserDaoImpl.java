@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean CheckUser(String username, String passwd) {
-		 List arr=null; 
+		List arr=null; 
 		String hql = "from User u where u.regemail=? and u.passwd=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, username);
@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean CheckEmail(String email) {
-		  List arr=null; 
+		List arr=null; 
 		String hql = " from User u where u.regemail=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, email);
@@ -69,39 +69,33 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean CheckNick(String nick) {
-		  List arr=null; 
-			String hql = " from User u where u.regname=?";
-			Query query = sessionFactory.getCurrentSession().createQuery(hql);
-			query.setString(0, nick);
-			 arr=query.list(); 
-			//System.out.println(query.executeUpdate());
-			 if(arr.isEmpty()){
-				System.out.println("false");
-				 return false;
-			 }
-			return true;
+		List arr=null;	
+		String hql = " from User u where u.regname=?";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setString(0, nick);
+		 arr=query.list(); 
+		//System.out.println(query.executeUpdate());
+		 if(arr.isEmpty()){
+			System.out.println("false");
+			return false;
+		 }
+		return true;
 	}
 
-//	@Override
-//	public boolean delUser(String id) {
-//		
-//		String hql = "delete User u where u.id = ?";
-//		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-//		query.setString(0, id);
-//		
-//		return (query.executeUpdate() > 0);
-//	}
+	@Override
+	public String getUserId(String username) {
+		// TODO Auto-generated method stub
+		String hql = " from User u where u.regname=?";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setString(0, username);
+		if(query.list().isEmpty()){
+			System.out.println(username + " is not exist.");
+			return null;
+		}else{
+			return ((User)query.uniqueResult()).getUid();
+		}
+		
+	}
 
-//	@Override
-//	public boolean updateUser(User user) {
-//		
-//		String hql = "update U u set u.userName = ?,u.age=? where u.id = ?";
-//		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-//		query.setString(0, user.getUserName());
-//		query.setString(1, user.getAge());
-//		query.setString(2, user.getId());
-//		
-//		return (query.executeUpdate() > 0);
-//	}
 
 }

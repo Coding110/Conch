@@ -24,13 +24,14 @@ public class PhotoMail implements Serializable{
 	 */
 	private static final long serialVersionUID = -3421215593971870441L;
 
-	private Integer pmid;	
+	private Integer pmid;
+	private String uid;
 	private String photomail;
 	private String passwd;
 	private String imapserver;
 	private int imapport;	
 	
-	private User userinfo;
+	//private User userinfo;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -78,14 +79,12 @@ public class PhotoMail implements Serializable{
 	public void setImapport(int imapport) {
 		this.imapport = imapport;
 	}
-	
-	@ManyToOne(targetEntity=com.conch.entity.PhotoMail.class, fetch = FetchType.LAZY)
-	//@JoinColumn(name = "uid", nullable = false)
-	public User getUserinfo() {
-		return this.userinfo;
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	
-	public void setUserinfo(User userinfo) {
-		this.userinfo = userinfo;
-	}
+	
 }
