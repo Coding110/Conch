@@ -50,14 +50,17 @@ public class EMFS {
 
 	
 	public EMFS(String username, String password, String imapserver,int imapport) throws Exception{
-		
+		if(username == null || password == null || imapserver == null || imapport <= 9){
+			throw new Exception("Null parameter");
+		}
 		this.username = username;
 		this.password = password;
 		this.imapserver = imapserver;
 		this.imapport = imapport;
+
 		
 		IampConnect();
-        
+       
 	}
 	
 	private int IampConnect() throws Exception{
@@ -68,8 +71,8 @@ public class EMFS {
         
         session = Session.getInstance(prop);    
         store = (IMAPStore) session.getStore("imap"); // ʹ��imap�Ự���ƣ����ӷ�����  
-        store.connect(this.username, this.password);
-        
+        store.connect(this.username, this.password);   
+         
         return 0;
 	}
 	
