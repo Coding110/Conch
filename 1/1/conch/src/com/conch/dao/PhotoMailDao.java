@@ -6,4 +6,5 @@ public interface PhotoMailDao {
 	public PhotoMail getPhotoMail(PhotoMail photoMail);
 	public void addPhotoMail(PhotoMail photoMail);
 	public void setPhotoMail(PhotoMail photoMail);
+	public void getPhotoUrl(PhotoMail photoMail);
 }

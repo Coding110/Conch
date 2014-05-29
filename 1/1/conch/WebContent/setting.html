@@ -2,9 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-<script type="text/javascript">
-    var _speedMark = new Date();
-</script>
 <title>贝壳图</title>
 <meta name="keywords" content=""></meta>
 <meta name="description" content=""></meta>
@@ -17,7 +14,13 @@ body {padding-top: 60px; }
 
 <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
 <link href="css/front_common.css" rel="stylesheet"/>
-<link rel="shortcut icon" href="images/conch.ico">
+<link rel="shortcut icon" href="images/conch.ico"/>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/common_foot.js"></script>
+<script type="text/javascript" src="./js/login.js"></script>
+<script type="text/javascript" src="./js/setting.js"></script>
 
 </head>
 
@@ -32,9 +35,7 @@ body {padding-top: 60px; }
 		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="userhome.html">Jack Smith<b class="caret"></b> </a>
 		<ul class="dropdown-menu">
 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
-			<li> <a href=""> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-			<!-- <li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
-			<li class="divider">&nbsp;</li> -->
+			<li> <a href="./upload.html"> <i class="icon-question-sign"></i> 上传图片 </a> </li>
 			<li> <a href="./setting.html"> <i class="icon-cog"></i> 个人设置 </a> </li>
 			<li class="divider">&nbsp;</li>
 			<li><a href=""><i class="icon-off"></i>  退出</a></li>
@@ -50,13 +51,6 @@ body {padding-top: 60px; }
   </div>
 </div>
 
-<script src="./js/jquery.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/common_foot.js"></script>
-
-<div class="container"> 
-
-</div>
 
 <div class="container">	
   <div class="row-fluid">   
@@ -66,182 +60,16 @@ body {padding-top: 60px; }
       <div class="tabbable tabs-left">
       
 		<ul class="nav nav-tabs">
-		  <li class="active"><a href="./setting.html">基本资料</a></li>
-		  <li><a href="">我的头像</a></li>
-		  <li><a href="">详细资料</a></li>                
-		  <li class="divider"><br/></li>
-		  <li><a href="">个人设置</a></li>
-		  <li><a href="">修改密码</a></li>
-		  <li><a href="">登录绑定</a></li>   
+		  <li class="active"><a href="#" data-toggle="tab" class="setinfo" id="setinfoid">基本资料</a></li><!-- href="./setting.html" -->
+		  <li><a href="#" data-toggle="tab">我的头像</a></li>
+		  <li><a href="#" class="setpm" id="setpmid" data-toggle="tab">设置存储邮箱</a></li>
+		  <li><a href="#" data-toggle="tab">修改密码</a></li>  
 		 </ul>
     
         
-	<div class="tab-content">
+	<div class="tab-content" id="tab-content-id">
 	
-	<form class="form-horizontal" id="myform" action="" method="post">
-    <input type="hidden" value="1" name="dosubmit"></input>
-    <input type="hidden" value="" name="direct"></input>
-    <div id="legend" class="">
-      <legend class="">基本资料</legend>
-    </div>
-    
-    <div class="control-group">
-      <label class="control-label">昵称</label>
-      <div class="controls">
-        <input type="text" class="input-xlarge" onblur="javascript:check_nick()" id="nickname" name="info[name]" value="Donghua Lau"></input>
-        <span id="for_nick"></span> </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label"><font color="#FF0000">*</font>姓名</label>
-      <div class="controls">
-        <input type="text" class="input-xlarge" name="info[realname]" value="东华" />
-      </div>
-    </div>
- 
-    <div class="control-group">
-      <label class="control-label"><font color="#FF0000">*</font>Email<span id="email_status">                
-                </span></label>
-      <div class="controls">
-        <input type="text" id="email" class="input-xlarge" onblur="javascript:check_email()" name="infoemail" value="1485084328@qq.com" />
-     </div>
-    </div>
-  
-     <hr></hr>
-    <div class="control-group"> 
-      
-      <!-- Prepended text-->
-      <label class="control-label"><font color="#FF0000">*</font>所在地区</label>
-      <div class="controls">
-        <div class="input-prepend">
-          <select id="state" name="info[state_id]" onchange="get_city(this.value)">
-            <option value="0">请选择</option>
-                        <option value="11" selected="">北京</option>
-                        <option value="12">天津</option>
-                        <option value="13">河北</option>
-                        <option value="14">山西</option>
-                        <option value="15">内蒙古</option>
-                        <option value="21">辽宁</option>
-                        <option value="22">吉林</option>
-                        <option value="23">黑龙江</option>
-                        <option value="31">上海</option>
-                        <option value="32">江苏</option>
-                        <option value="33">浙江</option>
-                        <option value="34">安徽</option>
-                        <option value="35">福建</option>
-                        <option value="36">江西</option>
-                        <option value="37">山东</option>
-                        <option value="41">河南</option>
-                        <option value="42">湖北</option>
-                        <option value="43">湖南</option>
-                        <option value="44">广东</option>
-                        <option value="45">广西</option>
-                        <option value="46">海南</option>
-                        <option value="50">重庆</option>
-                        <option value="51">四川</option>
-                        <option value="52">贵州</option>
-                        <option value="53">云南</option>
-                        <option value="54">西藏</option>
-                        <option value="61">陕西</option>
-                        <option value="62">甘肃</option>
-                        <option value="63">青海</option>
-                        <option value="64">宁夏</option>
-                        <option value="65">新疆</option>
-                        <option value="71">台湾</option>
-                        <option value="81">香港</option>
-                        <option value="82">澳门</option>
-                        <option value="127">海外</option>
-                      </select>
-          <select id="city" name="info[city_id]">
-            <option value="0">请选择</option>
-                        <option value="1">东城区</option>
-                        <option value="2">西城区</option>
-                        <option value="3">崇文区</option>
-                        <option value="4">宣武区</option>
-                        <option value="5">朝阳区</option>
-                        <option value="6">丰台区</option>
-                        <option value="7">石景山区</option>
-                        <option value="8" selected="">海淀区</option>
-                      </select>
-        </div>
-        <p class="help-block"></p>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label">性别</label>
-      <div class="controls"> 
-        <!-- Inline Radios -->
-        <label class="radio inline">
-          <input type="radio" value="1" name="info[gender]" id="gender1" checked="checked" />
-          男 </label>
-        <label class="radio inline">
-          <input type="radio" value="2" name="info[gender]" id="gender2" />
-          女 </label>
-      </div>
-    </div>
-
-    <div class="control-group"> 
-      
-      <!-- Select Multiple -->
-      <label class="control-label">出生日期</label>
-      <div class="controls">
-        <select class="input-xlarge" name="info[age_range]">
-          <option value="-1"></option>
-                    <option value="0">&lt;25</option>
-                    <option value="1" selected="selected">25-30</option>
-                    <option value="2">30-35</option>
-                    <option value="3">35-40</option>
-                    <option value="4">&gt;40</option>
-                  </select>
-      </div>
-    </div>
-    
-
-    <div class="control-group">
-          <label class="control-label"></label>
-          <div class="controls"><p id="sub_tip" style=" color:red"></p>
-          </div>
-    </div>
-    <input type="hidden" id="can_sub" value="1" />
-
-    <div class="control-group">
-          <label class="control-label"></label>
-
-          <!-- Button -->
-          <div class="controls">
-         <a href="javascript:sub_profile()" class="btn btn-primary ">提交</a>&nbsp;&nbsp;&nbsp; <a href="" class="btn">跳过</a>
-      </div>
-    </div>
-</form>
-<script type="text/javascript">
-function sub_profile(){
-        var nick = $.trim($("#nickname").val());
-        if(nick ==''){
-                $("#sub_tip").html("请填写昵称");
-                return;		
-        }
-        var cansub = $("#can_sub").val();
-        if(cansub == 0){
-                $("#sub_tip").html("昵称已被占用");
-                return;	
-        }
-        if(cansub == 2){
-                $("#sub_tip").html("邮箱已被占用");
-                return;	
-        }
-        var emails = $("#email").val();
-    if(emails == ''){
-        $("#sub_tip").html("请填写邮箱");
-        return;
-    }
-        var city = $("#city").val();
-    if(city == 0){
-        $("#sub_tip").html("请填写城市");
-        return;
-    }
-    $("#myform").submit();
-}
-</script>
-</div>
+	</div>
 
 </div>
 </div>
@@ -273,56 +101,18 @@ function sub_profile(){
 	<ul class="nav nav-list">
 		<li class="divider"></li>
     </ul>	
+  </div> 
+   
   </div>
- <!---资料---->
-
-
-<script type="text/javascript">
-     $(function(){
-	//get_ychui();
-    });
-    //获取一条问题
-    function get_ychui() {
-        $.ajax({
-            type: "get",
-            url: "http://www.becktu.com/ychui/ajax_left",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_ychui").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  <div id="left_huodong"></div>
-<script type="text/javascript">
-     $(function(){
-	//get_huodong();
-    });
-    //获取一条问题
-    function get_huodong() {
-        $.ajax({
-            type: "get",
-            url: "http://www.becktu.com/huodong/ajax_left",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_huodong").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  
-   </div>
    
 </div>  
 </div>
 
 <script type="text/javascript" charset="utf-8">
-      $(document).ready(function(){
-
-	      });      
+	$(document).ready(function(){
+		//alert("yes");
+	});      
 </script>
 
-
-  
 </body>
 </html>

@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="" />
 <meta name="author" content="conch" />
+
 <!-- favicons -->
 <link rel="shortcut icon" href="images/conch.ico">
 <!-- bootstrap core CSS -->
@@ -20,28 +21,49 @@
 <link href="css/font-awesome.min.css" rel="stylesheet"/>
 <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
 <link href="css/front_common.css" rel="stylesheet"/>
-<script type="text/javascript" src="js/login.js"></script>
+
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 <![endif]-->
-</head>
-<script type="text/javascript">
-window.onload=function(){
-	  var uid =  getCookie("uid");
-  };
-  
- function getCookie(objName){//获取指定名称的cookie的值
-	    var arrStr = document.cookie.split("; ");
-	    for(var i = 0;i < arrStr.length;i ++){
-	        var temp = arrStr[i].split("=");
-	        if(temp[0] == objName) return unescape(temp[1]);
-	   } 
- } 
-</script>
 
-<body>
+<script type="text/javascript" >
+
+  window.onload=function(){
+	var userName=$.cookie("uid");
+	 if ( userName!=undefined && userName != "null" )
+	  { 
+         document.getElementById("loginarea").innerHTML =" <ul class=\"nav pull-right\">"+
+        	 "<li class=\"dropdown\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"userhome.html\">"+userName +"<b class=\"caret\"></b> </a>"+
+	 		"<ul class=\"dropdown-menu\">"+
+	 			"<li> <a href=\"./userhome.html\"> <i class=\"icon-question-sign\"></i> 我的主页 </a> </li>" +
+	 			"<li> <a href=\"\"> <i class=\"icon-question-sign\"></i> 上传图片 </a> </li>"+
+	 			"<li> <a href=\"./setting.html\"> <i class=\"icon-cog\"></i> 修改个人资料 </a> </li>"+
+	 			"<li class=\"divider\">&nbsp;</li>"+
+	 			"<li> <a href=\"./setting.html?username="+userName+"\"> <i class=\"icon-cog\"></i> 个人设置 </a> </li>"+
+	 			"<li class=\"divider\">&nbsp;</li>"+
+	 			"<li><a href=\"javascript:logOut()\" ><i class=\"icon-off\"></i>  退出</a></li>"+
+	 		"</ul>"+
+	 			" <div class=\"alert fade in top_pin hide\"><a class=\"close\" data-dismiss=\"alert\" href=\"\">×</a>"+
+	 				"<div id=\"for_top_tip\"></div>"+
+	 			 "</div>"+
+	 		"</li>";  
+	  } else{
+		   document.getElementById("loginarea").innerHTML = "<div class=\"pagetop_notice\""+
+		                                                     "  <cite id=\"login\"  ><span class=\"login\">您还未登录！</span>|"+
+		                                                     "<a href=\"login.html\" >登录</a>|<a href=\"register.html\" >注册</a>"+
+		                                                     "</cite></div>";
+	  }
+  };  
+ 
+function logOut(){
+	  $.cookie("uid",null,{path:"/"});
+	   window.location.href="./"; 
+}
+</script>
+</head>
+<body> 
 
 <div class="navbar  navbar-fixed-top">
   <div class="navbar-inner">
@@ -59,15 +81,15 @@ window.onload=function(){
                     <li><a href="#conch_contact">关于我们</a></li>
               </ul> 
        </div>
-       
-      <div class="nav-collapse collapse">	
+       <div id="loginarea">
+    <!--   <div class="nav-collapse collapse">	
       <ul class="nav pull-right">        
 		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="userhome.html">Jack Smith<b class="caret"></b> </a>
 		<ul class="dropdown-menu">
 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
 			<li> <a href=""> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-			<!-- <li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
-			<li class="divider">&nbsp;</li> -->
+			<li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
+			<li class="divider">&nbsp;</li>
 			<li> <a href="./setting.html"> <i class="icon-cog"></i> 个人设置 </a> </li>
 			<li class="divider">&nbsp;</li>
 			<li><a href=""><i class="icon-off"></i>  退出</a></li>
@@ -77,14 +99,14 @@ window.onload=function(){
 			 </div>
 		</li>
       </ul>
-      </div>
+      </div> -->
 
-		<!-- <div class="pagetop_notice">
+	<!-- 	<div class="pagetop_notice">
 		<cite id="login"  ><span class="login">您还未登录！</span>|
 		<a href="login.jsp" >登录</a>|<a href="register.jsp" >注册</a>
 		</cite>
 		</div> -->
-	      
+	  </div>
     </div>
   </div>
 </div>
@@ -333,6 +355,8 @@ window.onload=function(){
 <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>-->
 
 <script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
 <script src="js/jquery.scrollto.min.js"></script>
 <script src="js/jquery.easing.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

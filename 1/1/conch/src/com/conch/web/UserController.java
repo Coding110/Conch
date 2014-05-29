@@ -78,19 +78,30 @@ public class UserController {
 	}
 	
 	@RequestMapping("/addUser")
-	public String addUser(User user,HttpServletRequest request){
+	public String addUser(User user,HttpServletRequest request,HttpServletResponse response){
 		userManager.addUser(user);
-		System.out.println("regname :" +user.getRegname() + " regemail :" +user.getRegemail() +"passwd :" + user.getPasswd());
-		return "redirect:/index.html";
+		Cookie cki = new Cookie("uid",user.getRegemail());
+	    cki.setPath("/");
+	    cki.setMaxAge(3600);
+	    response.addCookie(cki);
+		return "redirect:/";
 	}
 	@RequestMapping("/loginCheck")
 	public void loginCheck(String username,String passwd,HttpServletResponse response,HttpServletRequest request){
 		String result = "{\"result\":true,\"mess\":\"\",\"to\":\"./\"}";	
 		response.setContentType("application/json");
+		String rememberme = request.getParameter("rememberme");
+        System.out.println(username +  passwd);
 		if(!userManager.CheckUser(username, passwd)){
-			result = "{\"result\":false,\"mess\":\"用回名或密码错误\",\"to\":\"\"}";
+			result = "{\"result\":false,\"mess\":\"用户名或密码错误\",\"to\":\"\"}";
 		}else{
 			  Cookie cki = new Cookie("uid",username);
+			  cki.setPath("/");
+			  if(rememberme=="true"){
+				  cki.setMaxAge(600000);
+			  }else{
+				  cki.setMaxAge(3600);
+			  }
 			  response.addCookie(cki);
 		}
 		try {
@@ -123,12 +134,14 @@ public class UserController {
 	@RequestMapping("/updateUser")
 	public String updateUser(User user,HttpServletRequest request){
 		
-		if(userManager.updateUser(user)){
+	/*	if(userManager.updateUser(user)){
 			user = userManager.getUser(user);
 			request.setAttribute("user", user);
 			return "redirect:/user/getAllUser";
 		}else{
 			return "/error";
-		}
+		}*/
+		System.out.println(request.getParameter("info[gender]"));
+		return "";
 	}
 }

@@ -34,6 +34,12 @@ public class PhotoMailDaoImpl implements PhotoMailDao {
 	public void setPhotoMail(PhotoMail photoMail) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void getPhotoUrl(PhotoMail photoMail) {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 
