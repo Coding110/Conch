@@ -85,7 +85,7 @@ public class UserController {
 	}
 	@RequestMapping("/loginCheck")
 	public void loginCheck(String username,String passwd,HttpServletResponse response,HttpServletRequest request){
-		String result = "{\"result\":true,\"mess\":\"\",\"to\":\"index.html\"}";	
+		String result = "{\"result\":true,\"mess\":\"\",\"to\":\"./\"}";	
 		response.setContentType("application/json");
 		if(!userManager.CheckUser(username, passwd)){
 			result = "{\"result\":false,\"mess\":\"用回名或密码错误\",\"to\":\"\"}";
