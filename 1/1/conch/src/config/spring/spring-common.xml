@@ -29,6 +29,7 @@
 			<list>
 				<value>com.conch.entity.User</value>
 				<value>com.conch.entity.PhotoMail</value>
+				<value>com.conch.entity.Photo</value>
 			</list>
 		</property>
 	</bean>
