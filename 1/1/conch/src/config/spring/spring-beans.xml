@@ -21,6 +21,20 @@
 	</bean>	
 	<!-- User end -->
 	
+	<!-- Photo -->
+	<bean id="photoDao" class="com.conch.dao.PhotoDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="photoManagerBase" class="com.conch.manager.PhotoManagerImpl">
+		<property name="photoDao" ref="photoDao"></property>
+	</bean>
+	
+	<!-- 此处为代理 -->
+	<bean name="photoManager" parent="transactionProxy">
+		<property name="target" ref="photoManagerBase"></property>
+	</bean>
+	<!-- Photo end -->
 	
 	<!-- PhotoMail -->
 	<bean id="photoMailDao" class="com.conch.dao.PhotoMailDaoImpl">
