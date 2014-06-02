@@ -21,13 +21,19 @@ import com.conch.emfs.EMFS;
 import com.conch.entity.PhotoMail;
 import com.conch.entity.User;
 import com.conch.manager.PhotoMailManager;
+import com.conch.manager.PhotoManager;
 import com.conch.manager.UserManager;
 
 @Controller
 @RequestMapping("/photo")
 public class PhotoMailController {
+	
+	@Resource(name="photoManager")
+	private PhotoManager photoManager;
+	
 	@Resource(name="photoMailManager")
 	private PhotoMailManager photoMailManager;
+	
 	
 	@Resource(name="userManager")
 	private UserManager userManager;
