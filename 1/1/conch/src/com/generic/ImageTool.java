@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
+import org.im4java.core.Info;
 
 public class ImageTool {
 
@@ -15,7 +16,7 @@ public class ImageTool {
 	/**
 	 * ImageMagick的路径
 	 */
-	public static String imageMagickPath = "//Users//DH//programs//ImageMagick-6.8.9//bin";
+	public static String imageMagickPath = "/ImageMagick-6.8.9/bin";
 	//static {
 		/**
 		 * 
@@ -54,7 +55,7 @@ public class ImageTool {
 		ConvertCmd convert = new ConvertCmd();
 
 		// linux下不要设置此值，不然会报错
-		//convert.setSearchPath(imageMagickPath);
+		convert.setSearchPath(imageMagickPath);
 
 		convert.run(op);
 	}
@@ -74,7 +75,7 @@ public class ImageTool {
 		op.addImage(newPath);
 		ConvertCmd convert = new ConvertCmd();
 		// linux下不要设置此值，不然会报错
-		//convert.setSearchPath(imageMagickPath);
+		convert.setSearchPath(imageMagickPath);
 		convert.run(op);
 
 	}
@@ -93,7 +94,7 @@ public class ImageTool {
 		op.addImage(newPath);
 		ConvertCmd convert = new ConvertCmd();
 		// linux下不要设置此值，不然会报错
-		//convert.setSearchPath(imageMagickPath);
+		convert.setSearchPath(imageMagickPath);
 		convert.run(op);
 	}
 
@@ -103,19 +104,20 @@ public class ImageTool {
 	 */
 	public static void addImgText(String srcPath) throws Exception {
 		IMOperation op = new IMOperation();
-		op.font("宋体").gravity("southeast").pointsize(18).fill("#BCBFC8")
-				.draw("text 5,5 juziku.com");
+		op.font("宋体").gravity("southeast").pointsize(18).fill("#BCBFC8").draw("text 5,5 juziku.com");
+		//op.gravity("southeast").pointsize(18).fill("#BCBFC8").draw("text 5,5 juziku.com");
 		op.addImage();
 		op.addImage();
 		ConvertCmd convert = new ConvertCmd();
 		System.out.println("1");
 		// linux下不要设置此值，不然会报错
 		convert.setSearchPath(imageMagickPath);
+		
 		System.out.println("2 = " + srcPath);
 		convert.run(op, srcPath, srcPath);
 	}
 
-	public static void setSysEnv(String IMBin, String IMLib) throws IOException{
+	public static void setSysEnv(String IMPath) throws IOException{
 		
 		/*String key, value = null;
 		Map m = System.getenv();
@@ -134,16 +136,25 @@ public class ImageTool {
         //System.setProperty("DYLD_LIBRARY_PATH", IMLib);
         //System.set
 		
-		String cmdbin = "export PATH=$PATH:/Users/DH/programs/ImageMagick-6.8.9/bin";
-		String cmdlib = "export DYLD_LIBRARY_PATH=$MAGICK_HOME/lib/";
+		//String cmdbin = "export PATH=$PATH:/Users/DH/programs/ImageMagick-6.8.9/bin";
+		//String cmdlib = "export DYLD_LIBRARY_PATH=$MAGICK_HOME/lib/";
 		
-		String cmd = "source /Users/DH/.bash_profile";
-		System.out.println(cmd);
+		/*String cmd = "source /Users/DH/.bash_profile";
+		System.out.println(cmd);*/
+		
+		//String lib = IMPath + "/lib/libMagickCore-6.Q16.2.dylib";
+		String lib = "libMagickCore-6.Q16.2.dylib";
+		System.out.println(lib);
+		
+		//String cmd = "lame";
+		
 		try{
 	        Runtime run = Runtime.getRuntime();
+	        //run.e
 	        //run.exec(cmd);
-	        run.exec(cmdbin);
-	        run.exec(cmdlib);
+	        //run.loadLibrary(lib); 
+	        //run.exec(cmdbin);
+	        //run.exec(cmdlib);
 		}catch (Exception e) {  
             e.printStackTrace();
 		}
@@ -151,11 +162,12 @@ public class ImageTool {
 	
 	public static void main(String[] args) throws Exception {
 		
-		setSysEnv("/Users/DH/programs/ImageMagick-6.8.9/bin", "/Users/DH/programs/ImageMagick-6.8.9/lib");
+		//setSysEnv("/Users/DH/programs/ImageMagick-6.8.9");
 		System.out.println("---------");
 		
 		String key, value = null;
 		Map m = System.getenv();
+		//System.setenv("");
         for ( Iterator it = m.keySet().iterator(); it.hasNext(); )
         {
                key = (String ) it.next();
@@ -166,8 +178,10 @@ public class ImageTool {
                //}
         }
         
-		// cutImage("D:\\test.jpg", "D:\\new.jpg", 98, 48, 370,320);
+		cutImage("/Users/DH/Pictures/img/a.jpg", "/Users/DH/Pictures/img/anew.jpg", 98, 48, 370,320);
 		// cutImage(200,300, "/home/1.jpg", "/home/2.jpg");
-		addImgText("//Users//DH//Pictures//img//a.jpg");
+		//addImgText("/Users/DH/Pictures/img/a.jpg");
+		//Info info;
+		//info.
 	}
 }
