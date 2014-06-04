@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+    pageEncoding="utf-8" import="com.conch.generic.ConchCookie"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,7 +8,7 @@
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
 <script type="text/javascript">
 function logOut(){
-	  $.cookie("username",null,{path:"/"});
+	  $.cookie("username",null,{path:"/"});	  	  
 	   window.location.href="http://localhost：8080/conch"; 
 }
 
@@ -16,20 +16,23 @@ function logOut(){
 </head>
 <body>
 <%
- Cookie cookies[]=request.getCookies(); // 将适用目录下所有Cookie读入并存入cookies数组中  
+/*  Cookie cookies[]=request.getCookies(); // 将适用目录下所有Cookie读入并存入cookies数组中  
 Cookie sCookie=null;  
 String username=null;
 String uid =null;
  System.out.println(cookies.length); 
 if(cookies!=null){
  username= cookies[0].getValue();
- uid =cookies[1].getValue(); 
+ uid =cookies[1].getValue();  */
+ ConchCookie cookie = new ConchCookie(response,request);
+ String username= cookie.getCookie("username");
+ if(username!=null && !username.equals("null")){
   %>
    <ul class="nav pull-right">
         	 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="userhome.html"><%= username%> <b class="caret"></b> </a>
 	 		<ul class="dropdown-menu">
 	 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
-	 			<li> <a href=""> <i class="icon-question-sign"></i> 上传图片 </a> </li>
+	 			<li> <a href="./upload.html"> <i class="icon-question-sign"></i> 上传图片 </a> </li>
 	 			<li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
 	 			<li> <a href="./setting.html?username="> <i class="icon-cog"></i> 个人设置 </a> </li>
 	 			<li><a href="javascript:logOut()" ><i class="icon-off"></i>  退出</a></li>

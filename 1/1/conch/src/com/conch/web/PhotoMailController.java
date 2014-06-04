@@ -16,10 +16,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.generic.IMAPString;
 import com.conch.emfs.EMFS;
 import com.conch.entity.PhotoMail;
 import com.conch.entity.User;
+import com.conch.generic.IMAPString;
 import com.conch.manager.PhotoMailManager;
 import com.conch.manager.PhotoManager;
 import com.conch.manager.UserManager;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.conch.entity.User;
+import com.conch.generic.ConchCookie;
 import com.conch.manager.UserManager;
 
 @Controller
@@ -95,19 +96,21 @@ public class UserController {
 		if(!userManager.CheckUser(username, passwd)){
 			result = "{\"result\":false,\"mess\":\"用户名或密码错误\",\"to\":\"\"}";
 		}else{
-			  Cookie cusername = new Cookie("username",username);
-			  Cookie cuid = new Cookie("uid",null);
-			  cusername.setPath("/");
-			  cuid.setPath("/");
-			  if(rememberme=="true"){
-				  cusername.setMaxAge(600000);
-				  cuid.setMaxAge(600000);
-			  }else{
-				  cusername.setMaxAge(3600);
-				  cuid.setMaxAge(3600);
-			  }
-			  response.addCookie(cusername);
-			  response.addCookie(cuid);
+			ConchCookie cookie = new ConchCookie(response,request);
+			cookie.setCookie("username", username, true);
+//			  Cookie cusername = new Cookie("username",username);
+//			  Cookie cuid = new Cookie("uid",null);
+//			  cusername.setPath("/");
+//			  cuid.setPath("/");
+//			  if(rememberme=="true"){
+//				  cusername.setMaxAge(600000);
+//				  cuid.setMaxAge(600000);
+//			  }else{
+//				  cusername.setMaxAge(3600);
+//				  cuid.setMaxAge(3600);
+//			  }
+//			  response.addCookie(cusername);
+//			  response.addCookie(cuid);
 		}
 		try {
 			PrintWriter out = response.getWriter();
@@ -148,5 +151,13 @@ public class UserController {
 		}*/
 		System.out.println(request.getParameter("info[gender]"));
 		return "";
+	}
+	
+	@RequestMapping("/logOut")
+	public String logOut(HttpServletResponse response,HttpServletRequest request){
+		System.out.println("---------start");
+		ConchCookie cookie  = new ConchCookie(response,request);
+		cookie.delCookie("username");
+		return "redirect:/";
 	}
 }

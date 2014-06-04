@@ -24,7 +24,8 @@ body {padding-top: 60px; }
 
 <script type="text/javascript" >
   window.onload=function(){
-	var userName=$.cookie("uid");
+	 $("#settingarea").load("jsp/dropdownlist.jsp");
+/* 	var userName=$.cookie("uid");
 	 if ( userName!=undefined && userName != "null" )
 	  { 
          document.getElementById("settingarea").innerHTML =" <ul class=\"nav pull-right\">"+
@@ -44,13 +45,13 @@ body {padding-top: 60px; }
 		                                                     "  <cite id=\"login\"  ><span class=\"login\">您还未登录！</span>|"+
 		                                                     "<a href=\"login.html\" >登录</a>|<a href=\"register.html\" >注册</a>"+
 		                                                     "</cite></div>";
-	  }
+	  } */
   };  
  
-function logOut(){
+/* function logOut(){
 	  $.cookie("uid",null,{path:"/"});
 	   window.location.href="./"; 
-}
+} */
 
 </script>
 </head>
