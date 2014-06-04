@@ -95,14 +95,19 @@ public class UserController {
 		if(!userManager.CheckUser(username, passwd)){
 			result = "{\"result\":false,\"mess\":\"用户名或密码错误\",\"to\":\"\"}";
 		}else{
-			  Cookie cki = new Cookie("uid",username);
-			  cki.setPath("/");
+			  Cookie cusername = new Cookie("username",username);
+			  Cookie cuid = new Cookie("uid",null);
+			  cusername.setPath("/");
+			  cuid.setPath("/");
 			  if(rememberme=="true"){
-				  cki.setMaxAge(600000);
+				  cusername.setMaxAge(600000);
+				  cuid.setMaxAge(600000);
 			  }else{
-				  cki.setMaxAge(3600);
+				  cusername.setMaxAge(3600);
+				  cuid.setMaxAge(3600);
 			  }
-			  response.addCookie(cki);
+			  response.addCookie(cusername);
+			  response.addCookie(cuid);
 		}
 		try {
 			PrintWriter out = response.getWriter();
