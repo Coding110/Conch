@@ -2,7 +2,7 @@
 1/1/conch/WebContent/WEB-INF/classes
 *.class
 *.bak.html
-
+.DS_Store
 #1/1/conch/.settings
 
 
