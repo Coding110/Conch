@@ -32,6 +32,11 @@ import com.sun.mail.imap.IMAPStore;
 //import com.sun.image
 import java.awt.*;
 
+/*
+ *		email中文件夹命名：bkt_dir_{i}, bkt_index_{i}, i为大于等于0的整数 
+ * 
+ * 
+ */
 public class EMFS {
 
 	String username;
@@ -47,7 +52,7 @@ public class EMFS {
 	MimeMessage[] sendmsg;
 	DataCallBack callback;
 	
-
+	Multipart mpForWritepart;
 	
 	public EMFS(String username, String password, String imapserver,int imapport) throws Exception{
 		if(username == null || password == null || imapserver == null || imapport <= 9){
@@ -57,7 +62,6 @@ public class EMFS {
 		this.password = password;
 		this.imapserver = imapserver;
 		this.imapport = imapport;
-
 		
 		IampConnect();
        
@@ -76,6 +80,10 @@ public class EMFS {
         return 0;
 	}
 	
+	private int CheckDirs(){
+		return 0;
+	}
+	
 	public int SetDataCallBack(DataCallBack callback)
 	{
 		this.callback = callback;
@@ -89,6 +97,10 @@ public class EMFS {
         if(currmsg == null){        
         	return 1;
         }                
+		return 0;
+	}
+	
+	public int CreateFloder(String floder){
 		return 0;
 	}
 	
@@ -126,6 +138,11 @@ public class EMFS {
 		return 0;
 	}
 	
+	public int SetAttribute(String key, String value) throws Exception{
+		sendmsg[0].setHeader(key, value);
+		return 0;
+	}
+	
 	public long SaveFile() throws Exception{
 		long uid = 0;
 		uid = folder.getUIDNext();
@@ -138,6 +155,7 @@ public class EMFS {
 			}
 			else System.out.println("Append UID: null");
 		}
+		mpForWritepart = null;
 		return uid;	
 	}
 	
@@ -180,9 +198,11 @@ public class EMFS {
 			str = new String(buf);
 			mbp = new MimeBodyPart();
 			mbp.setText(str,"gbk");
+			mbp.setContent(mp);
 			//sendmsg[0].setText(str);
 			
 			mp.addBodyPart(mbp);
+			
 
 			if(n <= 0) break;
 			System.out.println("read size: " + n + ", buffer len: " + buf.length);
@@ -193,6 +213,23 @@ public class EMFS {
 		return 0;
 	}
 
+	/*
+	 * 	buf: 写入的数据。数据量大时，多次调用，通过complete参数来决定是否写入完成。
+	 * 	complete: 0, 表示没完成； 1, 表示完成。
+	 */
+	public int WritePart(byte[] buf, int complete)throws Exception, IOException{		
+		if(mpForWritepart == null) mpForWritepart = new MimeMultipart();
+		
+		String str = new String(buf);
+		MimeBodyPart mbp = new MimeBodyPart();
+		mbp.setText(str);
+		//mbp.setContent(mpForWritepart);
+		mpForWritepart.addBodyPart(mbp);
+		
+		if(complete == 1) sendmsg[0].setContent(mpForWritepart);
+		return 0;
+	}
+	
 	public int WriteAttachment(String file)throws Exception, IOException{
 		Multipart mp = new MimeMultipart();
 		MimeBodyPart mbp = new MimeBodyPart();
@@ -209,6 +246,7 @@ public class EMFS {
 		
 		return 0;
 	}
+	
 	public int GetFileSize() throws Exception{
 		return currmsg.getSize();
 	}

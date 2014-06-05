@@ -20,7 +20,9 @@ public class Photo implements Serializable{
 	private static final long serialVersionUID = 3574179310901618570L;
 	private String pid;
 	private String photomail;
-	private String mailuids; // 多个邮件ID时，有冒号隔开
+	private String mailuids; // 多个邮件ID时，有冒号隔开，原照片
+	private String mailuidofpreview; // 照片的预览图片，200*200以内
+	private String mailuidofnet; // 用于网络查看图片，800*600以内
 	private String maildir;
 	private Date uploadtime;
 	private String location;
@@ -54,6 +56,24 @@ public class Photo implements Serializable{
 	}
 	public void setMailuids(String mailuids) {
 		this.mailuids = mailuids;
+	}
+	
+	// 邮件ID，预览图片
+	@Column(nullable = false)
+	public String getMailuidofpreview() {
+		return mailuidofpreview;
+	}
+	public void setMailuidofpreview(String mailuidofpreview) {
+		this.mailuidofpreview = mailuidofpreview;
+	}
+	
+	// 邮件ID，网络查看图片
+	@Column(nullable = false)
+	public String getMailuidofnet() {
+		return mailuidofnet;
+	}
+	public void setMailuidofnet(String mailuidofnet) {
+		this.mailuidofnet = mailuidofnet;
 	}
 	
 	// 邮件所在文件夹
