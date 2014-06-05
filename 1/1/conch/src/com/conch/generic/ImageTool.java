@@ -1,4 +1,4 @@
-package com.generic;
+package com.conch.generic;
 
 //import java.util.Properties;
 
