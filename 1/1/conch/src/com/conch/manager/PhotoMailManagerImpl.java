@@ -13,9 +13,9 @@ public class PhotoMailManagerImpl implements PhotoMailManager {
 	}
 	
 	@Override
-	public PhotoMail getPhotoMail() {
+	public PhotoMail getPhotoMail(PhotoMail photoMail) {
 		// TODO Auto-generated method stub
-		return null;
+		return photoMailDao.getPhotoMail(photoMail);
 	}
 
 	@Override

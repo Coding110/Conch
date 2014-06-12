@@ -40,7 +40,7 @@ public class PhotoMailController {
 	
 	@RequestMapping("/getPhotoMail")
 	public String getPhotoMail(PhotoMail photoMail,HttpServletRequest request){
-		request.setAttribute("user", photoMailManager.getPhotoMail());	
+		request.setAttribute("user", photoMailManager.getPhotoMail(photoMail));	
 		//return "/getMail";
 		return "redirect:/index.html";
 	}
@@ -49,6 +49,10 @@ public class PhotoMailController {
 	public void uploadFile(PhotoMail photoMail,HttpServletRequest request, HttpServletResponse response){
 		//System.out.println("upload image.");
 		String result = null, status = "true", msg = null;
+		
+		//获取一次即可，保存到session
+		photoMail.setUid("ff8080814642d7aa014642d84ebb0000");
+		photoMail = photoMailManager.getPhotoMail(photoMail);
 		
 		msg = doUploadFile(photoMail, request, response);
 		if(msg != null){
@@ -107,8 +111,9 @@ public class PhotoMailController {
 		EMFS emfs = (EMFS)request.getSession().getAttribute("emfs");
 		if(emfs==null){
 			try{
-			emfs = new EMFS(photoMail.getPhotomail(), photoMail.getPasswd(), photoMail.getImapserver(), photoMail.getImapport());
-			request.getSession().setAttribute("emfs", emfs);
+				
+				emfs = new EMFS(photoMail.getPhotomail(), photoMail.getPasswd(), photoMail.getImapserver(), photoMail.getImapport());
+				request.getSession().setAttribute("emfs", emfs);
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 				return "IMAP参数设置错误";
@@ -162,11 +167,12 @@ public class PhotoMailController {
 					
 				    InputStream is = item.getInputStream();
 				    long rsize;
-				    byte [] buf = new byte[4194304]; // 4MB, 每封邮件最大存4MB，超出这个大小由多封邮件存储
+				    //byte [] buf = new byte[4194304]; // 4MB, 每封邮件最大存4MB，超出这个大小由多封邮件存储
+				    byte [] buf = new byte[2097152]; // 2MB, 每封邮件最大存2MB，超出这个大小由多封邮件存储
 				    while(true){
 				    	rsize = is.read(buf);
-				    	if(rsize <= 0) break;
-				    	System.out.println("rsie: " + rsize);
+				    	if(rsize <= 0) break;				    	
+				    	SaveToEMFS(buf);
 				    }					
 				}//end of if
 			}//end of for
@@ -176,5 +182,10 @@ public class PhotoMailController {
 			return "文件上传异常！";
 		}
 		return "文件上传成功！";
+	}
+	
+	int SaveToEMFS(byte[] databuf){
+		System.out.println("databuf: " + databuf.length);
+		return 0;
 	}
 }

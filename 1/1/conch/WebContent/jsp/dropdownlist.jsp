@@ -33,7 +33,7 @@ if(cookies!=null){
 	 		<ul class="dropdown-menu">
 	 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
 	 			<li> <a href="./upload.html"> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-	 			<li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
+	 			<!-- <li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li> -->
 	 			<li> <a href="./setting.html?username="> <i class="icon-cog"></i> 个人设置 </a> </li>
 	 			<li><a href="javascript:logOut()" ><i class="icon-off"></i>  退出</a></li>
 	 		</ul>
@@ -47,7 +47,7 @@ if(cookies!=null){
 }else{
 	%>
 	 <div class="pagetop_notice">
-		  <cite id="login"  ><span class="login">您还未登录！</span>|
+		  <cite id="login"  ><!-- <span class="login">您还未登录！</span>| -->
 		   <a href="login.html" >登录</a>|<a href="register.html" >注册</a>
 		 </cite>
 	 </div>

@@ -84,9 +84,14 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	/*
+	 * @see com.conch.dao.UserDao#getUserId(java.lang.String)
+	 * 通过注册邮箱或用户名获取用户ID
+	 * 
+	 */
 	public String getUserId(String username) {
 		// TODO Auto-generated method stub
-		String hql = " from User u where u.regname=?";
+		String hql = " from User u where u.regname=? or u.regemail=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, username);
 		if(query.list().isEmpty()){
