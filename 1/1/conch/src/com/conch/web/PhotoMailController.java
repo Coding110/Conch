@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.conch.emfs.EMFS;
 import com.conch.entity.PhotoMail;
-import com.conch.entity.User;
+//import com.conch.entity.User;
+//import com.conch.generic.ConchConst;
+import com.conch.generic.ConchCookie;
 import com.conch.generic.IMAPString;
 import com.conch.manager.PhotoMailManager;
 import com.conch.manager.PhotoManager;
@@ -46,15 +48,12 @@ public class PhotoMailController {
 	}
 	
 	@RequestMapping("/upload")
-	public void uploadFile(PhotoMail photoMail,HttpServletRequest request, HttpServletResponse response){
+	//public void uploadFile(PhotoMail photoMail,HttpServletRequest request, HttpServletResponse response){
+	public void uploadFile(HttpServletRequest request, HttpServletResponse response){
 		//System.out.println("upload image.");
-		String result = null, status = "true", msg = null;
+		String result = null, status = "true", msg = null;		
 		
-		//获取一次即可，保存到session
-		photoMail.setUid("ff8080814642d7aa014642d84ebb0000");
-		photoMail = photoMailManager.getPhotoMail(photoMail);
-		
-		msg = doUploadFile(photoMail, request, response);
+		msg = doUploadFile(request, response);
 		if(msg != null){
 			status = "false";
 		}
@@ -100,8 +99,21 @@ public class PhotoMailController {
 	}
 	
 	// @return: error message, 'null' means no error
-	private String doUploadFile(PhotoMail photoMail,HttpServletRequest request, HttpServletResponse response)
-	{
+	private String doUploadFile(HttpServletRequest request, HttpServletResponse response)
+	{		
+		//从Cookie中获取用户信息
+		PhotoMail photoMail = (PhotoMail)request.getSession().getAttribute("photomail");
+		if(photoMail == null){
+			//获取一次即可，保存到session
+			photoMail = new PhotoMail();
+			ConchCookie cookie = new ConchCookie(response,request);
+			photoMail.setUid(userManager.getUserId(cookie.getCookie("username")));
+			photoMail = photoMailManager.getPhotoMail(photoMail);
+			//String un = ConchConst.COOKIE_UN;
+			request.getSession().setAttribute("photomail", photoMail);
+		}
+		
+		
 		System.out.println("set photo mail: " + photoMail.getPhotomail() + 
 				", passwd: " + photoMail.getPasswd() + 
 				", UID: " + photoMail.getUid() +
@@ -109,9 +121,9 @@ public class PhotoMailController {
 				", port: " + photoMail.getImapport());
 		
 		EMFS emfs = (EMFS)request.getSession().getAttribute("emfs");
+		
 		if(emfs==null){
-			try{
-				
+			try{				
 				emfs = new EMFS(photoMail.getPhotomail(), photoMail.getPasswd(), photoMail.getImapserver(), photoMail.getImapport());
 				request.getSession().setAttribute("emfs", emfs);
 			}catch(Exception e){
@@ -172,7 +184,7 @@ public class PhotoMailController {
 				    while(true){
 				    	rsize = is.read(buf);
 				    	if(rsize <= 0) break;				    	
-				    	SaveToEMFS(buf);
+				    	SaveToEMFS(buf, emfs, photoMail);
 				    }					
 				}//end of if
 			}//end of for
@@ -184,8 +196,9 @@ public class PhotoMailController {
 		return "文件上传成功！";
 	}
 	
-	int SaveToEMFS(byte[] databuf){
+	int SaveToEMFS(byte[] databuf, EMFS emfs, PhotoMail photoMail){
 		System.out.println("databuf: " + databuf.length);
+		//emfs.
 		return 0;
 	}
 }

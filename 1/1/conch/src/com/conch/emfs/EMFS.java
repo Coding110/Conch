@@ -25,9 +25,16 @@ import javax.mail.internet.MimeMultipart;
 //import sun.jdbc.odbc.ee.DataSource;
 import javax.activation.DataSource;
 
+import com.sun.mail.iap.ProtocolException;
 import com.sun.mail.imap.AppendUID;
 import com.sun.mail.imap.IMAPFolder;
+import com.sun.mail.imap.IMAPFolder.ProtocolCommand;
 import com.sun.mail.imap.IMAPStore;
+
+
+import com.sun.mail.imap.protocol.IMAPProtocol;
+import com.sun.mail.util.MailLogger;
+
 
 //import com.sun.image
 import java.awt.*;
@@ -44,9 +51,13 @@ public class EMFS {
 	String imapserver;
 	int imapport;
 	
+	boolean isSSL;
+	
+	Properties prop;
 	Session session;
 	IMAPStore store;
 	IMAPFolder folder;
+	//MailLogger logger;
 	
 	Message currmsg;
 	MimeMessage[] sendmsg;
@@ -63,13 +74,17 @@ public class EMFS {
 		this.imapserver = imapserver;
 		this.imapport = imapport;
 		
+		isSSL = false;
+		//logger = null;
+		//logger = new MailLogger(null, imapserver, isSSL, null);
+		
 		IampConnect();
-       
+		init();
 	}
 	
 	private int IampConnect() throws Exception{
 		
-		Properties prop = System.getProperties();
+		prop = System.getProperties();
         prop.put("mail.store.protocol", "imap");
         prop.put("mail.imap.host", this.imapserver);
         
@@ -80,8 +95,23 @@ public class EMFS {
         return 0;
 	}
 	
-	private int CheckDirs(){
+	/*
+	 * 	EMFS初始化
+	 * 	1.检查'dir1'文件夹;
+	 */
+	private int init(){
 		return 0;
+	}
+	
+	public boolean CreateMailDir(String maildir) throws Exception{
+		
+		folder = (IMAPFolder) store.getFolder(maildir);
+		
+//		String dir = "INBOX";
+//		folder = (IMAPFolder) store.getFolder(dir);
+//		System.out.println(dir + "type = " + folder.getType());
+		
+		return folder.create(3);
 	}
 	
 	public int SetDataCallBack(DataCallBack callback)
@@ -100,8 +130,14 @@ public class EMFS {
 		return 0;
 	}
 	
-	public int CreateFloder(String floder){
-		return 0;
+	/*
+	 * 	创建邮箱文件夹，命令规则：dir[i]，其中i从2开始，'dir1'为默认文件夹
+	 * 	@floder: 邮箱文件夹
+	 */
+	public boolean CreateFloder(String floder) throws Exception{
+		
+		folder = (IMAPFolder) store.getFolder(floder);		
+		return folder.create(3);
 	}
 	
 	public int CloseFile() throws Exception{
@@ -367,37 +403,38 @@ class DoApply implements DataCallBack{
 	}
 	
 	public void WriteMail(){
-		String username = "";
-		String password = "";
+		String username = "1485084328@qq.com";
+		String password = "px9537hua";
 		String imapserver = "imap.qq.com";
-		
-
-		
 		int imapport = 143;
+		
 		try {
 			System.out.println("------start write mail-----");
 			EMFS fs = new EMFS(username, password, imapserver, imapport);
 
 			fs.SetDataCallBack(this);		
 			
-			String file = "E:\\code\\workspace\\EMFS\\bin\\main.txt";
+			//String file = "E:\\code\\workspace\\EMFS\\bin\\main.txt";
 			//String file = "E:\\code\\workspace\\EMFS\\bin\\becktu_logo.png";			
 			//String file = "E:\\code\\workspace\\EMFS\\bin\\Git.exe";
 			//String file = "E:\\code\\workspace\\EMFS\\bin\\cbox.exe";
 			
-			this.SetReadFile(file);
+			//this.SetReadFile(file);
 			
+			System.out.println("create mail dir = " + fs.CreateMailDir("ccc"));
 			
-			fs.CreateFile("INBOX");
-			fs.SetFile("MD5", "1234567890ABCDEF");
-			//fs.SetFile("Content-Type", "GBK");
-			fs.SetFilename("bodypart", "�ļ���");
-			fs.WritePart();
-			fs.SaveFile();
+//			fs.CreateFile("INBOX");
+//			fs.SetFile("MD5", "1234567890ABCDEF");
+//			//fs.SetFile("Content-Type", "GBK");
+//			fs.SetFilename("bodypart", "�ļ���");
+//			fs.WritePart();
+//			fs.SaveFile();
 			
 			System.out.println("------end write mail-----");
 		}catch(IOException ie){
 			System.out.println("------exception: " + ie.getMessage());
+		}catch(ProtocolException pe){
+			System.out.println("------exception: " + pe.getMessage());
 		}catch(Exception e){
 			System.out.println("------exception: " + e.getMessage());
 		}

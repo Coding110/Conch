@@ -94,6 +94,7 @@ public class UserDaoImpl implements UserDao {
 		String hql = " from User u where u.regname=? or u.regemail=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, username);
+		query.setString(1, username);
 		if(query.list().isEmpty()){
 			System.out.println(username + " is not exist.");
 			return null;

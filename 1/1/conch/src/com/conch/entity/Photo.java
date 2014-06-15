@@ -23,7 +23,7 @@ public class Photo implements Serializable{
 	private String mailuids; // 多个邮件ID时，有冒号隔开，原照片
 	private String mailuidofpreview; // 照片的预览图片，200*200以内
 	private String mailuidofnet; // 用于网络查看图片，800*600以内
-	private String maildir;
+	private String mailfolder;
 	private Date uploadtime;
 	private String location;
 	private int shareable;
@@ -77,11 +77,11 @@ public class Photo implements Serializable{
 	}
 	
 	// 邮件所在文件夹
-	public String getMaildir() {
-		return maildir;
+	public String getMailfolder() {
+		return mailfolder;
 	}
-	public void setMaildir(String maildir) {
-		this.maildir = maildir;
+	public void setMaildir(String mailfolder) {
+		this.mailfolder = mailfolder;
 	}
 	
 	// 上传时间
