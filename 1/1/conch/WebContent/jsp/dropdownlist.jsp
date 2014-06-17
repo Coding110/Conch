@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8" import="com.conch.generic.ConchCookie"%>
+    pageEncoding="utf-8" import="com.conch.generic.ConchCookie"  import="java.net.URLDecoder"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,7 +25,14 @@ if(cookies!=null){
  username= cookies[0].getValue();
  uid =cookies[1].getValue();  */
  ConchCookie cookie = new ConchCookie(response,request);
- String username= cookie.getCookie("username");
+ String username=null;
+ String uid= null;
+if(cookie.getCookie("username")!=null){
+	username = java.net.URLDecoder.decode(cookie.getCookie("username"),"UTF-8"); 
+}
+if(cookie.getCookie("uid")!=null){
+    uid=  java.net.URLDecoder.decode(cookie.getCookie("uid"),"UTF-8");
+}
  if(username!=null && !username.equals("null")){
   %>
    <ul class="nav pull-right">
@@ -33,7 +40,7 @@ if(cookies!=null){
 	 		<ul class="dropdown-menu">
 	 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
 	 			<li> <a href="./upload.html"> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-	 			<!-- <li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li> -->
+	 			<li> <a href="./user/getUser?uid=<%=uid%>" > <i class="icon-cog"></i> 修改个人资料 </a> </li>
 	 			<li> <a href="./setting.html?username="> <i class="icon-cog"></i> 个人设置 </a> </li>
 	 			<li><a href="javascript:logOut()" ><i class="icon-off"></i>  退出</a></li>
 	 		</ul>

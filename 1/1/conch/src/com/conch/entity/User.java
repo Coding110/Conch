@@ -37,9 +37,11 @@ public class User implements Serializable {
 	private Date regtime;
 	private Date birthday;
 	private String city;	
-	
+	private String province;
+	private String age;
 	
 	//private Set<PhotoMail> photoMails;
+
 
 	@Id
 	@GeneratedValue(generator="system-uuid")
@@ -109,5 +111,19 @@ public class User implements Serializable {
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getAge() {
+		return age;
+	}
+	public void setAge(String age) {
+		this.age = age;
+	}
+	
 	
 }

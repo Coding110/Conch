@@ -14,8 +14,8 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public User getUser(User user) {
-		return userDao.getUser(user);
+	public User getUser(String uid) {
+		return userDao.getUser(uid);
 	}
 
 
@@ -36,7 +36,7 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public boolean CheckUser(String username, String passwd) {
+	public User CheckUser(String username, String passwd) {
 		return userDao.CheckUser(username, passwd);
 	}
 

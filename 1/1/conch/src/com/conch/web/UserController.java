@@ -2,12 +2,16 @@ package com.conch.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.annotation.Resource;
 import javax.persistence.AttributeOverrides;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +28,11 @@ public class UserController {
 	private UserManager userManager;
 	
 	@RequestMapping("/getUser")
-	public String getUser(User user,HttpServletRequest request){
-		request.setAttribute("user", userManager.getUser(user));	
-		return "/editUser";
+	public String getUser(String uid,HttpServletRequest request){
+		User user = userManager.getUser(uid);
+		HttpSession session = request.getSession(); 
+		session.setAttribute("user", user);	
+		return "redirect:/setting.html";
 	}
 	
 	@RequestMapping("/checkEmail")
@@ -81,36 +87,27 @@ public class UserController {
 	@RequestMapping("/addUser")
 	public String addUser(User user,HttpServletRequest request,HttpServletResponse response){
 		userManager.addUser(user);
-		Cookie cki = new Cookie("uid",user.getRegemail());
-	    cki.setPath("/");
-	    cki.setMaxAge(3600);
-	    response.addCookie(cki);
+		ConchCookie cookie = new ConchCookie(response,request);
+		cookie.setCookie("username", user.getRegname());
 		return "redirect:/";
 	}
+	
 	@RequestMapping("/loginCheck")
 	public void loginCheck(String username,String passwd,HttpServletResponse response,HttpServletRequest request){
 		String result = "{\"result\":true,\"mess\":\"\",\"to\":\"./\"}";	
 		response.setContentType("application/json");
 		String rememberme = request.getParameter("rememberme");
-        System.out.println(username +  passwd);
-		if(!userManager.CheckUser(username, passwd)){
+		boolean isSaved =false;
+		if(rememberme=="true"){
+			isSaved = true;
+		}
+        User user = userManager.CheckUser(username, passwd);        
+		if(user== null){
 			result = "{\"result\":false,\"mess\":\"用户名或密码错误\",\"to\":\"\"}";
 		}else{
 			ConchCookie cookie = new ConchCookie(response,request);
-			cookie.setCookie("username", username, true);
-//			  Cookie cusername = new Cookie("username",username);
-//			  Cookie cuid = new Cookie("uid",null);
-//			  cusername.setPath("/");
-//			  cuid.setPath("/");
-//			  if(rememberme=="true"){
-//				  cusername.setMaxAge(600000);
-//				  cuid.setMaxAge(600000);
-//			  }else{
-//				  cusername.setMaxAge(3600);
-//				  cuid.setMaxAge(3600);
-//			  }
-//			  response.addCookie(cusername);
-//			  response.addCookie(cuid);
+			cookie.setCookie("username", user.getRegname(), isSaved);
+			cookie.setCookie("uid", user.getUid(), isSaved);
 		}
 		try {
 			PrintWriter out = response.getWriter();
@@ -140,24 +137,9 @@ public class UserController {
 //	}
 	
 	@RequestMapping("/updateUser")
-	public String updateUser(User user,HttpServletRequest request){
-		
-	/*	if(userManager.updateUser(user)){
-			user = userManager.getUser(user);
-			request.setAttribute("user", user);
-			return "redirect:/user/getAllUser";
-		}else{
-			return "/error";
-		}*/
-		System.out.println(request.getParameter("info[gender]"));
-		return "";
-	}
-	
-	@RequestMapping("/logOut")
-	public String logOut(HttpServletResponse response,HttpServletRequest request){
-		System.out.println("---------start");
-		ConchCookie cookie  = new ConchCookie(response,request);
-		cookie.delCookie("username");
+	public String updateUser(User user,HttpServletRequest request){	
+		userManager.updateUser(user);
 		return "redirect:/";
 	}
+	
 }

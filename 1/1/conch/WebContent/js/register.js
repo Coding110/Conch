@@ -94,7 +94,7 @@ var chkEmailflag=0;
 function check_em(e) {
     if (!chk_em(e)) return false;
     $(e).next().remove();
-    $.get("/conch/user/checkEmail", "email=" + csdn.val2(e), function (data) {
+    $.post("/conch/user/checkEmail", "email=" + csdn.val2(e), function (data) {
         data = csdn.toJSON(data);
         if (data.result == true){
         	chkEmailflag=0;
@@ -220,7 +220,7 @@ function check_nick(ev) {
         showerr($(this), '昵称不合法');
         return false;
     }
-    $.get("/conch/user/checkNick",{nick : nick},function (data){
+    $.post("/conch/user/checkNick",{nick : nick},function (data){
     	data=toJSON(data);
     	//data.id;
     	if(data.result){
@@ -239,7 +239,7 @@ function check_verifyCode(e) {
 	  //integer n = new integer();	  
 	  if (!chk_val($("#cd"), "请输入验证码")) return false;
 	    $(e).next().remove();
-	    $.get("/conch/user/checkVerifyCode", "inputCode=" + e.val(), function (data) {
+	    $.post("/conch/user/checkVerifyCode", "inputCode=" + e.val(), function (data) {
 	    	data = toJSON(data);
 	        if (data.result == true){
 	        	chkVerifyflag=0;

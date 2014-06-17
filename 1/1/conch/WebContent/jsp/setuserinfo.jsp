@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -110,7 +111,7 @@ province(); //初始时给省名下拉菜单赋内容
 </script>
 
 <body onload="onloadprovince()">
-<form class="form-horizontal" id="myform" action="" method="post">
+<form class="form-horizontal" id="myform" action="/conch/user/updateUser" method="post">
     <input type="hidden" value="1" name="dosubmit"></input>
     <input type="hidden" value="" name="direct"></input>
     <div id="legend" class="">
@@ -118,23 +119,16 @@ province(); //初始时给省名下拉菜单赋内容
     </div>
     
     <div class="control-group">
-      <label class="control-label">昵称</label>
+      <label class="control-label"><font color="#FF0000">*</font>昵称</label>
       <div class="controls">
-        <input type="text" class="input-xlarge" onblur="javascript:check_nick()" id="nickname" name="info[name]" value=""></input>
+        <input type="text" class="input-xlarge" onblur="javascript:check_nick()" id="nickname" name="regname" value = "<c:out value="${user.regname}"/>" ></input>
         <span id="for_nick"></span> </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label"><font color="#FF0000">*</font>姓名</label>
-      <div class="controls">
-        <input type="text" class="input-xlarge" name="info[realname]" value="东华" />
-      </div>
-    </div>
- 
+    </div> 
     <div class="control-group">
       <label class="control-label"><font color="#FF0000">*</font>Email<span id="email_status">                
                 </span></label>
       <div class="controls">
-        <input type="text" id="email" class="input-xlarge" onblur="javascript:check_email()" name="infoemail" value="1485084328@qq.com" />
+        <input type="text" id="email" class="input-xlarge" onblur="javascript:check_email()" name="regemail" value="<c:out value="${user.regemail}"/>" />
      </div>
     </div>
   
@@ -142,10 +136,10 @@ province(); //初始时给省名下拉菜单赋内容
     <div class="control-group"> 
       
       <!-- Prepended text-->
-      <label class="control-label"><font color="#FF0000">*</font>所在地区</label>
+      <label class="control-label">所在地区</label>
       <div class="controls">
         <div class="input-prepend">
-          <select id="province" name=province onchange="cityName(this.value);">
+          <select id="province" name="province" onchange="cityName(this.value);">
             <option value="">
                                     请选择省名
             </option>
@@ -164,10 +158,10 @@ province(); //初始时给省名下拉菜单赋内容
       <div class="controls"> 
         <!-- Inline Radios -->
         <label class="radio inline">
-          <input type="radio" value="1" name="info[gender]" id="gender1" checked="checked" />
+          <input type="radio" value="1" name="sex" id="gender1" checked="checked" />
           男 </label>
         <label class="radio inline">
-          <input type="radio" value="2" name="info[gender]" id="gender2" />
+          <input type="radio" value="2" name="sex" id="gender2" />
           女 </label>
       </div>
     </div>
@@ -177,7 +171,7 @@ province(); //初始时给省名下拉菜单赋内容
       <!-- Select Multiple -->
       <label class="control-label">出生日期</label>
       <div class="controls">
-        <select class="input-xlarge" name="info[age_range]">
+        <select class="input-xlarge" name="age">
           <option value="-1"></option>
                     <option value="0">&lt;25</option>
                     <option value="1" selected="selected">25-30</option>
@@ -198,12 +192,44 @@ province(); //初始时给省名下拉菜单赋内容
 
     <div class="control-group">
           <label class="control-label"></label>
-
+          <input type="hidden" value="<c:out value="${user.uid}"/>" name="uid" />
           <!-- Button -->
           <div class="controls">
-         <a href="javascript:sub_profile()" class="btn btn-primary ">提交</a>&nbsp;&nbsp;&nbsp; <a href="" class="btn">跳过</a>
+         <a href="javascript:sub_profile()" class="btn btn-primary ">保存</a>
       </div>
     </div>
 </form>
+<!-- <script type="text/javascript">
+function sub_profile(){
+        var nick = $.trim($("#nickname").val());
+        if(nick ==''){
+                $("#sub_tip").html("请填写昵称");
+                return;		
+        }
+        var cansub = $("#can_sub").val();
+        if(cansub == 0){
+                $("#sub_tip").html("昵称已被占用");
+                return;	
+        }
+        if(cansub == 2){
+                $("#sub_tip").html("邮箱已被占用");
+                return;	
+        }
+        var emails = $("#email").val();
+    if(emails == ''){
+        $("#sub_tip").html("请填写邮箱");
+        return;
+    }
+        var city = $("#city").val();
+    if(city == 0){
+        $("#sub_tip").html("请填写城市");
+        return;
+    }
+    $("#myform").submit();
+}
+</script> -->
+<script type="text/javascript">
+province();
+</script>
 </body>
 </html>
