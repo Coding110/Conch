@@ -48,7 +48,6 @@ function sub_pmprofile(){
 }
 
 function sub_profile(){
-	alert("sub_profile");
     /*var nick = $.trim($("#nickname").val());
     if(nick ==''){
             $("#sub_tip").html("请填写昵称");

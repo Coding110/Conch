@@ -4,10 +4,9 @@ import com.conch.entity.User;
 
 public interface UserDao {
 
-	public User getUser(User user);
+	public User getUser(String uid);
 	public String getUserId(String username);
-	
-	public boolean CheckUser(String username, String passwd); 
+	public User CheckUser(String username, String passwd); 
 	
 	public boolean CheckEmail(String email);
 	
