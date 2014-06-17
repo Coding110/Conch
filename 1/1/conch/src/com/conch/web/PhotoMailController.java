@@ -17,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.conch.emfs.EMFS;
+import com.conch.entity.Photo;
 import com.conch.entity.PhotoMail;
+import com.conch.generic.ConchConst;
 //import com.conch.entity.User;
 //import com.conch.generic.ConchConst;
 import com.conch.generic.ConchCookie;
@@ -46,7 +48,6 @@ public class PhotoMailController {
 		//return "/getMail";
 		return "redirect:/index.html";
 	}
-	
 	@RequestMapping("/upload")
 	//public void uploadFile(PhotoMail photoMail,HttpServletRequest request, HttpServletResponse response){
 	public void uploadFile(HttpServletRequest request, HttpServletResponse response){
@@ -132,6 +133,11 @@ public class PhotoMailController {
 			}
 		}
 		
+		String mailfolder = request.getParameter("mdir");
+		if(mailfolder == null){
+			mailfolder = "dir1";
+		}
+		
 		String fileType = "JPG,GIF,JPEG,PNG";
 		String maxSize = "50";
 		
@@ -157,6 +163,10 @@ public class PhotoMailController {
 					//文件名
 					String fileName = item.getName();
 					
+					// 图片信息
+					Photo photo = new Photo();
+					System.out.println("Photo id: "  +  photo.getPid());
+					
 					//检查文件后缀格式
 					String fileEnd = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
 					if(fileType!=null && !"".equals(fileType.trim())){
@@ -178,14 +188,25 @@ public class PhotoMailController {
 					System.out.println("UUID: " + uuid);
 					
 				    InputStream is = item.getInputStream();
-				    long rsize;
+				    long rsize, fid = -1;
 				    //byte [] buf = new byte[4194304]; // 4MB, 每封邮件最大存4MB，超出这个大小由多封邮件存储
 				    byte [] buf = new byte[2097152]; // 2MB, 每封邮件最大存2MB，超出这个大小由多封邮件存储
 				    while(true){
 				    	rsize = is.read(buf);
-				    	if(rsize <= 0) break;				    	
-				    	SaveToEMFS(buf, emfs, photoMail);
-				    }					
+				    	if(rsize <= 0) break;
+				    	
+				    	// 保存到EMFS
+				    	//SaveToEMFS(buf, emfs, photo, item.getSize());
+				    	emfs.CreateFile(mailfolder, photo.getPid());
+						emfs.SetAttribute(ConchConst.FILENAME, fileName);
+						emfs.SetAttribute(ConchConst.FILESIZE, String.valueOf(item.getSize()));
+						if(fid != -1) emfs.SetAttribute(ConchConst.LINK, String.valueOf(fid)); // 若文件由多封邮件存储，设置上一存储的邮件ID						
+						fid = emfs.SaveFile();						
+						photo.setMailuids(String.valueOf(fid));
+				    }
+				    
+				    photoManager.addPhoto(photo);
+				    
 				}//end of if
 			}//end of for
 			
@@ -196,9 +217,22 @@ public class PhotoMailController {
 		return "文件上传成功！";
 	}
 	
-	int SaveToEMFS(byte[] databuf, EMFS emfs, PhotoMail photoMail){
+	/*
+	 * 	存储到EMFS
+	 * 	@fsize, 文件总大小，非本次buffer的大小
+	 */
+	int SaveToEMFS(byte[] databuf, EMFS emfs, Photo photo, long fsize){
 		System.out.println("databuf: " + databuf.length);
-		//emfs.
+		
+//		emfs.CreateFile(mailfolder, photo.getPid());
+//		emfs.SetAttribute(ConchConst.FILENAME, value);
+//		emfs.SetAttribute(ConchConst.FILESIZE, String.valueOf(fsize));
+//		emfs.SetAttribute(ConchConst.LINK, value); // 若文件由多封邮件存储，设置上一存储的邮件ID
+		
+		//long fid = emfs.SaveFile();
+		
+		//photo.setMailuids(String.valueOf(fid));
+		
 		return 0;
 	}
 }

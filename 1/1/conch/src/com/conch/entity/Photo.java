@@ -54,8 +54,12 @@ public class Photo implements Serializable{
 	public String getMailuids() {
 		return mailuids;
 	}
-	public void setMailuids(String mailuids) {
-		this.mailuids = mailuids;
+	public void setMailuids(String mailuid) {
+		if(this.mailuids == null){
+			this.mailuids = mailuid;
+		}else{
+			this.mailuids += ":" + mailuid;
+		}
 	}
 	
 	// 邮件ID，预览图片
@@ -80,7 +84,7 @@ public class Photo implements Serializable{
 	public String getMailfolder() {
 		return mailfolder;
 	}
-	public void setMaildir(String mailfolder) {
+	public void setMailfolder(String mailfolder) {
 		this.mailfolder = mailfolder;
 	}
 	

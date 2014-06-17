@@ -22,7 +22,6 @@ public class UserDaoImpl implements UserDao {
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, user.getRegname());
 		query.setString(1, user.getPasswd());
-		
 		return (User)query.uniqueResult();
 	}
 

@@ -9,7 +9,7 @@
 	<!-- 配置数据源 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://www.pxhua.cn:3306/conch1"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/conch"></property>
 		<property name="username" value="conch"></property>
 		<property name="password" value="987"></property>
 	</bean>
@@ -30,6 +30,7 @@
 				<value>com.conch.entity.User</value>
 				<value>com.conch.entity.PhotoMail</value>
 				<value>com.conch.entity.Photo</value>
+				<value>com.conch.entity.PhotoFolder</value>
 			</list>
 		</property>
 	</bean>

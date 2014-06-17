@@ -42,6 +42,9 @@ import java.awt.*;
 /*
  *		email中文件夹命名：bkt_dir_{i}, bkt_index_{i}, i为大于等于0的整数 
  * 
+ * 		读文件：EMFS(...)
+ * 		写文件：EMFS(...) -> CreateFile -> SetAttribute -> WritePart(byte[], int) -> SaveFile
+ * 	 创建文件夹：EMFS(...) -> CreateFolder
  * 
  */
 public class EMFS {
@@ -100,19 +103,20 @@ public class EMFS {
 	 * 	1.检查'dir1'文件夹;
 	 */
 	private int init(){
+		//CreateFolder("dir1");
 		return 0;
 	}
 	
-	public boolean CreateMailDir(String maildir) throws Exception{
-		
-		folder = (IMAPFolder) store.getFolder(maildir);
-		
-//		String dir = "INBOX";
-//		folder = (IMAPFolder) store.getFolder(dir);
-//		System.out.println(dir + "type = " + folder.getType());
-		
-		return folder.create(3);
-	}
+//	public boolean CreateMailDir(String maildir) throws Exception{
+//		
+//		folder = (IMAPFolder) store.getFolder(maildir);
+//		
+////		String dir = "INBOX";
+////		folder = (IMAPFolder) store.getFolder(dir);
+////		System.out.println(dir + "type = " + folder.getType());
+//		
+//		return folder.create(3);
+//	}
 	
 	public int SetDataCallBack(DataCallBack callback)
 	{
@@ -134,9 +138,9 @@ public class EMFS {
 	 * 	创建邮箱文件夹，命令规则：dir[i]，其中i从2开始，'dir1'为默认文件夹
 	 * 	@floder: 邮箱文件夹
 	 */
-	public boolean CreateFloder(String floder) throws Exception{
+	public boolean CreateFolder(String folder0) throws Exception{
 		
-		folder = (IMAPFolder) store.getFolder(floder);		
+		folder = (IMAPFolder) store.getFolder(folder0);		
 		return folder.create(3);
 	}
 	
@@ -144,9 +148,17 @@ public class EMFS {
 		return 0;
 	}
 	
-	public int CreateFile(String maildir) throws Exception{
+	/*
+	 * 	创建邮件
+	 * 	@mailfolder, 创建邮件所存放的文件夹
+	 * 	@filename, 邮件主题，同属同一个文件的多封邮件在filename后加自动加1的数字，如xxx-1,xxx-2...
+	 */
+	public int CreateFile(String mailfolder, String filename) throws Exception{
 
-		folder = (IMAPFolder) store.getFolder(maildir);   
+		folder = (IMAPFolder) store.getFolder(mailfolder); 
+		if(folder.exists() == false){
+			folder.create(3);
+		}
         folder.open(Folder.READ_WRITE);
         
         sendmsg = new MimeMessage[1];
@@ -154,25 +166,23 @@ public class EMFS {
         sendmsg[0] = new MimeMessage(session);
         sendmsg[0].setFrom(username);
         sendmsg[0].setRecipients(javax.mail.Message.RecipientType.TO, username);
-        //sendmsg[0].setSubject("MD5");
         sendmsg[0].setSentDate(new Date());
-        //sendmsg[0].setHeader("MD5", "ABCDEF0123456789");
         sendmsg[0].setFlag(Flags.Flag.SEEN, true); 
+        sendmsg[0].setSubject(filename);
         
-        //sendmsg[0].setText("Set some text while create file - 1");
 		return 0;
 	}
 	
-	public int SetFilename(String mailname, String filename) throws Exception{
-		sendmsg[0].setSubject(mailname);
-		sendmsg[0].setHeader("filename", filename);
-		return 0;
-	}
+//	public int SetFilename(String mailname, String filename) throws Exception{
+//		sendmsg[0].setSubject(mailname);
+//		sendmsg[0].setHeader("filename", filename);
+//		return 0;
+//	}
 	
-	public int SetFile(String header, String value) throws Exception{
-		sendmsg[0].setHeader(header, value);
-		return 0;
-	}
+//	public int SetFile(String header, String value) throws Exception{
+//		sendmsg[0].setHeader(header, value);
+//		return 0;
+//	}
 	
 	public int SetAttribute(String key, String value) throws Exception{
 		sendmsg[0].setHeader(key, value);
@@ -421,7 +431,9 @@ class DoApply implements DataCallBack{
 			
 			//this.SetReadFile(file);
 			
-			System.out.println("create mail dir = " + fs.CreateMailDir("ccc"));
+			
+			
+			System.out.println("create mail dir = " + fs.CreateFolder("ccc"));
 			
 //			fs.CreateFile("INBOX");
 //			fs.SetFile("MD5", "1234567890ABCDEF");
