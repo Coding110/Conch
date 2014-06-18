@@ -3,6 +3,7 @@ package com.conch.web;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -141,7 +142,7 @@ public class PhotoMailController {
 		String fileType = "JPG,GIF,JPEG,PNG";
 		String maxSize = "50";
 		
-		System.out.println("++ doUploadFile ++");
+		//System.out.println("++ doUploadFile ++");
 		response.setContentType("text/html; charset=UTF-8");
 		
 		DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -165,6 +166,13 @@ public class PhotoMailController {
 					
 					// 图片信息
 					Photo photo = new Photo();
+					java.util.Date date = new java.util.Date();
+					java.sql.Date sqldate = new java.sql.Date(date.getTime());
+					photo.setPhotomail(photoMail.getPhotomail());
+					photo.setMailfolder(mailfolder);
+					photo.setUploadtime(sqldate);
+					photo.setShareable(0);
+					photoManager.addPhoto(photo);
 					System.out.println("Photo id: "  +  photo.getPid());
 					
 					//检查文件后缀格式
@@ -188,24 +196,27 @@ public class PhotoMailController {
 					System.out.println("UUID: " + uuid);
 					
 				    InputStream is = item.getInputStream();
-				    long rsize, fid = -1;
+				    long fid = -1;
+				    int rsize;
 				    //byte [] buf = new byte[4194304]; // 4MB, 每封邮件最大存4MB，超出这个大小由多封邮件存储
 				    byte [] buf = new byte[2097152]; // 2MB, 每封邮件最大存2MB，超出这个大小由多封邮件存储
 				    while(true){
 				    	rsize = is.read(buf);
 				    	if(rsize <= 0) break;
 				    	
+				    	System.out.println("buffer len: " + buf.length + ", read size: " + rsize);
 				    	// 保存到EMFS
 				    	//SaveToEMFS(buf, emfs, photo, item.getSize());
 				    	emfs.CreateFile(mailfolder, photo.getPid());
 						emfs.SetAttribute(ConchConst.FILENAME, fileName);
 						emfs.SetAttribute(ConchConst.FILESIZE, String.valueOf(item.getSize()));
 						if(fid != -1) emfs.SetAttribute(ConchConst.LINK, String.valueOf(fid)); // 若文件由多封邮件存储，设置上一存储的邮件ID						
-						fid = emfs.SaveFile();						
+						emfs.WritePart(buf, rsize, 1);
+						fid = emfs.SaveFile();
 						photo.setMailuids(String.valueOf(fid));
 				    }
 				    
-				    photoManager.addPhoto(photo);
+				    photoManager.updatePhoto(photo);
 				    
 				}//end of if
 			}//end of for

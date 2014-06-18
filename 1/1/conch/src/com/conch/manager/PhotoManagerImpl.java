@@ -16,6 +16,12 @@ public class PhotoManagerImpl implements PhotoManager{
 		// TODO Auto-generated method stub
 		photoDao.addPhoto(photo);
 	}
+	
+	@Override
+	public void updatePhoto(Photo photo) {
+		// TODO Auto-generated method stub
+		photoDao.updatePhoto(photo);
+	}
 
 	@Override
 	public void setShareable(String pid, int shareable) {
