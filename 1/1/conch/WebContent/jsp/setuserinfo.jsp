@@ -119,16 +119,16 @@ province(); //初始时给省名下拉菜单赋内容
     </div>
     
     <div class="control-group">
-      <label class="control-label"><font color="#FF0000">*</font>昵称</label>
+      <label class="control-label"><font color="#FF0000">*</font>用户名</label>
       <div class="controls">
-        <input type="text" class="input-xlarge" onblur="javascript:check_nick()" id="nickname" name="regname" value = "<c:out value="${user.regname}"/>" ></input>
+        <input type="text" class="input-xlarge" disabled="disabled" id="nickname" name="regname" value = "<c:out value="${user.regname}"/>" ></input>
         <span id="for_nick"></span> </div>
     </div> 
     <div class="control-group">
       <label class="control-label"><font color="#FF0000">*</font>Email<span id="email_status">                
                 </span></label>
       <div class="controls">
-        <input type="text" id="email" class="input-xlarge" onblur="javascript:check_email()" name="regemail" value="<c:out value="${user.regemail}"/>" />
+        <input type="text" id="email" class="input-xlarge" disabled="disabled" name="regemail" value="<c:out value="${user.regemail}"/>" />
      </div>
     </div>
   

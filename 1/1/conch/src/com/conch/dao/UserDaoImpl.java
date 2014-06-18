@@ -104,5 +104,15 @@ public class UserDaoImpl implements UserDao {
 		
 	}
 
+	@Override
+	public boolean updatePwd(String pwd,String uid) {
+		//sessionFactory.getCurrentSession().update(user);
+		Session session = sessionFactory.getCurrentSession();  
+		String hql = "update User t set t.passwd = '"+pwd +"'  where t.uid = '" +uid+"'";
+		Query query = session.createQuery(hql);  
+		query.executeUpdate();  	
+		return true;
+	}
+
 
 }

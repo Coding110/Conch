@@ -22,6 +22,15 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#setpwd").click(function(){
+		var active = $("#setpwd").parent().attr('class');
+		//alert(active);
+		if(active==undefined || active==""){
+			$("#tab-content-id").load("jsp/setpwd.jsp");
+		}
+	});
+	
+	
 	// write some thing to get exist
 	// open ok
 	// hello world
@@ -48,30 +57,21 @@ function sub_pmprofile(){
 }
 
 function sub_profile(){
-    /*var nick = $.trim($("#nickname").val());
-    if(nick ==''){
-            $("#sub_tip").html("请填写昵称");
-            return;		
-    }
-    var cansub = $("#can_sub").val();
-    if(cansub == 0){
-            $("#sub_tip").html("昵称已被占用");
-            return;	
-    }
-    if(cansub == 2){
-            $("#sub_tip").html("邮箱已被占用");
-            return;	
-    }
-    var emails = $("#email").val();
-	if(emails == ''){
-	    $("#sub_tip").html("请填写邮箱");
-	    return;
-	}
-	    var city = $("#city").val();
-	if(city == 0){
-	    $("#sub_tip").html("请填写城市");
-	    return;
-	}*/
 	$("#myform").submit();
 }
+
+function setPwd(){
+	 var passwd = document.getElementById("passwd").value;
+	 var newPasswd=document.getElementById("oldpwd").value;
+	 if(passwd!=newPasswd){
+	     showerr($("#oldpwd"), "旧密码输入错误！");
+	     return false;
+	 }
+	   if (!chk_p1($("#p1"))) return false;
+//	    chk_p1($("#p1"));
+	   if (!chk_p2($("#p2"))) return false;
+	    
+	    $("#fm1").submit();  
+}
+
 
