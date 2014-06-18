@@ -26,7 +26,7 @@ public class Photo implements Serializable{
 	private String mailfolder;
 	private Date uploadtime;
 	private String location;
-	private int shareable;
+	private int shareable; // 0－不共享，1－共享
 	private String shareurl;
 	
 	@Id
@@ -41,7 +41,7 @@ public class Photo implements Serializable{
 	}
 	
 	// 邮箱地址
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	public String getPhotomail() {
 		return photomail;
 	}
@@ -50,7 +50,7 @@ public class Photo implements Serializable{
 	}
 	
 	// 邮件ID，多个时由冒号隔开
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	public String getMailuids() {
 		return mailuids;
 	}
@@ -63,7 +63,7 @@ public class Photo implements Serializable{
 	}
 	
 	// 邮件ID，预览图片
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	public String getMailuidofpreview() {
 		return mailuidofpreview;
 	}
@@ -72,7 +72,7 @@ public class Photo implements Serializable{
 	}
 	
 	// 邮件ID，网络查看图片
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	public String getMailuidofnet() {
 		return mailuidofnet;
 	}

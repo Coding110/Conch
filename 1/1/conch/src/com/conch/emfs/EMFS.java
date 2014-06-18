@@ -194,6 +194,7 @@ public class EMFS {
 		uid = folder.getUIDNext();
 		System.out.println("UID Next: " + uid);
 		AppendUID[] uids = folder.appendUIDMessages(sendmsg);
+		System.out.println("Append end.");
 		if(uid<=0){			
 			if(uids.length > 0){
 				uid = uids[0].uid;
@@ -263,16 +264,26 @@ public class EMFS {
 	 * 	buf: 写入的数据。数据量大时，多次调用，通过complete参数来决定是否写入完成。
 	 * 	complete: 0, 表示没完成； 1, 表示完成。
 	 */
-	public int WritePart(byte[] buf, int complete)throws Exception, IOException{		
+	public int WritePart(byte[] buf, int bsize, int complete)throws Exception, IOException{		
 		if(mpForWritepart == null) mpForWritepart = new MimeMultipart();
 		
-		String str = new String(buf);
+		String str = new String(buf, 0, bsize);
 		MimeBodyPart mbp = new MimeBodyPart();
 		mbp.setText(str);
 		//mbp.setContent(mpForWritepart);
 		mpForWritepart.addBodyPart(mbp);
 		
 		if(complete == 1) sendmsg[0].setContent(mpForWritepart);
+		return 0;
+	}
+	
+	/*
+	 * 	buf: 写入的数据。数据量大时，多次调用，通过complete参数来决定是否写入完成。
+	 * 	bsize: buffer size.
+	 */
+	public int Write(byte[] buf, int bsize)throws Exception, IOException{
+		String str = new String(buf, 0, bsize);
+		sendmsg[0].setText(str);
 		return 0;
 	}
 	
