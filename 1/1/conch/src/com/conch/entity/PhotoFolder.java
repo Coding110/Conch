@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class PhotoFolder  implements Serializable{
 
 	/**
-	 * 
+	 * 	相册在邮箱中的文件夹名命名：BKTDIR[i], 其中i为大于0的整数，i=1时，为默认相册，其它自动累加。
 	 */
 	private static final long serialVersionUID = 7202798160941772883L;
 	
@@ -22,6 +22,7 @@ public class PhotoFolder  implements Serializable{
 	private String photomail; // 文件夹所在的邮箱
 	private String mailfolder;  // 在邮箱中的文件夹名
 	private String photofolder; // 在网站中的相册名
+	private String cover; // 相册封面，对应Photo.pid
 	
 
 	@Id 
@@ -60,4 +61,12 @@ public class PhotoFolder  implements Serializable{
 	public void setMailfolder(String mailfolder) {
 		this.mailfolder = mailfolder;
 	}
+	
+	public String getCover() {
+		return cover;
+	}
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
+	
 }

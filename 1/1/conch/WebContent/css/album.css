@@ -1,0 +1,11 @@
+
+#album ul{list-style:none;}
+#album li{float:left;margin-bottom: 20px;}
+#album li.item-thumbs div {
+	width:80%;
+	height:80%
+    float: left;
+    position: relative;
+    margin-left:20px;
+    //text-align:center;
+}

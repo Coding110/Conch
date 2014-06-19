@@ -136,7 +136,7 @@ public class PhotoMailController {
 		
 		String mailfolder = request.getParameter("mdir");
 		if(mailfolder == null){
-			mailfolder = "dir1";
+			mailfolder = "BKTDIR1";
 		}
 		
 		String fileType = "JPG,GIF,JPEG,PNG";
@@ -206,7 +206,6 @@ public class PhotoMailController {
 				    	
 				    	System.out.println("buffer len: " + buf.length + ", read size: " + rsize);
 				    	// 保存到EMFS
-				    	//SaveToEMFS(buf, emfs, photo, item.getSize());
 				    	emfs.CreateFile(mailfolder, photo.getPid());
 						emfs.SetAttribute(ConchConst.FILENAME, fileName);
 						emfs.SetAttribute(ConchConst.FILESIZE, String.valueOf(item.getSize()));
@@ -226,24 +225,6 @@ public class PhotoMailController {
 			return "文件上传异常！";
 		}
 		return "文件上传成功！";
-	}
-	
-	/*
-	 * 	存储到EMFS
-	 * 	@fsize, 文件总大小，非本次buffer的大小
-	 */
-	int SaveToEMFS(byte[] databuf, EMFS emfs, Photo photo, long fsize){
-		System.out.println("databuf: " + databuf.length);
-		
-//		emfs.CreateFile(mailfolder, photo.getPid());
-//		emfs.SetAttribute(ConchConst.FILENAME, value);
-//		emfs.SetAttribute(ConchConst.FILESIZE, String.valueOf(fsize));
-//		emfs.SetAttribute(ConchConst.LINK, value); // 若文件由多封邮件存储，设置上一存储的邮件ID
-		
-		//long fid = emfs.SaveFile();
-		
-		//photo.setMailuids(String.valueOf(fid));
-		
-		return 0;
-	}
+	}	
+
 }
