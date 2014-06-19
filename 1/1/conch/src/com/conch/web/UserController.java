@@ -117,24 +117,6 @@ public class UserController {
 		}
 		
 	}
-//	@RequestMapping("/delUser")
-//	public void delUser(String id,HttpServletResponse response){
-//		
-//		String result = "{\"result\":\"error\"}";
-//		
-//		if(userManager.delUser(id)){
-//			result = "{\"result\":\"success\"}";
-//		}
-//		
-//		response.setContentType("application/json");
-//		
-//		try {
-//			PrintWriter out = response.getWriter();
-//			out.write(result);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 	
 	@RequestMapping("/updateUser")
 	public String updateUser(User user,HttpServletRequest request){	
@@ -142,4 +124,10 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping("/updatePwd")
+	public String updatePwd(String uid,String passwd,HttpServletRequest request){	
+         System.out.println(uid + passwd);
+         userManager.updatePwd(passwd, uid);
+		return "redirect:/";
+	}
 }

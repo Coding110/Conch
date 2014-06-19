@@ -52,8 +52,12 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public String getUserId(String username) {
-		// TODO Auto-generated method stub
 		return userDao.getUserId(username);
+	}
+
+	@Override
+	public boolean updatePwd(String pwd,String uid) {
+		return userDao.updatePwd(pwd, uid);
 	}
 
 }
