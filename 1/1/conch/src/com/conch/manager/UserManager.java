@@ -15,7 +15,7 @@ public interface UserManager {
 	
 	public void addUser(User user);
 	
-//	public boolean delUser(String id);
-	
 	public boolean updateUser(User user);
+	
+	public boolean updatePwd(String pwd,String uid);
 }

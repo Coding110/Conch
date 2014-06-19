@@ -16,14 +16,6 @@ function logOut(){
 </head>
 <body>
 <%
-/*  Cookie cookies[]=request.getCookies(); // 将适用目录下所有Cookie读入并存入cookies数组中  
-Cookie sCookie=null;  
-String username=null;
-String uid =null;
- System.out.println(cookies.length); 
-if(cookies!=null){
- username= cookies[0].getValue();
- uid =cookies[1].getValue();  */
  ConchCookie cookie = new ConchCookie(response,request);
  String username=null;
  String uid= null;
