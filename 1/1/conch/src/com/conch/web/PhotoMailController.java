@@ -100,6 +100,14 @@ public class PhotoMailController {
 		}
 	}
 	
+	@RequestMapping("/album")
+	public String getAlbumlist(HttpServletRequest request, HttpServletResponse response){
+		// GET参数'list': 'show'-展示相册时用， or 'upload'－上传图片时用
+		// GET参数'task': 'new'-创建相册，对应参数'fname'-相册名（进行编码）
+		// GET参数'':
+		return null;
+	}
+	
 	// @return: error message, 'null' means no error
 	private String doUploadFile(HttpServletRequest request, HttpServletResponse response)
 	{		

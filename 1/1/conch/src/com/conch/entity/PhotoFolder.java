@@ -23,7 +23,7 @@ public class PhotoFolder  implements Serializable{
 	private String mailfolder;  // 在邮箱中的文件夹名
 	private String photofolder; // 在网站中的相册名
 	private String cover; // 相册封面，对应Photo.pid
-	
+	private int shareable; // 0－不共享，1－共享	
 
 	@Id 
 	@GeneratedValue(strategy=GenerationType.AUTO/*, generator="SEQ_STORE"*/)
@@ -67,6 +67,14 @@ public class PhotoFolder  implements Serializable{
 	}
 	public void setCover(String cover) {
 		this.cover = cover;
+	}
+	
+	// 是否分享的标记
+	public int getShareable() {
+		return shareable;
+	}
+	public void setShareable(int shareable) {
+		this.shareable = shareable;
 	}
 	
 }

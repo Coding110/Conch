@@ -1,4 +1,5 @@
 
+＃album {margin-bottom: 10px;}
 #album ul{list-style:none;}
 #album li{float:left;margin-bottom: 20px;}
 #album li.item-thumbs div {
@@ -7,5 +8,5 @@
     float: left;
     position: relative;
     margin-left:20px;
-    //text-align:center;
+    text-align:center;
 }
