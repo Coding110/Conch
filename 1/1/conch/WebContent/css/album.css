@@ -1,12 +1,12 @@
 
 ＃album {margin-bottom: 10px;}
-#album ul{list-style:none;}
+#album ul{list-style:none; margin-top: 20px;}
 #album li{float:left;margin-bottom: 20px;}
 #album li.item-thumbs div {
-	width:80%;
-	height:80%
+	width:60%;
+	height:60%;
     float: left;
     position: relative;
-    margin-left:20px;
+    margin-left:10px;
     text-align:center;
 }

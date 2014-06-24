@@ -20,7 +20,8 @@ public class PhotoFolder  implements Serializable{
 	
 	private Integer did;
 	private String photomail; // 文件夹所在的邮箱
-	private String mailfolder;  // 在邮箱中的文件夹名
+	//private String mailfolder;  // 在邮箱中的文件夹名
+	private int mailfolder;  // 在邮箱中的文件夹名，为了方便只存储‘BKTIDR[i]’后的i值，
 	private String photofolder; // 在网站中的相册名
 	private String cover; // 相册封面，对应Photo.pid
 	private int shareable; // 0－不共享，1－共享	
@@ -55,10 +56,10 @@ public class PhotoFolder  implements Serializable{
 	
 	// 邮箱中的文件夹名
 	@Column(nullable = false)
-	public String getMailfolder() {
+	public int getMailfolder() {
 		return mailfolder;
 	}
-	public void setMailfolder(String mailfolder) {
+	public void setMailfolder(int mailfolder) {
 		this.mailfolder = mailfolder;
 	}
 	

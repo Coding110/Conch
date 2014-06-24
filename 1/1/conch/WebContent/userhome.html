@@ -22,6 +22,12 @@
 body {padding-top: 60px; }
 </style>
 
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<!-- <script src="./js/bootstrap-modal.js"></script> -->
+<script src="./js/album.js"></script>
+<script type="text/javascript" src="./js/common_foot.js"></script>
+
 <script type="text/javascript" >
   window.onload=function(){
 	  $("#homearea").load("jsp/dropdownlist.jsp");
@@ -45,10 +51,6 @@ body {padding-top: 60px; }
   </div>
 </div>
 
-<script src="./js/jquery.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/common_foot.js"></script>
-
 <div class="container">
   <div class="row-fluid"> 
     <div class="span9">
@@ -69,11 +71,25 @@ body {padding-top: 60px; }
 	<input type="hidden" id="is_init" value="0"/>
 	
 	<div id="album-nav">
-		<a href="" class="btn">创建相册</a>
-		<br/>
+		<!-- <input type="text" class="input-normal" id="album-name" value="" /> 
+		<a href="javascript:;" id="album-new" class="btn">创建相册</a>-->
+		<a data-toggle="modal" href="#album-new-dlg" class="btn">创建相册</a>
+		<div id="album-new-dlg" class="modal hide fade in" style="display: none; width:400px;">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3></h3>
+			</div>
+			<div class="modal-body">	
+				<a>请输入相册名:</a><input type="text" class="input-normal col-sm-10" id="album-name" value="" />        
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" id="album-new" data-dismiss="modal">确定</a>
+				<a href="#" class="btn" data-dismiss="modal">取消</a>
+			</div>
+		</div>
 	</div>
 
-	<div id="album" class="container" width="100%">
+	<div id="album" class="container">
 	<ul class="thumbs row">
         
         <!-- <li class="col-sm-1 hidden-xs"></li> -->
@@ -174,7 +190,7 @@ $(window).scroll(function () {
 	} */
 }); 
 //异步加载流
-function ajax_feed(){
+/* function ajax_feed(){
 	var can_feed = 	$("#is_init").val();
 	if (can_feed == 0){
 		return;
@@ -199,7 +215,7 @@ function ajax_feed(){
 			   }
 		   }
 	});	
-}
+} */
 </script>
 </div>
 <!--信息流展示部分结束-->
@@ -249,7 +265,7 @@ function ajax_feed(){
  <!---资料---->
 	 <div class="well">
 	 <div class="row-fluid">
-		<div class="span3"><a href="userhome.html"><img src="pic/100.jpg" style=" width: 50"></a></div>
+		<div class="span3"><a href="userhome.html"><img src="pic/100.jpg" style="width:50"></a></div>
 		<div class="span8"><a href="userhome.html" class="muted">Jack Smith</a><br/>	
 		<a href="./setting.html" class="muted"><small>编辑我的个人资料</small></a> <!-- | <a href="http://www.becktu.com/home/my_project" class="muted"> <small>	项目</small></a> -->
 		</div>
@@ -267,53 +283,10 @@ function ajax_feed(){
  <!---资料---->
 
 
-<script type="text/javascript">
-     $(function(){
-	//get_ychui();
-    });
-    //获取一条问题
-    function get_ychui() {
-        $.ajax({
-            type: "get",
-            url: "",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_ychui").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  <div id="left_huodong"></div>
-<script type="text/javascript">
-     $(function(){
-	//get_huodong();
-    });
-    //获取一条问题
-    function get_huodong() {
-        $.ajax({
-            type: "get",
-            url: "",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_huodong").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  
+
+
    </div>
 </div>
-</div>
-
-<hr>
-
-<script type="text/javascript" charset="utf-8">
-      $(document).ready(function(){
-    	  
-      });
-  
-</script>
-
 </div>
   
 </body></html>

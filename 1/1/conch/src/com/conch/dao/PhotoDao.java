@@ -13,8 +13,9 @@ public interface PhotoDao {
 	public void setShareable(String pid, int shareable);
 	
 	// DAO for 'PhotoFolder'
-	public void setPhotofoler(PhotoFolder photo);
-	public PhotoFolder getPhotofoler(PhotoFolder photo);
-	public void addPhotofoler(PhotoFolder photo);
-	public void updatePhotofoler(PhotoFolder photo);
+	public void setPhotofoler(PhotoFolder photoFolder);
+	public PhotoFolder getPhotofoler(PhotoFolder photoFolder);
+	public void addPhotofoler(PhotoFolder photoFolder);
+	public void updatePhotofoler(PhotoFolder photoFolder);
+	public int getMaxPhotoFolder(String photomail);
 }

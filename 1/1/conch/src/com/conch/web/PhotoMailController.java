@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.conch.emfs.EMFS;
 import com.conch.entity.Photo;
+import com.conch.entity.PhotoFolder;
 import com.conch.entity.PhotoMail;
 import com.conch.generic.ConchConst;
 //import com.conch.entity.User;
@@ -101,10 +102,69 @@ public class PhotoMailController {
 	}
 	
 	@RequestMapping("/album")
-	public String getAlbumlist(HttpServletRequest request, HttpServletResponse response){
-		// GET参数'list': 'show'-展示相册时用， or 'upload'－上传图片时用
-		// GET参数'task': 'new'-创建相册，对应参数'fname'-相册名（进行编码）
-		// GET参数'':
+	public String albumTask(HttpServletRequest request, HttpServletResponse response){
+		// GET参数'list': 'show'-展示相册时用；'upload'－上传图片时用；'null'-无；
+		// GET参数'task': 'new'-创建相册；'list'-获取相册列表；
+		// GET参数'fname': 相册名，task=new时有效；
+		
+		String task = request.getParameter("task");
+		String list = request.getParameter("list");
+		String folder= request.getParameter("fname");
+		System.out.println(task + ", " + list +", " + folder);
+		
+		PhotoFolder pfolder = new PhotoFolder();
+		
+		if(task=="new"){
+			// 创建相册时，初始表的‘photofolder’，‘mailfolder’，‘photomail’，‘shareable’
+			// 在邮箱中创建‘mailfolder’的文件夹
+			
+			//从Cookie中获取用户信息
+			PhotoMail photoMail = (PhotoMail)request.getSession().getAttribute("photomail");
+			if(photoMail == null){
+				//获取一次即可，保存到session
+				photoMail = new PhotoMail();
+				ConchCookie cookie = new ConchCookie(response,request);
+				photoMail.setUid(userManager.getUserId(cookie.getCookie("username")));
+				photoMail = photoMailManager.getPhotoMail(photoMail);
+				//String un = ConchConst.COOKIE_UN;
+				request.getSession().setAttribute("photomail", photoMail);
+			}
+			String photomail = photoMail.getPhotomail();
+			
+			int maxsuffix = photoManager.getMaxPhotoFolder(photomail);
+			maxsuffix++;
+			String mailfolder = ConchConst.BKTDIR + String.valueOf(maxsuffix);
+			
+			EMFS emfs = (EMFS)request.getSession().getAttribute("emfs");
+			
+			if(emfs==null){
+				try{				
+					emfs = new EMFS(photomail, photoMail.getPasswd(), photoMail.getImapserver(), photoMail.getImapport());
+					request.getSession().setAttribute("emfs", emfs);
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+					return "IMAP参数设置错误";
+				}
+			}
+			
+			try{
+				emfs.CreateFolder(mailfolder);	
+				
+				pfolder.setPhotofolder(folder);
+				pfolder.setMailfolder(maxsuffix);
+				pfolder.setPhotomail(photomail);		
+				pfolder.setShareable(0);
+				photoManager.addPhotoFolder(pfolder);
+				
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+					
+			
+		}else if(task=="list"){
+			
+		}
+		
 		return null;
 	}
 	

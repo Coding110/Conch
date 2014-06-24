@@ -2,6 +2,7 @@ package com.conch.manager;
 
 import com.conch.dao.PhotoDao;
 import com.conch.entity.Photo;
+import com.conch.entity.PhotoFolder;
 
 public class PhotoManagerImpl implements PhotoManager{
 
@@ -45,6 +46,17 @@ public class PhotoManagerImpl implements PhotoManager{
 	public void setShareurl(String pid, int shareurl) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void addPhotoFolder(PhotoFolder photoFolder) {
+		// TODO Auto-generated method stub
+		photoDao.addPhotofoler(photoFolder);
+	}
+	
+	@Override
+	public int getMaxPhotoFolder(String photomail){
+		return photoDao.getMaxPhotoFolder(photomail);
 	}
 }
 
