@@ -114,9 +114,11 @@ public class PhotoMailController {
 		
 		PhotoFolder pfolder = new PhotoFolder();
 		
-		if(task=="new"){
+		if(task.equals("new")){
 			// 创建相册时，初始表的‘photofolder’，‘mailfolder’，‘photomail’，‘shareable’
 			// 在邮箱中创建‘mailfolder’的文件夹
+			
+			System.out.println("new album.");
 			
 			//从Cookie中获取用户信息
 			PhotoMail photoMail = (PhotoMail)request.getSession().getAttribute("photomail");
@@ -129,11 +131,13 @@ public class PhotoMailController {
 				//String un = ConchConst.COOKIE_UN;
 				request.getSession().setAttribute("photomail", photoMail);
 			}
-			String photomail = photoMail.getPhotomail();
+			String photomail = photoMail.getPhotomail();			
 			
 			int maxsuffix = photoManager.getMaxPhotoFolder(photomail);
 			maxsuffix++;
 			String mailfolder = ConchConst.BKTDIR + String.valueOf(maxsuffix);
+			
+			System.out.println("photomail: " + photomail + ", mail folder: " + mailfolder);
 			
 			EMFS emfs = (EMFS)request.getSession().getAttribute("emfs");
 			
@@ -148,8 +152,9 @@ public class PhotoMailController {
 			}
 			
 			try{
-				emfs.CreateFolder(mailfolder);	
-				
+				boolean bl = emfs.CreateFolder(mailfolder);	
+				System.out.println("Create mail folder: " + bl);
+						
 				pfolder.setPhotofolder(folder);
 				pfolder.setMailfolder(maxsuffix);
 				pfolder.setPhotomail(photomail);		
@@ -159,9 +164,10 @@ public class PhotoMailController {
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 			}
-					
 			
-		}else if(task=="list"){
+			System.out.println("return new for creating new album.");
+			return "jsp/albumlist.jsp";
+		}else if(task.equals("list")){
 			
 		}
 		

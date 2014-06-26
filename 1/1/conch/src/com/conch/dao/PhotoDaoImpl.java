@@ -83,7 +83,12 @@ public class PhotoDaoImpl implements PhotoDao {
 		String hql = "select max(u.mailfolder) from PhotoFolder u where u.photomail=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, photomail);
-		return ((PhotoFolder)query.uniqueResult()).getMailfolder();
+		Integer max = (Integer)query.uniqueResult();
+		if(max != null){
+			return max.intValue();
+		}else{
+			return 0;
+		}
 	}
-
 }
+
