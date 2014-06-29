@@ -31,6 +31,7 @@ body {padding-top: 60px; }
 <script type="text/javascript" >
   window.onload=function(){
 	  $("#homearea").load("jsp/dropdownlist.jsp");
+	  $("#album").load("./photo/album?task=list&list=show");
   };
 	
 </script>
@@ -89,73 +90,8 @@ body {padding-top: 60px; }
 		</div>
 	</div>
 
-	<div id="album" class="container">
-	<ul class="thumbs row">
-        
-        <!-- <li class="col-sm-1 hidden-xs"></li> -->
-        
-        <li class="item-thumbs">
-            <div>
-                <img src="images/templatemo_gallery_image_1.jpg" alt="image 1" />
-                <div class="album-title">Album 1</div>	
-            </div>
-            
-        </li>
-        
-       <!--  <li class="col-sm-2 hidden-xs"></li> -->
-        
-        <li class="item-thumbs col-sm-4 col-xs-4">
-            <div>
-                <img src="images/templatemo_gallery_image_2.jpg" alt="image 2" />
-                <div class="album-title">Album 2</div>
-            </div>            
-        </li>
-        
-        <!-- <li class="col-sm-2 hidden-xs"></li> -->
-        <li class="item-thumbs col-sm-6 col-xs-8">
-        <div>
-            <img src="images/templatemo_gallery_image_3.jpg" alt="image 3" />
-            <div class="album-title">Album 3</div>
-        </div>
-        </li>   
-        
-        <!-- <li class="col-sm-2 hidden-xs"></li> -->
-        
-        <li class="item-thumbs col-sm-6 col-xs-8">
-        <div>
-            <img src="images/templatemo_gallery_image_2.jpg" alt="image 2" />
-            <div class="album-title">Album 4</div>
-        </div>
-        </li>
-        
-        <!-- <li class="col-md-1 col-sm-1 hidden-xs"></li> -->
-        
-        <li class="item-thumbs">
-            <div>
-                <img src="images/templatemo_gallery_image_1.jpg" alt="image 1" />
-                <div class="album-title">Album 5</div>
-            </div>
-        </li>
-        
-       <!--  <li class="col-sm-2 hidden-xs"></li> -->
-        
-        <li class="item-thumbs col-sm-6 col-xs-8">
-            <div>
-                <img src="images/templatemo_gallery_image_2.jpg" alt="image 2" />
-                <div class="album-title">Album 6</div>
-            </div>
-        </li>
-        
-        <!-- <li class="col-sm-2 hidden-xs"></li> -->
-        <li class="item-thumbs col-sm-6 col-xs-8">
-        <div>
-            <img src="images/templatemo_gallery_image_3.jpg" alt="image 3" />
-            <div class="album-title">Album 7</div>
-        </div>
-        </li>   
-        
-    </ul>
-	
+	<div id="album" class="container">	
+	<!-- 相册及相片展示位置 -->
 	</div>
               
 <div id="lookMore"><input type="hidden" value="1" id="for_scroll"></div>
@@ -163,7 +99,7 @@ body {padding-top: 60px; }
 function show_profile(){
     $("#user_profile").show();
     $("#user_feed_show").hide();
-     $("#for_scroll").val(0);
+    $("#for_scroll").val(0);
 }
 function show_feed(){
    $("#for_scroll").val(1);

@@ -5,6 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>albumlist</title>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		//alert("创建相册完成！");
+	});      
+</script>
+
 </head>
 <body>
 
@@ -12,9 +19,22 @@
 	<li class="item-thumbs">
         <div>
             <img src="images/templatemo_gallery_image_1.jpg" alt="image 1" />
-            <div class="album-title">Album 1</div>	
+            <div class="album-title">Album x</div>	
         </div>         
     </li>
+    <li class="item-thumbs">
+        <div>
+            <img src="images/templatemo_gallery_image_2.jpg" alt="image 1" />
+            <div class="album-title">Album y</div>	
+        </div>         
+    </li>
+    <li class="item-thumbs">
+        <div>
+            <img src="images/templatemo_gallery_image_3.jpg" alt="image 1" />
+            <div class="album-title">Album z</div>	
+        </div>         
+    </li>
+    
 </ul>
 
 </body>

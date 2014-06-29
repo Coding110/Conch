@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.conch.emfs.EMFS;
 import com.conch.entity.Photo;
@@ -147,7 +148,8 @@ public class PhotoMailController {
 					request.getSession().setAttribute("emfs", emfs);
 				}catch(Exception e){
 					System.out.println(e.getMessage());
-					return "IMAP参数设置错误";
+					//return "IMAP参数设置错误";
+					return null;
 				}
 			}
 			
@@ -165,10 +167,10 @@ public class PhotoMailController {
 				System.out.println(e.getMessage());
 			}
 			
-			System.out.println("return new for creating new album.");
-			return "jsp/albumlist.jsp";
-		}else if(task.equals("list")){
+			return "forward:/jsp/albumlist.jsp";
 			
+		}else if(task.equals("list")){
+			return "forward:/jsp/albumlist.jsp";
 		}
 		
 		return null;
