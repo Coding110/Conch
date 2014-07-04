@@ -15,6 +15,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,6 +52,7 @@ public class PhotoMailController {
 		//return "/getMail";
 		return "redirect:/index.html";
 	}
+	
 	@RequestMapping("/upload")
 	//public void uploadFile(PhotoMail photoMail,HttpServletRequest request, HttpServletResponse response){
 	public void uploadFile(HttpServletRequest request, HttpServletResponse response){
@@ -171,6 +173,23 @@ public class PhotoMailController {
 			
 		}else if(task.equals("list")){
 			return "forward:/jsp/albumlist.jsp";
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping("/{id:\\w+}.{suffix:\\w+}")
+	public String getPhoto(HttpServletRequest request, HttpServletResponse response, @PathVariable(value="suffix") String suffix,  @PathVariable(value="id") String pid){
+		
+		String result = "{\"result\":false,\"data\":\""+pid+"\"}";
+		response.setContentType("application/json");
+				
+		try {
+			PrintWriter out = response.getWriter();
+			out.write(result);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		return null;

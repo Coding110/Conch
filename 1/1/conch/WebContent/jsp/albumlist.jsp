@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<ul class="thumbs row">
+<ul class="thumbs row"> 
 	<li class="item-thumbs">
         <div>
             <img src="images/templatemo_gallery_image_1.jpg" alt="image 1" />
@@ -34,6 +34,38 @@
             <div class="album-title">Album z</div>	
         </div>         
     </li>
+    <li class="item-thumbs">
+        <div>
+            <img src="images/templatemo_gallery_image_3.jpg" alt="image 1" />
+            <div class="album-title">Album z</div>	
+        </div>         
+    </li>
+    
+    <li class="item-thumbs">
+        <div>
+            <img src="images/templatemo_gallery_image_1.jpg" alt="image 1" />
+            <div class="album-title">Album x</div>	
+        </div>         
+    </li>
+    <li class="item-thumbs">
+        <div>
+            <img src="images/templatemo_gallery_image_2.jpg" alt="image 1" />
+            <div class="album-title">Album y</div>	
+        </div>         
+    </li>
+    <li class="item-thumbs">
+        <div>
+            <img src="images/templatemo_gallery_image_3.jpg" alt="image 1" />
+            <div class="album-title">Album z</div>	
+        </div>         
+    </li>
+    <li class="item-thumbs">
+        <div>
+            <img src="images/templatemo_gallery_image_3.jpg" alt="image 1" />
+            <div class="album-title">Album z</div>	
+        </div>         
+    </li>
+    
     
 </ul>
 
