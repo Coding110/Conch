@@ -1,0 +1,1 @@
+Resimler bir lightbox (fancybox ile) içinde görüntüler.

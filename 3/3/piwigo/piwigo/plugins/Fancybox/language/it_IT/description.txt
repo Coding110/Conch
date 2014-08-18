@@ -1,0 +1,1 @@
+Visualizzare le immagini in una raccolta (con Fancybox).
