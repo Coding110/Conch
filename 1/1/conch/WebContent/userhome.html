@@ -16,13 +16,22 @@
 <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
 <link href="css/front_common.css" rel="stylesheet"/>
 <link rel="shortcut icon" href="images/conch.ico"/>
-<style type="text/css"></style>
-<style>
+<link href="css/album.css" rel="stylesheet" />
+<!-- <style type="text/css"></style> -->
+<style type="text/css">
 body {padding-top: 60px; }
 </style>
+
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<!-- <script src="./js/bootstrap-modal.js"></script> -->
+<script src="./js/album.js"></script>
+<script type="text/javascript" src="./js/common_foot.js"></script>
+
 <script type="text/javascript" >
   window.onload=function(){
 	  $("#homearea").load("jsp/dropdownlist.jsp");
+	  $("#album").load("./photo/album?task=list&list=show");
   };
 	
 </script>
@@ -37,33 +46,11 @@ body {padding-top: 60px; }
      <a class="brand" href="./"><img src="images/conch_logo.png" width="82" height="15" /></a>   
       
       <div id="homearea">
-<!--       <div class="nav-collapse collapse">		
-     <ul class="nav pull-right">        
-		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="userhome.html">Jack Smith<b class="caret"></b> </a>
-		<ul class="dropdown-menu">
-			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
-			<li> <a href="./upload.html"> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-			<li> <a href="./setting.html"> <i class="icon-cog"></i> 修改个人资料 </a> </li>
-			<li class="divider">&nbsp;</li>
-			<li> <a href="./setting.html"> <i class="icon-cog"></i> 个人设置 </a> </li>
-			<li class="divider">&nbsp;</li>
-			<li><a href=""><i class="icon-off"></i>  退出</a></li>
-		</ul>
-			 <div class="alert fade in top_pin hide"><a class="close" data-dismiss="alert" href="">×</a>
-				<div id="for_top_tip"></div>
-			 </div>
-		</li>
-      </ul>
-      </div> -->
       </div>
       
     </div>
   </div>
 </div>
-
-<script src="./js/jquery.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/common_foot.js"></script>
 
 <div class="container">
   <div class="row-fluid"> 
@@ -83,47 +70,36 @@ body {padding-top: 60px; }
 	<input type="hidden" id="for_scroll" value="0"/>
 	<input type="hidden" id="to_page" value="2"/>
 	<input type="hidden" id="is_init" value="0"/>
-	<div class="forfeed">
-	<ul class="timeline">
 	
-	<li><div class="timeline-panel" style=" width:90%">
-    <div class="timeline-heading">
-    <p class="timeline-title">相册1</p>
-    </div>
-    </div></li>				
-					  
-	<li><div class="timeline-panel" style=" width:90%">
-    <div class="timeline-heading">
-    <p class="timeline-title">相册2</p>
-    </div>
-    </div></li>   
-    
-    <li><div class="timeline-panel" style=" width:90%">
-    <div class="timeline-heading">
-    <p class="timeline-title">相册3</p>
-    </div>
-    </div></li> 
-    
-    <li><div class="timeline-panel" style=" width:90%">
-    <div class="timeline-heading">
-    <p class="timeline-title">相册4</p>
-    </div>
-    </div></li> 
-        
-    <li><div class="timeline-panel" style=" width:90%">
-    <div class="timeline-heading">
-    <p class="timeline-title">相册5</p>
-    </div>
-    </div></li> 
-    
-	</ul></div>
+	<div id="album-nav">
+		<!-- <input type="text" class="input-normal" id="album-name" value="" /> 
+		<a href="javascript:;" id="album-new" class="btn">创建相册</a>-->
+		<a data-toggle="modal" href="#album-new-dlg" class="btn">创建相册</a>
+		<div id="album-new-dlg" class="modal hide fade in" style="display: none; width:400px;">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3></h3>
+			</div>
+			<div class="modal-body">	
+				<a>请输入相册名:</a><input type="text" class="input-normal col-sm-10" id="album-name" value="" />        
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" id="album-new" data-dismiss="modal">确定</a>
+				<a href="#" class="btn" data-dismiss="modal">取消</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="album">	
+	<!-- 相册及相片展示位置 -->
+	</div>
               
 <div id="lookMore"><input type="hidden" value="1" id="for_scroll"></div>
 <script type="text/javascript">
 function show_profile(){
     $("#user_profile").show();
     $("#user_feed_show").hide();
-     $("#for_scroll").val(0);
+    $("#for_scroll").val(0);
 }
 function show_feed(){
    $("#for_scroll").val(1);
@@ -150,7 +126,7 @@ $(window).scroll(function () {
 	} */
 }); 
 //异步加载流
-function ajax_feed(){
+/* function ajax_feed(){
 	var can_feed = 	$("#is_init").val();
 	if (can_feed == 0){
 		return;
@@ -175,7 +151,7 @@ function ajax_feed(){
 			   }
 		   }
 	});	
-}
+} */
 </script>
 </div>
 <!--信息流展示部分结束-->
@@ -225,7 +201,7 @@ function ajax_feed(){
  <!---资料---->
 	 <div class="well">
 	 <div class="row-fluid">
-		<div class="span3"><a href="userhome.html"><img src="pic/100.jpg" style=" width: 50"></a></div>
+		<div class="span3"><a href="userhome.html"><img src="pic/100.jpg" style="width:50"></a></div>
 		<div class="span8"><a href="userhome.html" class="muted">Jack Smith</a><br/>	
 		<a href="./setting.html" class="muted"><small>编辑我的个人资料</small></a> <!-- | <a href="http://www.becktu.com/home/my_project" class="muted"> <small>	项目</small></a> -->
 		</div>
@@ -243,53 +219,10 @@ function ajax_feed(){
  <!---资料---->
 
 
-<script type="text/javascript">
-     $(function(){
-	//get_ychui();
-    });
-    //获取一条问题
-    function get_ychui() {
-        $.ajax({
-            type: "get",
-            url: "",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_ychui").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  <div id="left_huodong"></div>
-<script type="text/javascript">
-     $(function(){
-	//get_huodong();
-    });
-    //获取一条问题
-    function get_huodong() {
-        $.ajax({
-            type: "get",
-            url: "",
-            success: function(msg){
-                    if (msg.length>2) {
-		      $("#left_huodong").html(msg);
-                    }
-            }
-         });
-    }
-      </script>  
+
+
    </div>
 </div>
-</div>
-
-<hr>
-
-<script type="text/javascript" charset="utf-8">
-      $(document).ready(function(){
-    	  
-      });
-  
-</script>
-
 </div>
   
 </body></html>

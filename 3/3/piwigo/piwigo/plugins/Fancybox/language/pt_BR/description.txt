@@ -1,0 +1,1 @@
+Mostra as fotos num quadro (lightbox) com destaque (fancybox)

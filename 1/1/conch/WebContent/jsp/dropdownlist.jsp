@@ -33,8 +33,7 @@ if(cookie.getCookie("uid")!=null){
 	 		<ul class="dropdown-menu">
 	 			<li> <a href="./userhome.html"> <i class="icon-question-sign"></i> 我的主页 </a> </li>
 	 			<li> <a href="./upload.html"> <i class="icon-question-sign"></i> 上传图片 </a> </li>
-	 			<li> <a href="./user/getUser?uid=<%=uid%>" > <i class="icon-cog"></i> 修改个人资料 </a> </li>
-	 			<li> <a href="./setting.html?username="> <i class="icon-cog"></i> 个人设置 </a> </li>
+	 			<li> <a href="./user/getUser?uid=<%=uid%>" > <i class="icon-cog"></i> 修改资料 </a> </li>
 	 			<li><a href="javascript:logOut()" ><i class="icon-off"></i>  退出</a></li>
 	 		</ul>
 	 			 <div class="alert fade in top_pin hide"><a class="close" data-dismiss="alert" href="">×</a>

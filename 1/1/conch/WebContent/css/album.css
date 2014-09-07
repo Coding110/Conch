@@ -1,0 +1,18 @@
+
+＃album {margin-bottom: 10px;}
+#album ul{list-style:none; margin-top: 20px;}
+#album li{
+	width:160px;
+	height:160px;
+	float:left;
+	margin-bottom: 20px;
+}
+#album li.item-thumbs div {
+    float: left;
+    position: relative;
+    margin-left:10px;
+    text-align:center;
+}
+.album-title {
+	text-align:center;
+}

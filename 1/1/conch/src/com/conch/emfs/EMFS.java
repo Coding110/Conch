@@ -17,6 +17,7 @@ import javax.activation.FileDataSource;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.MimeBodyPart;
@@ -34,6 +35,8 @@ import com.sun.mail.imap.IMAPStore;
 
 import com.sun.mail.imap.protocol.IMAPProtocol;
 import com.sun.mail.util.MailLogger;
+
+
 
 
 //import com.sun.image
@@ -68,6 +71,8 @@ public class EMFS {
 	
 	Multipart mpForWritepart;
 	
+	HeartBeatThread hbThread;
+	
 	public EMFS(String username, String password, String imapserver,int imapport) throws Exception{
 		if(username == null || password == null || imapserver == null || imapport <= 9){
 			throw new Exception("Null parameter");
@@ -82,7 +87,8 @@ public class EMFS {
 		//logger = new MailLogger(null, imapserver, isSSL, null);
 		
 		IampConnect();
-		init();
+		init();		
+		
 	}
 	
 	private int IampConnect() throws Exception{
@@ -93,10 +99,12 @@ public class EMFS {
         
         session = Session.getInstance(prop);    
         store = (IMAPStore) session.getStore("imap"); // ʹ��imap�Ự���ƣ����ӷ�����  
-        store.connect(this.username, this.password);   
-         
+        store.connect(this.username, this.password);        
+        
         return 0;
 	}
+	
+	
 	
 	/*
 	 * 	EMFS初始化
@@ -127,6 +135,10 @@ public class EMFS {
 	public int OpenFile(String maildir, long mailuid) throws Exception{
 		folder = (IMAPFolder) store.getFolder(maildir);   
         folder.open(Folder.READ_WRITE);
+        
+        hbThread = new HeartBeatThread(folder);
+		hbThread.start();
+        
         currmsg = folder.getMessageByUID(mailuid);
         if(currmsg == null){        
         	return 1;
@@ -191,9 +203,10 @@ public class EMFS {
 	
 	public long SaveFile() throws Exception{
 		long uid = 0;
-		uid = folder.getUIDNext();
+		uid = folder.getUIDNext(); 
 		System.out.println("UID Next: " + uid);
 		AppendUID[] uids = folder.appendUIDMessages(sendmsg);
+		System.out.println("Append end.");
 		if(uid<=0){			
 			if(uids.length > 0){
 				uid = uids[0].uid;
@@ -263,16 +276,26 @@ public class EMFS {
 	 * 	buf: 写入的数据。数据量大时，多次调用，通过complete参数来决定是否写入完成。
 	 * 	complete: 0, 表示没完成； 1, 表示完成。
 	 */
-	public int WritePart(byte[] buf, int complete)throws Exception, IOException{		
+	public int WritePart(byte[] buf, int bsize, int complete)throws Exception, IOException{		
 		if(mpForWritepart == null) mpForWritepart = new MimeMultipart();
 		
-		String str = new String(buf);
+		String str = new String(buf, 0, bsize);
 		MimeBodyPart mbp = new MimeBodyPart();
 		mbp.setText(str);
 		//mbp.setContent(mpForWritepart);
 		mpForWritepart.addBodyPart(mbp);
 		
 		if(complete == 1) sendmsg[0].setContent(mpForWritepart);
+		return 0;
+	}
+	
+	/*
+	 * 	buf: 写入的数据。数据量大时，多次调用，通过complete参数来决定是否写入完成。
+	 * 	bsize: buffer size.
+	 */
+	public int Write(byte[] buf, int bsize)throws Exception, IOException{
+		String str = new String(buf, 0, bsize);
+		sendmsg[0].setText(str);
 		return 0;
 	}
 	
@@ -300,6 +323,48 @@ public class EMFS {
 	public static void main(String argv[]){
 		DoApply doapp = new DoApply();
 		doapp.run();		
+	}
+}
+
+class HeartBeatThread extends Thread{
+	private IMAPFolder folder;
+	private int gap;
+	
+	public HeartBeatThread(IMAPFolder folder){
+		this.folder = folder;
+		gap = 20;
+	}
+	
+	public HeartBeatThread(IMAPFolder folder, int gap){
+		this.folder = folder;
+		this.gap = gap;
+	}
+	
+	public void run(){
+		try{
+			while(true){
+				doNOOP();
+				sleep(gap);
+			}
+		}catch(MessagingException me){
+			me.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void doNOOP() throws MessagingException
+	{
+		IMAPFolder f = (IMAPFolder)folder;
+		if(f != null) f.doCommand(new IMAPFolder.ProtocolCommand() {
+			public Object doCommand(IMAPProtocol p)
+					throws ProtocolException {
+				p.simpleCommand("NOOP", null);
+				return null;
+			}
+		 });
 	}
 }
 
