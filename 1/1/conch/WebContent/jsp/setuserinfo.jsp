@@ -199,35 +199,6 @@ province(); //初始时给省名下拉菜单赋内容
       </div>
     </div>
 </form>
-<!-- <script type="text/javascript">
-function sub_profile(){
-        var nick = $.trim($("#nickname").val());
-        if(nick ==''){
-                $("#sub_tip").html("请填写昵称");
-                return;		
-        }
-        var cansub = $("#can_sub").val();
-        if(cansub == 0){
-                $("#sub_tip").html("昵称已被占用");
-                return;	
-        }
-        if(cansub == 2){
-                $("#sub_tip").html("邮箱已被占用");
-                return;	
-        }
-        var emails = $("#email").val();
-    if(emails == ''){
-        $("#sub_tip").html("请填写邮箱");
-        return;
-    }
-        var city = $("#city").val();
-    if(city == 0){
-        $("#sub_tip").html("请填写城市");
-        return;
-    }
-    $("#myform").submit();
-}
-</script> -->
 <script type="text/javascript">
 province();
 </script>
