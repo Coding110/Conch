@@ -49,6 +49,7 @@ function community_init()
     // call install function
     include_once(COMMUNITY_PATH.'include/install.inc.php');
     community_install();
+    emfs_install();
 
     // update plugin version in database
     if ( $pwg_loaded_plugins[COMMUNITY_ID]['version'] != 'auto' and COMMUNITY_VERSION != 'auto' )
@@ -767,4 +768,329 @@ function community_cat_modify_submit()
       );
   }
 }
+
+
+add_event_handler('photo_uploaded', 'community_photo_uploaded');
+function community_photo_uploaded($photoinfo)
+{
+	$msg = '<script>alert("2 file path: '.$photoinfo["source_filepath"].', image id: '.$photoinfo["image_id"].'");</script>';
+	//echo $msg;
+	//$photoinfo["image_id"] = 0;
+	//$photoinfo["result"] = 1;
+	//add_uploaded_file_1($photoinfo["source_filepath"], $photoinfo["original_filename"], $photoinfo["categories"], $photoinfo["level"], $photoinfo["image_id"], $photoinfo["original_md5sum"]);
+	return $photoinfo;
+}
+
+function add_uploaded_file_1($source_filepath, $original_filename=null, $categories=null, $level=null, $image_id=null, $original_md5sum=null)
+{
+  // 1) move uploaded file to upload/2010/01/22/20100122003814-449ada00.jpg
+  // 2) keep/resize original
+  // 3) register in database
+
+  // TODO
+  // * check md5sum (already exists?)
+
+  global $conf, $user;
+
+  if (isset($original_md5sum))
+  {
+    $md5sum = $original_md5sum;
+  }
+  else
+  {
+    $md5sum = md5_file($source_filepath);
+  }
+
+  $file_path = null;
+  $is_tiff = false;
+
+  if (isset($image_id))
+  {
+    // this photo already exists, we update it
+    $query = '
+SELECT
+    path
+  FROM '.IMAGES_TABLE.'
+  WHERE id = '.$image_id.'
+;';
+    $result = pwg_query($query);
+    while ($row = pwg_db_fetch_assoc($result))
+    {
+      $file_path = $row['path'];
+    }
+
+    if (!isset($file_path))
+    {
+      die('['.__FUNCTION__.'] this photo does not exist in the database');
+    }
+
+    // delete all physical files related to the photo (thumbnail, web site, HD)
+    //delete_element_files(array($image_id));
+	/*
+	 *	need code here  处理存在的文件
+	 */
+	add_photo_to_emfs($source_filepath);
+  }
+  else
+  {
+    // this photo is new
+
+    // current date
+    list($dbnow) = pwg_db_fetch_row(pwg_query('SELECT NOW();'));
+    list($year, $month, $day) = preg_split('/[^\d]/', $dbnow, 4);
+
+    // upload directory hierarchy
+    $upload_dir = sprintf(
+      PHPWG_ROOT_PATH.$conf['upload_dir'].'/%s/%s/%s',
+      $year,
+      $month,
+      $day
+      );
+
+    // compute file path
+    //$date_string = preg_replace('/[^\d]/', '', $dbnow);
+    //$random_string = substr($md5sum, 0, 8);
+    //$filename_wo_ext = $date_string.'-'.$random_string;
+    $filename_wo_ext = $md5sum; // set md5 as file name
+    $file_path = $upload_dir.'/'.$filename_wo_ext.'.';
+
+    list($width, $height, $type) = getimagesize($source_filepath);
+    if (IMAGETYPE_PNG == $type)
+    {
+      $file_path.= 'png';
+    }
+    elseif (IMAGETYPE_GIF == $type)
+    {
+      $file_path.= 'gif';
+    }
+    elseif (IMAGETYPE_TIFF_MM == $type or IMAGETYPE_TIFF_II == $type)
+    {
+      $is_tiff = true;
+      $file_path.= 'tif';
+    }
+    else
+    {
+      $file_path.= 'jpg';
+    }
+
+    //prepare_directory($upload_dir);
+  }
+
+  $file_path_for_saving = $file_path;
+  $file_path = $source_filepath;
+
+  //if (is_uploaded_file($source_filepath))
+  //{
+  //  move_uploaded_file($source_filepath, $file_path);
+  //}
+  //else
+  //{
+  //  rename($source_filepath, $file_path);
+  //}
+  //@chmod($file_path, 0644);
+
+	/*
+	 *	need code here  保存文件到EMFS
+	 */
+
+  if ($is_tiff and pwg_image::get_library() == 'ext_imagick')
+  {
+    // move the uploaded file to pwg_representative sub-directory
+    $representative_file_path = dirname($file_path).'/pwg_representative/';
+    $representative_file_path.= get_filename_wo_extension(basename($file_path)).'.';
+
+    $representative_ext = $conf['tiff_representative_ext'];
+    $representative_file_path.= $representative_ext;
+
+    prepare_directory(dirname($representative_file_path));
+    
+    $exec = $conf['ext_imagick_dir'].'convert';
+
+    if ('jpg' == $conf['tiff_representative_ext'])
+    {
+      $exec .= ' -quality 98';
+    }
+    
+    $exec .= ' "'.realpath($file_path).'"';
+
+    $dest = pathinfo($representative_file_path);
+    $exec .= ' "'.realpath($dest['dirname']).'/'.$dest['basename'].'"';
+    
+    $exec .= ' 2>&1';
+    @exec($exec, $returnarray);
+
+    // sometimes ImageMagick creates file-0.jpg (full size) + file-1.jpg
+    // (thumbnail). I don't know how to avoid it.
+    $representative_file_abspath = realpath($dest['dirname']).'/'.$dest['basename'];
+    if (!file_exists($representative_file_abspath))
+    {
+      $first_file_abspath = preg_replace(
+        '/\.'.$representative_ext.'$/',
+        '-0.'.$representative_ext,
+        $representative_file_abspath
+        );
+      
+      if (file_exists($first_file_abspath))
+      {
+        rename($first_file_abspath, $representative_file_abspath);
+      }
+    }
+  }
+
+  if (pwg_image::get_library() != 'gd')
+  {
+    if ($conf['original_resize'])
+    {
+      $need_resize = need_resize($file_path, $conf['original_resize_maxwidth'], $conf['original_resize_maxheight']);
+
+      if ($need_resize)
+      {
+        $img = new pwg_image($file_path);
+
+		/*
+		 *	need code here   生成缩略图，也保存到EMFS 
+		 */
+        $img->pwg_resize(
+          $file_path,
+          $conf['original_resize_maxwidth'],
+          $conf['original_resize_maxheight'],
+          $conf['original_resize_quality'],
+          $conf['upload_form_automatic_rotation'],
+          false
+          );
+
+        $img->destroy();
+      }
+    }
+  }
+
+  // we need to save the rotation angle in the database to compute
+  // width/height of "multisizes"
+  $rotation_angle = pwg_image::get_rotation_angle($file_path);
+  $rotation = pwg_image::get_rotation_code_from_angle($rotation_angle);
+  
+  $file_infos = pwg_image_infos($file_path);
+
+  if (isset($image_id))
+  {
+	/*
+	 *	need code here   更新存在图片的信息
+	 */
+    $update = array(
+      'file' => pwg_db_real_escape_string(isset($original_filename) ? $original_filename : basename($file_path)),
+      'filesize' => $file_infos['filesize'],
+      'width' => $file_infos['width'],
+      'height' => $file_infos['height'],
+      'md5sum' => $md5sum,
+      'added_by' => $user['id'],
+      'rotation' => $rotation,
+      );
+
+    if (isset($level))
+    {
+      $update['level'] = $level;
+    }
+
+    single_update(
+      IMAGES_TABLE,
+      $update,
+      array('id' => $image_id)
+      );
+  }
+  else
+  {
+    // database registration
+    $file = pwg_db_real_escape_string(isset($original_filename) ? $original_filename : basename($file_path));
+    $insert = array(
+      'file' => $file,
+      'name' => get_name_from_file($file),
+      'date_available' => $dbnow,
+      'path' => preg_replace('#^'.preg_quote(PHPWG_ROOT_PATH).'#', '', $file_path_for_saving),
+      'filesize' => $file_infos['filesize'],
+      'width' => $file_infos['width'],
+      'height' => $file_infos['height'],
+      'md5sum' => $md5sum,
+      'added_by' => $user['id'],
+      'rotation' => $rotation,
+      );
+
+	/*
+	 *	need code here    邮箱信息保存到数据库   
+	 */
+
+    if (isset($level))
+    {
+      $insert['level'] = $level;
+    }
+
+    if (isset($representative_ext))
+    {
+      $insert['representative_ext'] = $representative_ext;
+    }
+
+    single_insert(IMAGES_TABLE, $insert);
+
+    $image_id = pwg_db_insert_id(IMAGES_TABLE);
+  }
+
+  if (isset($categories) and count($categories) > 0)
+  {
+    associate_images_to_categories(
+      array($image_id),
+      $categories
+      );
+  }
+
+  // update metadata from the uploaded file (exif/iptc)
+  if ($conf['use_exif'] and !function_exists('read_exif_data'))
+  {
+    $conf['use_exif'] = false;
+  }
+  sync_metadata(array($image_id));
+
+  invalidate_user_cache();
+
+  /* code read here */
+
+  // cache thumbnail
+  $query = '
+SELECT
+    id,
+    path
+  FROM '.IMAGES_TABLE.'
+  WHERE id = '.$image_id.'
+;';
+  $image_infos = pwg_db_fetch_assoc(pwg_query($query));
+
+  set_make_full_url();
+  // in case we are on uploadify.php, we have to replace the false path
+  //$thumb_url = preg_replace('#admin/include/i#', 'i', DerivativeImage::thumb_url($image_infos));
+  $tb_url = DerivativeImage::thumb_url($image_infos);
+  $thumb_url = preg_replace('#admin/include/i#', 'i', $tb_url);
+  unset_make_full_url();
+  
+  fetchRemote($thumb_url, $dest);
+
+  //$msg = 'tb_url: '.$tb_url.', thumb_url: '.$thumb_url.'<br>';
+  //echo $msg;
+  // a sample
+  //tb_url:    http://192.168.0.81/piwigo/admin/include/i.php?/upload/2014/09/12/20140912154609-7de2c62a-th.jpg, 
+  //thumb_url: http://192.168.0.81/piwigo/i.php?/upload/2014/09/12/20140912154609-7de2c62a-th.jpg
+  // 
+  // thumbnail 存于邮件的MIME头中
+  
+  return $image_id;
+}
+
+//add_event_handler('render_category_name', 'render_category');
+////function render_category($category_name, $location)
+//function render_category($category_name)
+//{
+//	#$msg = '<script>alert("category_name: '.$category_name.', location: '.$location.'");</script>';
+//	#$msg = 'category_name: '.$category_name.', location: '.$location;
+//	$msg = 'category_name: '.$category_name.'<br>';
+//	#echo $msg;
+//	return $category_name;
+//}
+
 ?>

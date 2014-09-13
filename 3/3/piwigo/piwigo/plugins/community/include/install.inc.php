@@ -93,4 +93,15 @@ CREATE TABLE IF NOT EXISTS '.$prefixeTable.'community_pendings (
     $conf['community'] = $community_default_config;
   }
 }
+
+function emfs_install()
+{
+    execute_sqlfile(
+      COMMUNITY_PATH.'include/EMFS/emfs_structs.sql',
+      DEFAULT_PREFIX_TABLE,
+      $prefixeTable,
+      'mysql'
+      );
+}
+
 ?>
