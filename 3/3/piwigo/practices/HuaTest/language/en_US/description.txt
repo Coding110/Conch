@@ -1,0 +1,1 @@
+Test basic functions of Piwigo plugin
