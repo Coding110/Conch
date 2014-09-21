@@ -1,1 +1,0 @@
-Utilizatorii care nu sunt administratori pot adăuga imagini

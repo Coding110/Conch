@@ -1,9 +1,0 @@
-include/constants.php
-admin.tpl
-language/es_ES/index.php
-language/hu_HU/index.php
-language/de_DE/index.php
-language/nl_NL/index.php
-language/no_NO/
-language/no_NO/plugin.lang.php
-language/no_NO/description.txt
