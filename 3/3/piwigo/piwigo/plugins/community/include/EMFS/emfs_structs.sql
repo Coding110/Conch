@@ -35,6 +35,8 @@ CREATE TABLE `piwigo_emfs_files` (
 	`mailuids` varchar(255),
 	`mailuid_preview` varchar(128),
 	`mailuid_net` varchar(128),
+	-- file status: 0 - No file, 1 - file is fine, 2 - file is not ready (such as uploading)
+	`status` int(4),
 	`shareable` int(11),
 	PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM;
