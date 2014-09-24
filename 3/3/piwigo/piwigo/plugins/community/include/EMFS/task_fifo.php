@@ -16,24 +16,27 @@ function create_fifo(){
 }
 
 /*
- *	Package format: [string length] + [blank] + [string]	
+ *	Package format: [string] + [blank] + [string] + [blank] ...	
  *
  *	@param string $task_msg, a string 
  *	@return string
  *
- *	(obsolete)
  */
 function build_task_package($task_msg)
 {
-	$len = strlen($task_msg);
-	$pkg = $len." ".$task_msg;
+	$pkg = "";
+	foreach($task_msg as $msg){
+		$pkg = $pkg.$msg.' ';
+	}
+	$pkg = $pkg."\n";
 	return $pkg;	
 }
 
 /*
  *	Add task (a line is a task)	
+ *	Task format in a line string: [user id] + [blank] + [image id] + [blank] + [source file path]
  *	
- *	@param string $task_msg, a string of source file path in EMFS.
+ *	@param array $task_msg, include user id, image id and source file path 
  *	@return bool
  *	
  *	Note: $task_msg shouldn't with "\n" or "\r\n"
@@ -41,7 +44,8 @@ function build_task_package($task_msg)
 function task_set($task_msg)
 {
 	$f = fopen($pipe,"w");
-	fwrite($f, $task_msg."\n");
+	$cont = build_task_package($task_msg);
+	fwrite($f, $cont);
 	fclose($f);
 }
 
@@ -66,5 +70,14 @@ function task_consume($consume_callback)
 	}
 }
 
+/*
+ *	Test
+ */
+//$msgs = array();
+//$msgs[] = "2";
+//$msgs[] = "5";
+//$msgs[] = "/tmp/a.png";
+//$cont = build_task_package($msgs);
+//echo $cont;
 
 ?>

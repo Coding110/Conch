@@ -14,6 +14,7 @@ CREATE TABLE `piwigo_emfs_folders` (
 	--  封面
 	`cover` varchar(255), 
 	`mailfolder` varchar(255) NOT NULL,
+	-- same as 'category_id'
 	`aliasfolder` varchar(255),
 	`mailid` int(11) NOT NULL,
 	`shareable` int(11),

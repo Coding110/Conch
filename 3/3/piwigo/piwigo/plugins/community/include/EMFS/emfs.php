@@ -1,5 +1,10 @@
 <?php
 
+define('BKT_PWG_ROOT_PATH', '../../../../');
+include_once(BKT_PWG_ROOT_PATH.'local/config/database.inc.php');
+include_once(BKT_PWG_ROOT_PATH.'include/dblayer/functions_'.$conf['dblayer'].'.inc.php');
+include_once('task_fifo.php');
+
 /*
  *	EMFS: Email file system (IMAP)
  *	读文件: Open -> OpenFile -> [ GetAttribute ->] Read -> CloseFile -> Close
@@ -161,59 +166,11 @@ class EMFS{
 
 
 /*
- *  EMFS Test
- */
-/*
-$EMFS_TEST = 1;
-if(isset($EMFS_TEST)){
-
-	$emfs = new EMFS("a", "b", "c");
-	//$emfs->Open("a", "b", "c");
-	
-}else{
-	//echo "Nothing to do.\n";
-}
-*/
-
-
-/*
- * 	EMFS后台处理线程
- */
-/*
-class EMFSTask{
-	
-	// 任务列表，及其锁
-	
-	// 每个用户的IMAP会话
-	
-	// 线程池
-	
-	function AddTask();
-}
-
-class EMFSTaskAllocThread extends Thread{
-	
-}
-
-class EMFSTaskThread extends Thread{	
-	
-	public function __construct(){
-		
-	}
-	
-	public function run(){
-
-	}
-}
-*/
-
-
-/*
  * 		多线程及线程池实例
  * 
  * 
  */
-
+/*
 class WorkerClass extends Worker{
 
 	protected static $worker_id_next = -1;
@@ -262,22 +219,23 @@ class PoolClass extends Pool{
 		return null;
 	}
 }
+*/
 
 class EMFSTaskThread extends Thread{
 
-	var $user;  // reference of 'global $user'
-	var $conf;  // reference of 'global $conf'	
+	//var $user;  // reference of 'global $user'
+	//var $conf;  // reference of 'global $conf'	
 	var $emfs;
 	var $task = array(); // save source file path, every file is a task
 	
 	var $mutex;// mutex for '$task'
 	
 	// 用户邮箱IMAP信息
-	var $imap_server = "imap.qq.com";
-	var $imap_user = "1485084328@qq.com";
-	var $imap_passwd = "px9537hua";
-	var $imap_port = "143";
-	var $imap_ssl = false;
+	var $imap_server;
+	var $imap_user;
+	var $imap_passwd;
+	var $imap_port;
+	var $imap_ssl;
 	
 	public function __construct($user, $conf, $source_filepath)
 	{
@@ -296,11 +254,22 @@ class EMFSTaskThread extends Thread{
 
 	public function run()
 	{
-		$file = $this->GetTask();
-		if(isset($file)){
-			
-		}else{
-			
+		$idle_time = 0;
+		$usleep_time = 100000; // microsecond
+		$max_usleep_time = 60000000; // 1 minute
+		while(true){
+			$file = $this->GetTask();
+			if(isset($file)){
+				// check connection
+				// need code here		
+				$idle_time = 0;
+			}else{
+				usleep($usleep_time);
+				$idle_time += $usleep_time;
+				if($idle_time > $max_usleep_time){
+					break;
+				} 
+			}
 		}
 	}
 	
@@ -327,21 +296,76 @@ class EMFSTaskThread extends Thread{
 		}
 		
 		if(!isset($emfs)){
-			// 用户邮箱IMAP信息
-			$imap_server = "imap.qq.com";
-			$imap_user = "1485084328@qq.com";
-			$imap_passwd = "px9537hua";
-			$imap_port = "143";
-			$imap_ssl = false;
 			
-			$query = 'SELECT * from '.EMFS_MAILS_TABLE.' WHERE uid = '.$user['id'].';';
-			pwg_query($query);
+			$query = "select mail,passwd,imapserver,imapport from ".EMFS_MAILS_TABLE." where uid = '".$user["id"]."';";
+			echo '<h3>'.$query.'</h3>';
+			$result = pwg_query($query);
+			list($mail, $passwd, $imapserver, $imapport) = pwg_db_fetch_row($result);
+			// need code here, $passwd 有加密的话，需要解密
 			
 			$emfs = new EMFS($imap_server, $imap_user, $imap_passwd, $imap_port, $imap_ssl);
 		}
 	}
 }
 
+class ThreadWorkspace
+{
+	var $task_thread_pool = array();
+	// $item = array("uid" => string, "imgid" => string, "sfpath" => string, "emfs" => object); // element structure sample of $task_thread_pool
+	
+	/*
+	 *	Search if task thread is created of the user
+	 *
+	 *	@param string $user_id
+	 *	@return (array index | false)
+	 *
+	 */
+	function task_search($user_id)
+	{
+		$pool_size = count($task_thread_pool);
+		$flag = 0;
+		$idx = -1;
+		for($i=0; $i<$pool_size; $i++)
+		{
+			if(isset($task_thread_pool[$i]["uid"]) and $task_thread_pool[$i]["uid"] == $user_id)
+			{
+				$flag = 1;
+				$idx = $i;
+				break;
+			}
+		}
+
+		if($flag == 1){
+			return $idx;
+		}else{
+			return false;
+		}
+	}
+
+	function task_alloc($task_msg)
+	{
+		$taskinfo = explode(" ", $task_msg);
+		if(count($taskinfo) != 3){
+			error_log("incorrect task message string. [".$task_msg."]");
+			return false;
+		}
+
+		$uid_key = task_search($taskinfo[0]); 
+		if($uid_key == false){
+			$emfs = new EMFS();
+			// get email
+			$item = array("uid" => $taskinfo[0], "imgid" => $taskinfo[1], "sfpath" => $taskinfo[2], "emfs" => $emfs);
+			$task_thread_pool[] = $item;
+			$emfs->SetTask($taskinfo[2]);
+		}else{
+			$task_thread_pool[$uid_key]["emfs"]->SetTask($taskinfo[2]);
+		}
+	}
+	
+
+}
+
+/*
 function EMFS_upload_file($source_filepath)
 {
 	global $user, $conf;
@@ -358,38 +382,19 @@ function EMFS_upload_file($source_filepath)
 		$task_thread->start();
 	}
 }
+*/
 
-/*
+function do_task()
+{
+	// upload thread
+	$thdw = new ThreadWorkspace();
+	task_consume($thdw->task_alloc);
 
-function EMFS_upload_file_1(){	
-	global $user, $conf;
-	global $emfs_task_pool;
-	
-	$pool_size = 5; // 最优线程池大小需测试来确定，暂时设5
-	
-	// 用户邮箱IMAP信息
-	$imap_server = "imap.qq.com";
-	$imap_user = "1485084328@qq.com";
-	$imap_passwd = "px9537hua";
-	$imap_port = "143";
-	$imap_ssl = false;
-	
-	// 每个用户一个线程，否则IMAP连接会混乱
-	
-	if(!isset($emfs_task_pool)){
-		$emfs_task_pool = new PoolClass($pool_size, 'WorkerClass');
-		error_log("initiailize threads pool instance.");
-	}else{
-		if(isset($_SESSION['emfs'])){
-			$emfs = $_SESSION['emfs'];
-		}else{
-			$emfs = new EMFS($imap_server, $imap_user, $imap_passwd, $imap_port, $imap_ssl);
-		}
-		$emfs_task_pool->sumit(new Task());
-	}
-	
 }
 
-*/
+
+if(count($argv) > 1 and $argv[1] == "task"){
+	do_task();
+}	
 
 ?>

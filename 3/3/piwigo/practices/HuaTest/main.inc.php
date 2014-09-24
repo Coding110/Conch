@@ -176,14 +176,15 @@ function huatest_add_methods($arr){
 }
 
 add_event_handler('sendResponse', 'huatest_sendResponse');
-function huatest_sendResponse(){
-	global $conf, $user;
-	//echo "<div>huatest_sendResponse, ".var_dump($conf["huatest"])."</div><br>";
+function huatest_sendResponse($encodedResponse){
+	global $conf, $user, $category;
+	$res = json_decode($encodedResponse);
+	//echo "<div>huatest_sendResponse, ".var_dump($encodedResponse)."</div><br>";
 	if(isset($conf["huatest"]) and $conf["huatest"]["cat_add_end"] == 1){
 		single_update(
 			CATEGORIES_TABLE,
 			array('community_user' => $user['id']),
-			array('name' => $conf["huatest"]['category_name'])
+			array('id' => $res->{"result"}->{"id"})
 		);
 		invalidate_user_cache();
 	}
@@ -233,10 +234,13 @@ function huatest_loc_end_index_category_thumbnails($tpl_thumbnails_var){
 	return $tpl_thumbnails_var;
 }
 
-//add_event_handler('loc_begin_index_thumbnails', 'huatest_loc_begin_index_thumbnails');
-//function huatest_loc_begin_index_thumbnails($pictures){
-//	echo "<h3>pic: ".var_dump($pictures)."</h3>";
-//	//return $pictures;
-//}
+add_event_handler('register_user', 'reg_user');
+function reg_user($user){
+	$msg = var_dump($user);
+	//echo '<script>alert("'.$msg.'");</script>';
+	error_log($msg);
+	//file_put_contents("/home/admin/php.log", $msg."\n", FILE_APPEND);
+	//return $pictures;
+}
 ?>
 
