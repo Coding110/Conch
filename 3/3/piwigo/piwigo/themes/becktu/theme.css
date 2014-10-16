@@ -1,0 +1,1422 @@
+/* ---------------------------------------------------------------------------
+Theme hr_glass_xl 
+
+child-theme of hr_glass_xl
+
+by flop25 http://www.planete-flop.fr/
+------------------------------------------------------------------------------ */
+@import "bootstrap.css";
+@import "bootstrap-theme.css";
+@import "jquery-ui.css";
+@import "iconset.css";
+
+* { margin: 0; padding: 0; border: 0; }
+
+body {
+	/*background-image: url(img/bg.jpg);*/
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment:fixed;
+	font-size:0.7em;
+	background-color: #ffffff;
+	font-family: Microsoft YaHei;
+}
+
+* { outline: none }
+
+Common styles
+-------------------------------------------------------- 
+h2, h3 { color:#696969;}
+ul { list-style: none; }
+ul li { list-style: none; }
+
+.show-on-hover:hover > ul.dropdown-menu {
+    display: block;  
+}
+
+a, a:link { text-decoration: none; border:0; }
+
+/*a:visited { color:#333333;}*/
+
+pre { overflow: auto; width: 100%; height: auto; }
+.left { float: left; }
+.right { float: right; }
+
+img{ border: 0; }
+#imageInfos,#addComment{font-size:12px;}
+
+/*#comments H2, .titrePage h2 {
+	background-image: url(img/boutton.png);
+	background-repeat:repeat-x;
+	background-color:#FFFFFF;
+	color: #000000;
+	border: 0;
+}
+.titrePage a {
+	color: #000000;
+}
+#derivativeSwitchBox, #sortOrderBox {
+	font-size: 11px;
+	color: #000033;
+	text-shadow: 0 0 2px #ccc;
+	padding: 4px 8px;
+	border: 1px solid rgba(255,255,255,0.25);
+	background-color: rgb(255,255,255);
+	background-color: rgba(255,255,255,0.92);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#fff));
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	box-shadow: 0 0 5px #555;
+	-webkit-box-shadow: 0 0 5px #555;
+	-moz-box-shadow: 0 0 5px #555;
+}
+#derivativeSwitchBox A, #sortOrderBox A {
+	color: #000;
+}
+
+#derivativeSwitchBox A:hover, #sortOrderBox A:hover {
+	text-shadow: 0 0 2px #000;
+}
+#languageSwitchBox{
+	font-size: 11px;
+	color: #000033 !important;
+	text-shadow: 0 0 2px #ccc;
+	padding: 4px 8px;
+	border: 1px solid rgba(255,255,255,0.25);
+	background-color: rgb(255,255,255) !important;
+	background-color: rgba(255,255,255,0.92)!important;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#fff));
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	box-shadow: 0 0 5px #555;
+	-webkit-box-shadow: 0 0 5px #555;
+	-moz-box-shadow: 0 0 5px #555;
+}
+#languageSwitchBox A {
+	color: #000 !important;
+}
+
+#languageSwitchBox A:hover {
+	text-shadow: 0 0 2px #000 !important;
+}
+
+/* Page
+-------------------------------------------------------- */
+BODY#thePicturePage,BODY#theCategoryPage, BODY#theTagsPage {}
+
+#the_page {
+	/*width: 940px;
+    background: transparent url(img/fond_milieu.png) repeat-y top center;*/
+	margin: 0 auto;
+
+}
+
+#content div.titrePage {padding: 10px 3px; }
+
+/* Loader gif new in 2.5 */
+.loader {
+  display: none;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+
+/*
+************[ Si vous voulez rajoutez votre header_big_txt.png créé avec le .psd remplacer les lignes précédentes par ce qui suit]********************
+
+#theHeader {
+	background-image: url(img/header_big_txt.png);
+	background-repeat: no-repeat;
+	background-position: top;
+	height: 200px;
+	margin: 0 auto;
+}
+	#theHeader h1 {
+	font-size: 2em;
+	margin: 0;
+	color: #fff;
+	text-align: center;
+	position: absolute;
+	left: 30px;
+	top: 150px;
+	}
+
+*/
+
+	#theHeader p {display:none;}
+/*	#theHeader a:link, #theHeader a:visited, #theHeader a:hover { color: #FFF; text-decoration: none; }*/
+
+body#theCommentsPage .content, body#theUploadPage .content, body#theRegisterPage .content, body#theIdentificationPage .content, body#theProfilePage .content, body#theSearchPage .content, body#theAboutPage .content, body#thePopuphelpPage .content, body#thePasswordPage .content, body#theNotificationPage .content, body#theTagsPage .content, body#theNBMPage .content, #content, BODY#theAdminPage #content, BODY#theTagsPage #content, #theCategoryPage .content {
+	width: 100%;
+	margin: 0 auto;
+}
+.row1 { background-color: #999;}
+.throw { background-color: #999;}
+
+/*	Page Catégories
+-----------------------------------------------------------------------------------------------*/
+#content div.thumbnailCategory { 
+	padding: 2px; 
+/*	text-align: center;    */
+}
+
+#content ul.thumbnailCategories li { width:44.9%; }
+
+/*	Page Image
+-----------------------------------------------------------------------------------------------*/
+#linkNext {
+    float: right;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+#linkPrev {
+    float: left;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+#imageToolBar, #imageHeaderBar {
+	width: 860px;
+	margin: 10px auto;
+	font-size:16px;
+}
+#imageHeaderBar{
+	background: #F5F5F5;
+	border: 1px solid #CDCDCD;
+	border-width: 1px 0;
+	padding: 5px 8px;
+}
+#imageToolBar .imageNumber {
+    float: right;
+    margin: -30px 9px 0 0;
+}
+#theImage IMG {
+  padding: 5px;
+  border: 1px solid #aaa;
+  margin-left: -10px;
+}
+#theMainImage {max-width:900px}
+
+#imageHeaderBar H2 { 
+	border: none;
+	clear: both;
+	padding: 0;
+	text-align: center;
+	padding: 0.5em 0 0 0;
+	font-size:16px;
+}
+#imageHeaderBar .browsePath a { color:#0066CC; text-decoration: none; font-size:16px;}
+#imageHeaderBar .browsePath a:hover { color:#333333; }
+
+
+.infoTable{ margin: 20px auto; }
+#thumbPrev{ margin: 20px 0 0 20px; }
+#thumbNext{ margin: 20px 20px 0 0;}
+a#thumbPrev, a#thumbNext { text-decoration: none; border:0; }
+
+/*	commentaires
+-----------------------------------------------------------------------------------------------*/
+
+#comments{ width: 860px; margin: 20px auto; }
+#comments DIV.comment BLOCKQUOTE { border: 1px solid #5f5f5f; border-left: 2px solid #696969; }
+
+FIELDSET, INPUT, SELECT, TEXTAREA, TABLE.table2, #infos,
+#content DIV.comment  A.illustration IMG{ border: 1px solid gray; }
+
+textarea { width:80%; }
+
+/*	miniatures
+-----------------------------------------------------------------------------------------------*/
+.thumbnails SPAN, .thumbnails .wrap2 A, .thumbnails LABEL, .thumbnailCategory DIV.illustration {width:auto;font-size:14px;}
+#content DIV.thumbnailCategory DIV.illustration a:hover { border:0; }
+
+#content DIV.comment BLOCKQUOTE {
+  margin-left: 172px;	/*maximum thumbnail width + ~10px */
+}
+#content DIV.thumbnailCategory DIV.description  p { text-align: left; }
+
+/*#content ul.thumbnails span.wrap1 { margin: 0 10px; }*/
+#content UL.thumbnails SPAN.wrap2 img { padding: 5px; border: 1px solid #ccc; }
+#content UL.thumbnails SPAN.wrap2 img:hover { border-color: #06c; }
+
+#content UL.thumbnails LI.thumbCat SPAN.wrap2 { border-style: hidden; background-color: #ccccaa; }
+#content UL.thumbnails LI.thumbCat SPAN.wrap2:hover { border-style: solid; }
+
+#content ul.thumbnails span.thumbLegend {
+    margin: 0 auto;
+    padding: 0.5em 0;
+}
+.zero { display: none }
+.nb-hits { color: #69c; }
+.nb-comments { color: #f92; }
+
+
+/*	Menu
+-----------------------------------------------------------------------------------------------*/
+.pwg-icon-filter {
+left:95%;
+position:absolute;
+}
+#menubar {  position: relative;; background-color: #ffffff;}
+#content div.thumbnailCategory div.description {
+	overflow: hidden;font-size:12px; /* bug in FF 1.0 (not 1.5) */
+}
+button.btn.btn-default.dropdown-toggle {
+    font-family: Microsoft YaHei;
+	background: none;
+	color: #000000;
+	border: none;
+	padding: 0px 5px;
+	margin-top: 15px;
+}
+.navbar-search {
+  position: relative;
+  float: right;
+  padding-top:16px;
+  margin-bottom: 0;
+}
+
+
+.navbar-search .search-query {
+  width:170px;
+  background: url(/themes/becktu/images/search-white.png) no-repeat 10px 6px #e6eaed;
+  padding: 5px 15px 2px 35px;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  font-weight: normal;
+  line-height: 1;
+  color: #000000;
+  border: 0 none;
+  -webkit-border-radius: 20px;
+	 -moz-border-radius: 20px;
+	      border-radius: 20px;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+  	 -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+ 		  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+  -webkit-transition: all 0.7s ease 0s;
+     -moz-transition: all 0.7s ease 0s;
+      -ms-transition: all 0.7s ease 0s;
+       -o-transition: all 0.7s ease 0s;
+          transition: all 0.7s ease 0s;
+}
+
+.navbar-search .search-query:focus,
+.navbar-search .search-query.focused {
+  background: url(/themes/becktu/images/search-dark.png) no-repeat 10px 6px #fcfcfc;
+  color: #000000;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  outline: 0;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+}
+
+.user{
+	position:relative;
+	float:right;
+	right:20px;
+	width:30%;
+
+}
+.userInfo{
+	position:relative;
+	float:left;
+	left:30px;
+}
+.uploadPhoto{
+	position:relative;
+	float:left;
+	left:50px;
+	top:10px;
+	width:8%;
+}
+#user ul{
+	width:18em;
+}
+
+/*#content div.thumbnailCategory>div.description:hover {
+  overflow: visible;
+}*/
+
+/* horizontal menubar */
+#menubar, BODY#theAdminPage #menubar {
+	float: none;
+	width: 100%;
+	margin: 0 auto;
+	border: none;
+	font-size:14px;
+	/*overflow: hidden;*/	/* bothers FF so we rather set height below */
+	display: block;
+}
+div.col-md-4 {
+     position:relative;
+     left:190px;
+	 width: 30%;
+}
+div.logo {   
+	float: left;
+}
+/* set menubar height (not for IE) */
+#the_page > #menubar, BODY#theAdminPage #the_page > #menubar {
+  height: 4.4em;
+  padding: 0;
+}
+#menubar DL > DT {
+    padding: 0.2em 0.4em 0;
+}
+
+/* general UL formating */
+#menubar UL, #menubar DL, #menubar UL#menuTagCloud {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+#menubar DL { display: inline; padding: 0 2em; }
+
+#head_1 UL {  width: 10em; }
+#menubar ul li a {  padding-right: 3em; }
+
+#menubar P, #menubar P.totalImages, FORM#quickconnect {
+  clear: both;
+  margin: 0;
+  text-align: center;
+  padding: 0.2em;
+}
+
+/* titles and links */
+#menubar A, #menubar DT { display: block; }
+
+/* positioning */
+#menubar LI { position: relative;}
+#menubar DD { position: absolute; z-index: 500;}
+
+#menubar LI SPAN,#menubar LI IMG { position: absolute; top: 0;}
+#menubar LI SPAN { right: 7px;}
+#menubar LI IMG { right: 3em;}
+
+/* hiding and revealing up to 6 menu levels */
+DIV#menubar DD,
+DIV#menubar UL UL,
+DIV#menubar UL LI:hover UL UL,
+DIV#menubar UL UL LI:hover UL UL,
+DIV#menubar UL UL UL LI:hover UL UL,
+DIV#menubar UL UL UL UL LI:hover UL UL { display: none; }
+
+DIV#menubar DL:hover DD,
+DIV#menubar UL LI:hover UL,
+DIV#menubar UL UL LI:hover UL,
+DIV#menubar UL UL UL LI:hover UL,
+DIV#menubar UL UL UL UL LI:hover UL,
+DIV#menubar UL UL UL UL UL LI:hover UL { display: block; }
+
+/*	quickconnect (still to be fixed for IE) 
+-----------------------------------------------------------------------------------------------*/
+FORM#quickconnect FIELDSET { width: 220px; }
+FORM#quickconnect LABEL { clear: left; /*margin: 0;*/ text-align: left; }
+FORM#quickconnect LABEL INPUT { font-size: 1em; /*width: 15em;*/ }
+FORM#quickconnect P, FORM#quickconnect A { border: none; padding: 0; }
+/*FORM#quickconnect A { display: inline; }*/
+FORM#quickconnect ul.actions { width: auto; }
+/*FORM#quickconnect ul.actions img { position: static; }*/
+FORM#quickconnect ul.actions li { display: inline; float: right; }
+
+
+
+/*	menuTagCloud
+-----------------------------------------------------------------------------------------------*/
+
+#menubar UL#menuTagCloud A { padding-left: 2px; }
+#menubar UL#menuTagCloud LI { display: block; }
+
+UL#menuTagCloud A IMG { position: static; }
+UL#menuTagCloud A {
+  position: absolute;
+  left: 7px;
+  top: 0.2em;
+  padding-right: 0;
+  display: inline;
+  border-width: 0;
+}
+
+#menubar UL#menuTagCloud A.tagLevel1,
+#menubar UL#menuTagCloud A.tagLevel2,
+#menubar UL#menuTagCloud A.tagLevel3,
+#menubar UL#menuTagCloud A.tagLevel4,
+#menubar UL#menuTagCloud A.tagLevel5,
+#menubar UL#menuTagCloud A.tagLevel6,
+#menubar UL#menuTagCloud A.tagLevel7,
+#menubar UL#menuTagCloud A.tagLevel8,
+#menubar UL#menuTagCloud A.tagLevel9,
+#menubar UL#menuTagCloud A.tagLevel10 {
+  /*font-size: 100%;*/
+  /*padding-left: 1.5em;*/
+  padding-left: 18px;
+  position: static;
+  display: block;
+}
+
+/* Tags - Page des tags
+-------------------------------------------------------- */
+
+ul#fullTagCloud {
+	position: relative;
+	border: 1px solid #E8E8E8;
+	border-width: 1px 0;
+	background: #FBFBFB;
+	padding: 5px;
+	margin: 8px 0 20px 0;
+	overflow: hidden;
+	height: 100%;
+	font-size: 120%;
+}
+	ul#fullTagCloud li {
+		/* display: inline; */
+		display: block;
+		float: left;
+		margin: 4px;
+		padding: 1px 5px;
+		height: 18px;
+		line-height: 18px;
+		background: none;
+	}
+	ul#fullTagCloud li a:link, ul#fullTagCloud li a:visited {
+		text-decoration: none;
+		white-space: nowrap;
+	}
+	ul#fullTagCloud li a:hover { text-decoration: underline; border: 0; }
+	ul#fullTagCloud li a:focus, ul#fullTagCloud li a:active { background: #005D99; color: #FFF; }
+
+.tagLevel5 { font-size:160%; }
+.tagLevel4 { font-size:140%; }
+.tagLevel3 { font-size:120%; }
+.tagLevel2 { font-size:100%; }
+.tagLevel1 { font-size:80%; }
+
+/*.tagLevel1 { font-size: 80%; }
+.tagLevel2 { font-size: 90%; }
+.tagLevel3 { font-size: 100%; }
+.tagLevel4 { font-size: 110%; }
+.tagLevel5 { font-size: 120%; }
+.tagLevel6 { font-size: 130%; }
+.tagLevel7 { font-size: 140%; }
+.tagLevel8 { font-size: 150%; }
+.tagLevel9 { font-size: 160%; }
+.tagLevel10 { font-size: 170%; }*/
+
+/*====== */
+
+/* others */
+.pleaseNote {
+	margin: 20px auto;
+	width: 700px;
+    background: #eee;
+    color: #ff9b00;
+	border: 1px solid #ff9b00;
+    padding: 1ex;
+    font-weight: bold;
+}
+
+.header_notes { background-position:left center; padding: 5px 0px; }
+
+li.categoryLi {
+	float:left;
+	margin:2px;
+	width:46%;
+}
+
+input.rateButton { color: #369; }
+input.rateButtonSelected { color:#696969; }
+INPUT.rateButton:hover { color: #858460;}
+
+.tabsheet li,
+.tabsheet li a { color: #FFFFFF;}
+.tabsheet li a:hover { color: #484848; }
+ul.tabsheet { border-color: #807d76; }
+.tabsheet li { border: 1px solid #696969; }
+.tabsheet li:hover { border-color: #484848 !important; }
+
+
+/*	calendar
+-----------------------------------------------------------------------------------------------*/
+
+DIV.calendarViews {
+  padding-top: 5px;
+  padding-right: 6px;
+}
+
+/*calendar elements*/
+SPAN.calItemEmpty { color: silver; }
+
+SPAN.calItem, SPAN.calItemEmpty { border: 1px solid gray; }
+
+/* nice looking month calendar*/
+TD.calDayCellEmpty, TD.calDayCellFull { border: 1px solid gray;}
+
+TD.calDayCellEmpty { color: silver; }
+
+.calBackDate { color: #000; }
+.calForeDate { color: #fff; }
+.glyphicon{font-size:20px;color:#333;}
+/* actions */
+.categoryActions {
+	margin: 25px;
+	width: auto;
+	padding: 0;
+	text-indent: 0;
+	list-style: none;
+	text-align: center;
+	float: right;
+}
+
+.properties  {
+	  font-family: Microsoft YaHei;
+}
+/*element-----------------------*/
+#portfolio-one .element {
+	max-width: 200px;
+	height: auto;	
+	display: inline-block;	
+	position: relative;	
+	float: left;	
+	margin: 0px;	
+	padding: 0px;	
+}
+#portfolio-one .element img{
+	position: relative;
+	/*width: 100%;
+	height: auto;*/
+    width: 188px;
+	height: 188px;
+	max-width: 300px;
+	z-index: 100;
+}
+#portfolio-one .element .image-info { 
+	background: #222; 
+	background: rgba( 0,0,0,0.85); 
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 0%; 
+	z-index: 50; 
+	transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s; /* Firefox 4 */
+	-webkit-transition: all ease 0.5s; /* Safari and Chrome */
+	-o-transition: all ease 0.5s; /* Opera */	
+	-ms-transition: all ease 0.5s; /* IE */
+}
+#portfolio-one .element .image-info .image-title { 
+	display: none;
+	padding: 20px 20px 2px 20px; 
+	color: #fff; 
+	font-size: 15px;
+	font-weight: 600;
+	overflow: hidden;
+}
+
+#portfolio-one .element .image-info .image-desc { 
+	display: none;
+	padding: 0px 20px 5px 20px;  
+	color: #fff;
+	font-size: 12px;
+	line-height: 20px;
+	overflow: hidden;
+}
+
+#portfolio-one .element:hover .image-info{ 
+	width: 100%;
+	height: 100%;
+	z-index: 200;
+	transition: all ease 0.5s;
+	-moz-transition: all ease 0.5s; /* Firefox 4 */
+	-webkit-transition: all ease 0.5s; /* Safari and Chrome */
+	-o-transition: all ease 0.5s; /* Opera */	
+	-ms-transition: all ease 0.5s; /* IE */
+} 
+
+#portfolio-one .element:hover .image-info .image-title, 
+#portfolio-one .element:hover .image-info .image-desc { 
+	display: block;
+}
+
+/**
+ * Content
+ */
+
+.content .navigationBar, .content .additional_info, .content .calendarBar {
+	margin: 8px 4px;
+	text-align: center;
+}
+
+/* category and tag results paragraphs on a quick search */
+.categoryActions LI {
+	display: inline;
+}
+
+/* begin chronology/calendar elements*/
+.calendarViews {
+	float: right;
+	margin: 5px 5px 0 0;
+}
+
+.calItem {
+	font-weight: bold;
+	margin: 0 1px;
+	padding: 0 1px;
+	border: 1px solid gray;
+}
+
+.calendarCalBar {
+	margin: 10px;
+}
+
+.calCalHead {
+	font-weight: bold;
+	font-size: 110%;
+	margin: 0 2px;
+}
+
+.calCal { margin: 0 2px; }
+
+/* nice looking month calendar*/
+TABLE.calMonth {
+	border: 0;
+	border-collapse: collapse;
+	margin-bottom: 10px;	/*<-IE ignores this */
+}
+
+TD.calDayCellFull, TD.calDayCellEmpty {
+	vertical-align: top;
+	font-weight: bold;
+	font-size: 18px;
+	border: 1px solid gray;
+}
+
+.calBackDate {
+	padding-left: 4px;
+	padding-top: 0;
+	z-index: 2;
+	position: absolute;
+	vertical-align: top;
+	color: #000;
+}
+
+.calForeDate {
+	padding-left: 5px;
+	padding-top: 1px;
+	z-index: 3;
+	position: absolute;
+	vertical-align: top;
+	color: #fff;
+}
+
+/* Category thumbnails on main page, CSS code inspired from MOD subcatify */
+.thumbnailCategories {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	width: 100%;
+}
+
+.thumbnailCategories LI {
+	margin: 0;
+	padding: 0;
+	float: left;
+	width: 49.7%;    /* 49.7% for 2 per line, 33.2% for 3 per line*/
+}
+
+.thumbnailCategory {
+	display:block;
+	padding: 2px 0 0 2px;
+	margin: 5px;
+}
+
+.thumbnailCategory .description {
+	font-size: 90%;
+	overflow: auto;
+	/*width: inherit;*/
+}
+
+.thumbnailCategory .description H3 {
+	text-align: left;
+	margin: 0;
+	padding: 0.1em;
+	font-size: 120%;
+}
+
+.thumbnailCategory .description P {
+	margin: 0;
+}
+
+.illustration {/*also used by comment lists*/
+	text-align: left;
+	margin: 2px 0 0 2px;
+	float: left;
+}
+
+/* Loader gif new in 2.5 */
+.loader {
+  display: none;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+/* User comments */
+#comments {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.commentsList {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	width: 100%;
+}
+
+.commentElement {
+	border-radius: 5px;
+	margin: 5px;
+	padding: 2px 0 0 2px;
+	float: left;
+	width:99%;
+}
+
+.commentElement .description {
+	overflow: auto;
+	/*width: inherit;*/
+}
+
+/* Thumbnails */
+
+/* Thumbnail "elastic" layout */
+.thumbnails {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;	/* to center the whole collection in .content */
+}
+.thumbnails LI { display: inline }
+
+.thumbnails .wrap1 {
+	margin: 0 7px 5px 7px;
+	display: table-cell; display: inline-table;
+	display: inline-block;/* Why 3 display option ??? */
+	vertical-align: top;	/* OK with Opera and IE6 not Geko */
+	text-align: center;		/* to center the thumbnail and legend in Geko/Opera */
+}
+.thumbnails .wrap2 {
+	margin: 0;			/* important reset the margins */
+	display: table-cell;/* block prevents vertical-align here */
+	vertical-align: middle;/* Ok with Opera and Geko not IE6 */
+	border-radius: 4px;	/* round corners with CSS3 compliant browsers */
+}
+
+.thumbnails .wrap2 A {
+	display: block;
+	border-bottom: 0;
+}
+.thumbnails IMG {
+	vertical-align: middle;
+}
+
+.thumbnails SPAN.thumbLegend {
+	overflow: hidden;/* oversized legend is clipped */
+	display: block;  /* display: none; if you don't want legend */
+	height: 4em;    /* legend height (don't set auto to be Gecko friendly)*/
+}
+
+/**
+ * Picture
+ */
+#imageHeaderBar {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	overflow: hidden;
+	width: 100%;
+}
+
+#imageHeaderBar .browsePath {
+	float: left;
+	margin-left: 10px;
+}
+
+#imageToolBar .imageNumber {
+	float: right;
+	margin:-20px 9px 0 0;
+}
+
+#imageHeaderBar H2 {
+	display: inline;
+	text-align: center;
+	padding: 0;
+}
+
+#imageToolBar {
+	text-align: center;
+	margin-bottom: 2px;
+	padding: 0;
+	height: 28px;
+}
+
+#imageToolBar .actionButtons { float: left; }
+#imageToolBar .navigationButtons   { float: right; }
+#imageToolBar .pwg-button {width:42px;}
+
+.switchBox {
+	padding: 0.5em 5px;
+	border-radius: 4px;
+	z-index: 100;
+	text-align:left;
+	display: none;
+	position: absolute;
+	left: 0; top: 0; /*left, right set through js*/
+}
+
+.switchBoxTitle {
+  border-bottom:1px solid #ccc;
+  padding-bottom:5px;
+  margin-bottom:5px;
+}
+
+#theImage {
+	text-align: center;
+}
+
+#imageInfos {
+	position: relative; /*for IE7 positioning of "who can see this photo"*/
+	min-height: 120px;
+}
+
+#linkPrev {
+	float: left;
+	margin: 5px 10px 0 5px;
+}
+
+#linkNext {
+	float: right;
+	margin: 5px 5px 0 10px;
+  text-align: right;
+}
+
+
+DIV.thumbHover{ /*only first & last holders are divs*/
+  width: 108px;
+	height: 118px;
+	border: 1px solid gray;
+	padding: 0 5px;
+  line-height: 1.2;
+}
+
+.imageInfoTable UL { /*this is the album list*/
+	margin: 0;
+	padding: 0 0 0 1em;
+	list-style-type: square;
+}
+
+.rateButton, .rateButtonSelected, .rateButtonStarFull, .rateButtonStarEmpty  {
+	padding:0;
+	border:0;
+	color:inherit;
+	background-color:transparent !important;	/* Konqueror doesn't accept transparent here */
+}
+
+.rateButton, .rateButtonStarFull, .rateButtonStarEmpty {
+	cursor: pointer;
+}
+
+.rateButtonSelected {
+	font-weight:bold;
+	font-size:120%;
+}
+
+.rateButtonStarFull {
+	background: url('icon/rating-stars.gif') no-repeat -16px center; width:16px;
+}
+
+.rateButtonStarEmpty {
+	background: url('icon/rating-stars.gif') no-repeat 0 center; width:16px;
+}
+
+/**
+ * Default Layout
+ */
+
+IMG {
+	border: 0; /*IE<=9 adds border for linked images*/
+}
+
+#thePopuphelpPage {
+	min-width: 0; /*reset the min width*/
+}
+
+
+H1 {
+	text-align: center;
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 0.5em 0 1em 0;
+}
+
+H2 {
+	padding: 5px 0.5em;
+	text-align: left;
+}
+
+A {
+	text-decoration:none;
+}
+A.pwg-state-default:hover {
+	border-bottom: 0; /*reset above for icons*/
+}
+
+#copyright {
+	clear: both;
+	font-size: 83%;
+	text-align: center;
+	margin: 0 0 10px 0;
+}
+
+INPUT, SELECT {
+	margin: 0;
+	font-size: 1em;	/* <= some browsers don't set it correctly */
+}
+
+TABLE {	/* horizontaly centered */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+FORM { padding: 0; margin: 0; }
+
+FORM P {
+	text-align: center;
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+SELECT.categoryList {
+	height: 20em;
+	width: 500px;
+}
+
+
+/**
+ * Filter forms are displayed label by label with the input (or select...)
+ * below the label. Use an UL to make a group (radiobox for instance).
+ * Use a SPAN to group objects in line
+ */
+FIELDSET {
+	padding: 1em;
+	margin: 1em;
+	border:0;
+	font-size:12px;
+	overflow: hidden; /* <- makes Opera happy */
+}
+.uploadifyButton{
+	width:100%;
+}
+.linkToCreate{
+	position:relative;
+	float:right;
+	right:385px;
+	top:-25px;
+}
+/*-------register login---------------*/
+element.style {
+}
+.container {
+  width:70%;
+}
+.register-info{
+    font-family: Microsoft YaHei;
+	background:#fff;
+	border:1px solid #ddd;
+	padding:16px 7px 59px 16px;
+	margin-top:57px;
+	overflow:hidden;
+	text-align:center;
+	font-size: 12px;
+
+}
+.icon{
+	inline-block:inline-block;
+	margin-right:10px;
+	width:16px;
+	height:16px;
+	vertical-align:middle;
+}
+.user-info{
+	text-align:center;
+	font-size:1.333em;
+	padding-top:40px;
+}
+form {
+	display: block;
+	margin-top: 0em;
+}
+
+.user-info ul li span {
+	display: inline-block;
+	width: 80px;
+	text-align: right;
+}
+.user-info ul li {
+	list-style: none;
+	margin-bottom: 20px;
+}
+element.style {
+}
+.user-info ul li .error {
+	display: inline;
+}
+.extend-input, .user-info ul li .user-name, .user-info ul li .email, .user-info ul li .password, .user-info ul li .code {
+	border: 2px solid #e1e1e1;
+	width: 300px;
+	padding: 8px 0;
+	margin-left: 14px;
+	color: #666;
+	text-indent: 5px;
+	outline: 0;
+	vertical-align: middle;
+}
+.register-info h3 {
+	font-size: 1.166em;
+	font-weight: normal;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 12px;
+	margin: 0;
+	text-align: left;
+}
+
+.addAlbumDlg{
+	background: #808080 !important;;
+}
+
+/*IE6 needs override because of > selector*/
+.properties UL {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.properties LI {
+	margin-bottom: 0.5em;
+	padding: 0;
+	line-height: 1.8em;
+	clear: left;
+}
+
+.properties SPAN.property {
+	font-weight: bold;
+	float: left;
+	width: 50%;
+	text-align: right;
+	margin: 0;
+	padding: 0 0.5em 0 0;
+}
+
+.tagSelection {
+	margin: 1em 0 !important;
+}
+
+.tagSelection LI {
+	display:inline-block;
+	width: 150px;
+	overflow:hidden;
+	white-space: nowrap;
+}
+
+#fullTagCloud {
+	font-size: 120%;
+	text-align: justify;
+	padding: 0;
+	margin: 1em;
+}
+
+#fullTagCloud SPAN {
+	white-space: nowrap;
+	margin: 0 2px;
+}
+
+
+.tagLevel5 { font-size: 150% !important; }
+.tagLevel4 { font-size: 140% !important; }
+.tagLevel3 { font-size: 120% !important; }
+.tagLevel2 { font-size: 100% !important; }
+.tagLevel1 { font-size: 90%  !important; }
+
+
+/* Popup help page */
+#thePopuphelpPage #copyright {
+	display: none;
+}
+
+#thePopuphelpPage P {
+	padding: 0.5em;
+}
+
+#thePopuphelpPage DL  {
+	margin: 0 25px 25px; 
+}
+
+TR.tagLine {
+	border-bottom: 1px solid #ddd;
+}
+TD.nbEntries {
+	text-align: right;
+	font-style: italic;
+	font-size: 90%;
+}
+
+FIELDSET.tagLetter {
+	border: 1px solid #d3d3d3;
+	width: 200px;
+	margin: 0.5em;
+	padding: 10px;
+}
+
+LEGEND.tagLetterLegend {
+	border: 1px solid #d3d3d3;
+	font-size:120%;
+	font-weight: bold;
+	padding: 0 5px;
+	font-style: normal;
+}
+
+TABLE.tagLetterContent {
+	width:100%;
+	font-size:80%;
+	border-collapse : collapse;
+}
+
+#theHeader {text-align: center;}
+
+/* jQuery datepicker */
+IMG.ui-datepicker-trigger {
+	cursor : pointer;
+}
+
+
+/**
+ * Default colors
+ */
+
+ /* So that non-links are slightly greyed out */
+.content .navigationBar, SPAN.calItem, TD.calDayCellEmpty {
+	color: #b0b0b0;
+}
+
+/* Tables & forms */
+/* IE <= 6 is so bad with this that you can't merge with the following rule */
+
+
+SELECT, TEXTAREA {
+	color: #000;
+	background-color: #d3d3d3;	/* lightgrey */
+}
+
+INPUT:focus, SELECT:focus, TEXTAREA:focus {
+	background-color: #f5f5f5;	/* whitesmoke */
+}
+
+/* some theme set a border on INPUT  which is not pretty for radio/checkbox */
+INPUT[type="radio"], INPUT[type="checkbox"] {
+	border: none;	/* <= Opera needs this */
+}
+
+
+.content.messages {
+  padding:0;
+  background:none;
+  border:none;
+}
+
+.errors { /* Errors display */
+	color: red;
+	font-weight: bold;
+	margin: 5px;
+	border: 1px solid red;
+	background: #ffe1e1 url(icon/errors.png) no-repeat center right;
+	padding: 10px 50px 10px 10px;
+}
+
+/* Informations box */
+.infos {
+	color: #002000;
+	background: #98fb98 url(icon/infos.png) no-repeat center right;
+	margin: 5px;
+	padding: 10px 50px 10px 10px;
+}
+
+/* Header message like upgrade*/
+.header_msgs {
+	text-align:center;
+	font-weight: bold;
+	color:#696969;	/* dimgray */
+	background-color: #d3d3d3;
+	margin: 1px;
+	padding: 1px;
+}
+
+/* Header notes box */
+.header_notes {
+	border: 1px solid #aaa;
+	text-align: center;
+	background-image: url(icon/note.png);
+	background-repeat: no-repeat;
+	background-position: top left;
+	font-weight: bold;
+	margin: 14px;
+	padding: 5px 0 0 0;
+}
+
+LEGEND {
+	font-style: italic;
+	color: inherit; /*for IE*/
+}
+
+#piwigoAbout {width:600px;margin:0 auto;}
+#linkToPiwigo {text-align:center;}
+
+.message {
+  background-color: lightyellow;
+  color:#333;
+  margin-bottom:1em;
+  padding: 12px;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+#lostPassword p {
+  text-align: left;
+  margin: 1.5em 0;
+  line-height: 1.5em;
+}
+
+/* image comments rules */
+
+#commentAdd, #pictureCommentList 	{ width: 48%; padding: 0 1%;}
+#commentAdd  						{ float: left; }
+#pictureCommentList 					{ float: right; }
+
+#commentAdd input[type="text"],
+#comments TEXTAREA {
+	max-width: 99%;
+	width: 99%;
+}
+
+.commentAuthor {
+	font-weight: bold;
+}
+
+.commentDate {
+	font-style: italic
+}
+
+#pictureCommentList .commentsOrder	{ float: left; margin-bottom: 5px;}
+#pictureCommentList .navigationBar	{ float: right; margin-bottom: 5px;}
+#pictureComments h4					{ margin: 0;}
+#comments FORM P	 {
+	margin: 5px 0; text-align: left;
+}
+
+/* image info table */
+
+.imageInfoTable {display:table; margin: auto;}
+.imageInfo {display:table-row; line-height:20px;}
+.imageInfo dt {display:table-cell; text-align:right; font-weight:bold; padding-right:0.5em;}
+.imageInfo dd {display:table-cell; text-align:left; font-weight:normal;}
+
+/* Footer
+-------------------------------------------------------- */
+.footer-top {
+    background: #ffffff;
+	border-bottom: 1px solid #414f5a;
+    color: #A1A1A1;
+    padding: 50px 0;
+}
+.footer-bottom {
+    background: #ffffff;
+    color: #888;
+    line-height: 30px;
+    padding: 15px;
+}
+.contact-us {
+    margin: 15px 0 0;
+    background: url("/piwigo/themes/default/images/contact-map.png") no-repeat center bottom;
+}
+.contact-us .icon-map-marker {
+    font-size: 16px;
+}
+.contact-us{font-size:14px;}
+.contact-us a {
+    color: #808080!important;
+}
+.contact-us li i {
+    color: #666;
+    float: left;
+    margin: 4px 0 0;
+}
+
+.contact-us p {
+    line-height: 24px;
+    margin-left: 20px;
+    margin-top: -2px;
+}
+
+.contact-us li p strong {
+    color: #c0c0c0;
+    float: left;
+    font-weight: 600;
+    margin: 0 5px 5px 0;
+}
+.scrollup {
+    width: 40px;
+    height: 40px;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+    filter: alpha(opacity=80);
+    opacity: 0.8;
+    position: fixed;
+    bottom: 100px;
+    right: 15px;
+    display: none;
+    text-align: center;
+    color: #fafafa;
+    font-size: 28px;
+    background: #9e9e9e;
+    z-index: 9999;
+}
+
+.scrollup i {
+    line-height: 38px;
+}
+
+a.scrollup:hover i,a.scrollup:focus i {
+    text-decoration: none;
+    color: #fafafa;
+    outline: none;
+}
+
+#copyright {
+	clear: both;
+	margin: 0 auto;
+	padding: 5px 0;
+	text-align: center;
+	font-weight: bold;
+	height:25px;
+	background-repeat: repeat-x;
+	background-position: bottom;
+	font-size:14px;
+}
+#copyright a:link, #copyright a:visited { text-decoration: underline; color: #000; }
+#copyright a:hover { text-decoration: none; color: #000; border: 0; }
