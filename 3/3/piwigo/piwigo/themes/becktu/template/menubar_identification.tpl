@@ -1,5 +1,5 @@
 <div id="user" class="dropdown show-on-hover">
-   <button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu1" 
+   <button type="button" class="btn btn-default dropdown-toggle-login" id="dropdownMenu1" 
       data-toggle="dropdown">     
 	{if isset($U_LOGIN)}
      	{'Login'|@translate}

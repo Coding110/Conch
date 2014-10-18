@@ -21,7 +21,7 @@
    </div>
 	<div class="user">
 	 <div class="userInfo">
-	 <div style="position:relative;float:left;top:15px;">
+	 <div style="position:relative;float:left;top:18px;font-size:18px;">
 	  {if isset($U_REGISTER)}
 	    <a role="menuitem" href="{$U_REGISTER}" title="{'Create a new account'|@translate}" rel="nofollow">{'Register'|@translate}</a>	
 	  {/if}
