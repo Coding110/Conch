@@ -356,13 +356,11 @@ button.btn.btn-default.dropdown-toggle-login {
 	display: block;
 }
 div.col-md-4 {
-     position:relative;
-     left:190px;
+     text-align:center;
+     top:8px;
 	 width: 30%;
 }
-div.logo {   
-	float: left;
-}
+
 /* set menubar height (not for IE) */
 #the_page > #menubar, BODY#theAdminPage #the_page > #menubar {
   height: 4.4em;
@@ -1036,6 +1034,10 @@ FIELDSET {
 	float:right;
 	right:385px;
 	top:-25px;
+}
+#imageShare dt{
+	position:relative;
+	top:-10px;
 }
 /*-------register login---------------*/
 element.style {

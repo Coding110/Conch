@@ -1,6 +1,6 @@
 {combine_script id='core.switchbox' load='async' require='jquery' path='themes/default/js/switchbox.js'}
 {if isset($MENUBAR)}{$MENUBAR}{/if}
-<div id="content"{if isset($MENUBAR)} class="contentWithMenu"{/if}>
+<div id="content"{if isset($MENUBAR)} class="contentWithMenu"{/if} style="padding:60px;">
 
 {if isset($errors) or not empty($infos)}
 {include file='infos_errors.tpl'}
@@ -271,6 +271,19 @@ y.callService(
 	</div>
 {/if}
 
+<div id="imageShare" class="bdsharebuttonbox imageInfo"  data-tag="share_1">
+	<dt>分享到</dt>
+	<!-- 此处添加展示按钮 -->
+	<dd>
+	<a class="bds_qzone" data-cmd="qzone"></a>
+	<a class="bds_tsina" data-cmd="tsina"></a>
+	<a class="bds_weixin" data-cmd="weixin"></a>
+	<a class="bds_douban" data-cmd="douban"></a>
+	<a class="bds_tqq" data-cmd="tqq"></a>
+	<a class="bds_mshare" data-cmd="mshare"></a>
+	</dd>
+</div>
+
 {if $display_info.privacy_level and isset($available_permission_levels)}
 	<div id="Privacy" class="imageInfo">
 		<dt>{'Who can see this photo?'|@translate}</dt>
@@ -368,9 +381,23 @@ function setPrivacyLevel(id, level){
 
 </div>
 {/if}{*comments*}
-  
-    <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
-    <script>window._bd_share_config= { "common": { "bdSnsKey": {  } ,"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16" } ,"slide": { "type":"slide","bdImg":"5","bdPos":"right","bdTop":"100" } ,"image": { "viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16" } ,"selectShare": { "bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"] }  } ;with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>
+   var imgurl  =document.getElementById("theMainImage").src
+   var desc = document.getElementById("theMainImage").alt +"--来自贝壳图的相片，分享给大家。"
+	window._bd_share_config = {
+		common : {
+			bdText : desc,	
+			bdDesc :  '',	
+			bdUrl :  window.location.href, 	
+			bdPic :  imgurl
+		},
+		share : [{
+			"bdSize" : 16
+		}]
+	}
+	//以下为js加载部分
+with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
 
 {if !empty($PLUGIN_PICTURE_AFTER)}{$PLUGIN_PICTURE_AFTER}{/if}
 

@@ -25,6 +25,7 @@
 {/strip}{/foreach}-->
 
 {footer_script}
+ 
 	function preOrNext(event){
 	     var Sys = {};
 		 var ua = navigator.userAgent.toLowerCase();  
