@@ -4,6 +4,8 @@
 {combine_script id='jquery.ui.progressbar' load='footer'}
 {combine_css path="themes/default/js/plugins/jquery.jgrowl.css"}
 {combine_css path="admin/include/uploadify/uploadify.css"}
+{combine_css path="themes/becktu/theme.css"}
+ 
 {/if}
 
 {combine_script id='jquery.colorbox' load='footer' require='jquery' path='themes/default/js/plugins/jquery.colorbox.min.js'}
@@ -141,7 +143,10 @@ function sprintf() {
 
   jQuery(".addAlbumOpen").colorbox({
     inline:true,
+    innerWidth:"400px",
     href:"#addAlbumForm",
+    className:"addAlbumDlg",
+
     onComplete:function(){
       jQuery("input[name=category_name]").focus();
     }
@@ -184,7 +189,7 @@ function sprintf() {
 
       return false;
   });
-
+ 
   jQuery("#hideErrors").click(function() {
     jQuery("#formErrors").hide();
     return false;
@@ -432,7 +437,7 @@ p#uploadWarningsSummary .showInfo {position:static;display:inline;padding:1px 6p
 p#uploadWarnings {display:none;text-align:left;margin-bottom:1em;font-size:90%;color:#999;}
 p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 
-#photosAddContent p.showFieldset {text-align:left;margin: 0 auto 10px auto;width: 650px;}
+#photosAddContent p.showFieldset {text-align:left;margin:0  auto 10px auto;width: 630px;font-size:12px;}
 
 #uploadProgress {width:650px; margin:10px auto;font-size:90%;}
 #progressbar {border:1px solid #ccc; background-color:#eee;}
@@ -492,19 +497,19 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 </div>
 
 <div style="display:none">
-  <div id="addAlbumForm" style="text-align:left;padding:1em;">
+  <div id="addAlbumForm" style="text-align:left;padding:1em;font-size:12px;font-family: Microsoft YaHei;">
     <form>
       {'Parent album'|@translate}<br>
-      <select id ="category_parent" name="category_parent">
+      <select id ="category_parent" name="category_parent" class="form-control">
         <option value="0">------------</option>
         {html_options options=$category_parent_options selected=$category_parent_options_selected}
       </select>
-
-      <br><br>{'Album name'|@translate}<br><input name="category_name" type="text"> <span id="categoryNameError"></span>
-      <br><br><br><input type="submit" value="{'Create'|@translate}"> <span id="albumCreationLoading" style="display:none"><img src="themes/default/images/ajax-loader-small.gif"></span>
+      <br><br>{'Album name'|@translate}<br><input name="category_name" type="text" class="form-control"> <span id="categoryNameError"></span>
+      <br><br><br><input type="submit" class="btn btn-primary" value="{'Create'|@translate}"> <span id="albumCreationLoading" style="display:none"><img src="themes/default/images/ajax-loader-small.gif"></span>
     </form>
   </div>
 </div>
+
 
 <form id="uploadForm" enctype="multipart/form-data" method="post" action="{$form_action}" class="properties">
 {if $upload_mode eq 'multiple'}
@@ -512,23 +517,24 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 {/if}
 
     <fieldset>
-      <legend>{'Drop into album'|@translate}</legend>
-
+      <!--<legend>{'Drop into album'|@translate}</legend>-->
+      <div style="font-size:22px;font-weight:normal;padding:0px 0px 15px 0px;"><span>选择相册</span></div>
       <span class="albumSelection"{if count($category_options) == 0} style="display:none"{/if}>
-      <select id="albumSelect" name="category">
+      <select id="albumSelect" name="category" class="form-control" style="width:22%" >
         {html_options options=$category_options selected=$category_options_selected}
       </select>
-      </span>
-{if $create_subcategories}
-      <div id="linkToCreate">
-      <span class="albumSelection">{'... or '|@translate}</span><a href="#" class="addAlbumOpen" title="{'create a new album'|@translate}">{'create a new album'|@translate}</a>
+      {if $create_subcategories}
+      <div id="linkToCreate" class="linkToCreate">
+      <a href="#" class="addAlbumOpen" title="{'create a new album'|@translate}"><strong>+</strong>{'create a new album'|@translate}</a>
       </div>
-{/if}      
+      {/if} 
+      </span>
+     
     </fieldset>
 
     <fieldset>
-      <legend>{'Select files'|@translate}</legend>
-
+     <!--<legend>{'Select files'|@translate}</legend>-->
+<div style="font-size:22px;font-weight:normal;padding:10px 0px 15px 0px;"><span>{'Select files'|@translate}</span></div>
     <p id="uploadWarningsSummary">{$upload_max_filesize_shorthand}B. {$upload_file_types}. {if isset($max_upload_resolution)}{$max_upload_resolution}Mpx.{/if} {if isset($quota_summary)}{$quota_summary}{/if}
 <a class="showInfo" title="{'Learn more'|@translate}">i</a></p>
 
@@ -558,42 +564,43 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 
 {/if}
     </fieldset>
-
+ 
     <p class="showFieldset"><a id="showPhotoProperties" href="#">{'Set Photo Properties'|@translate}</a></p>
 
     <fieldset id="photoProperties" style="display:none">
-      <legend>{'Photo Properties'|@translate}</legend>
-
+      <!--<legend>{'Photo Properties'|@translate}</legend>-->
+      <div style="font-size:22px;font-weight:normal;padding:10px 0px 15px 0px;"><span>{'Photo Properties'|@translate}</span></div>
       <input type="checkbox" name="set_photo_properties" style="display:none">
 
       <p>
         {'Title'|@translate}<br>
-        <input type="text" class="large" name="name" value="">
+        <input type="text" class="form-control" name="name" value="">
       </p>
 
       <p>
         {'Author'|@translate}<br>
-        <input type="text" class="large" name="author" value="">
+        <input type="text" class="form-control" name="author" value="">
       </p>
 
       <p>
         {'Description'|@translate}<br>
-        <textarea name="description" id="description" class="description" style="margin:0"></textarea>
+        <textarea name="description" id="description" class="description form-control" style="margin:0"></textarea>
       </p>
 
     </fieldset>
 
 {if $upload_mode eq 'html'}
     <p>
-      <input class="submit" type="submit" name="submit_upload" value="{'Start Upload'|@translate}">
+      <input class="btn btn-primary" style="color:#fff" type="submit" name="submit_upload" value="{'Start Upload'|@translate}">
     </p>
 {elseif $upload_mode eq 'multiple'}
     <p style="margin-bottom:1em">
-      <input class="submit" type="button" value="{'Start Upload'|@translate}">
+      <input class="btn btn-primary" style="color:#fff" type="button" value="{'Start Upload'|@translate}">
       <input type="submit" name="submit_upload" style="display:none">
     </p>
 {/if}
 </form>
+
 
 <div id="uploadProgress" style="display:none">
 {'Photo %s of %s'|@translate|@sprintf:'<span id="progressCurrent">1</span>':'<span id="progressMax">10</span>'}
