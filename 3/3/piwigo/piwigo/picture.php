@@ -982,8 +982,8 @@ $themeconf = $template->get_template_vars('themeconf');
 if ($conf['picture_menu'] AND (!isset($themeconf['hide_menu_on']) OR !in_array('thePicturePage', $themeconf['hide_menu_on'])))
 {
   if (!isset($page['start'])) $page['start'] = 0;
-  include( PHPWG_ROOT_PATH.'include/menubar.inc.php');
 }
+include( PHPWG_ROOT_PATH.'include/menubar.inc.php');
 
 include(PHPWG_ROOT_PATH.'include/page_header.php');
 trigger_action('loc_end_picture');

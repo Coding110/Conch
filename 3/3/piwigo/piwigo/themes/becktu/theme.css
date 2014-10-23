@@ -188,10 +188,7 @@ body#theCommentsPage .content, body#theUploadPage .content, body#theRegisterPage
 	border-width: 1px 0;
 	padding: 5px 8px;
 }
-#imageToolBar .imageNumber {
-    float: right;
-    margin: -30px 9px 0 0;
-}
+
 #theImage IMG {
   padding: 5px;
   border: 1px solid #aaa;
@@ -264,12 +261,21 @@ position:absolute;
 	overflow: hidden;font-size:12px; /* bug in FF 1.0 (not 1.5) */
 }
 button.btn.btn-default.dropdown-toggle {
-    font-family: Microsoft YaHei;
 	background: none;
 	color: #000000;
 	border: none;
 	padding: 0px 5px;
-	margin-top: 15px;
+	margin-top: 16px;
+	font-size:20px;
+	font-weight:bold;
+}
+button.btn.btn-default.dropdown-toggle-login {
+	background: none;
+	color: #000000;
+	border: none;
+	padding: 0px 5px;
+	margin-top: 17px;
+	font-size:18px;
 }
 .navbar-search {
   position: relative;
@@ -282,7 +288,7 @@ button.btn.btn-default.dropdown-toggle {
 .navbar-search .search-query {
   width:170px;
   background: url(/themes/becktu/images/search-white.png) no-repeat 10px 6px #e6eaed;
-  padding: 5px 15px 2px 35px;
+  padding: 4px 15px 4px 35px;
   text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   font-weight: normal;
   line-height: 1;
@@ -328,7 +334,7 @@ button.btn.btn-default.dropdown-toggle {
 	position:relative;
 	float:left;
 	left:50px;
-	top:10px;
+	top:14px;
 	width:8%;
 }
 #user ul{
@@ -350,13 +356,11 @@ button.btn.btn-default.dropdown-toggle {
 	display: block;
 }
 div.col-md-4 {
-     position:relative;
-     left:190px;
+     text-align:center;
+     top:8px;
 	 width: 30%;
 }
-div.logo {   
-	float: left;
-}
+
 /* set menubar height (not for IE) */
 #the_page > #menubar, BODY#theAdminPage #the_page > #menubar {
   height: 4.4em;
@@ -373,7 +377,7 @@ div.logo {
   padding: 0;
   float: left;
 }
-#menubar DL { display: inline; padding: 0 2em; }
+#menubar DL { display: inline; padding: 0 1em; }
 
 #head_1 UL {  width: 10em; }
 #menubar ul li a {  padding-right: 3em; }
@@ -649,7 +653,9 @@ TD.calDayCellEmpty { color: silver; }
 	margin: 8px 4px;
 	text-align: center;
 }
-
+.additional_info{
+	font-size:20px;
+}
 /* category and tag results paragraphs on a quick search */
 .categoryActions LI {
 	display: inline;
@@ -838,7 +844,6 @@ TD.calDayCellFull, TD.calDayCellEmpty {
 	padding-top: 2px;
 	padding-bottom: 2px;
 	overflow: hidden;
-	width: 100%;
 }
 
 #imageHeaderBar .browsePath {
@@ -847,8 +852,9 @@ TD.calDayCellFull, TD.calDayCellEmpty {
 }
 
 #imageToolBar .imageNumber {
-	float: right;
-	margin:-20px 9px 0 0;
+	position:relative;
+	float: left;
+	left:10px;
 }
 
 #imageHeaderBar H2 {
@@ -865,7 +871,7 @@ TD.calDayCellFull, TD.calDayCellEmpty {
 }
 
 #imageToolBar .actionButtons { float: left; }
-#imageToolBar .navigationButtons   { float: right; }
+#imageToolBar .navigationButtons   { position:relative;float: left;left:50px;width:50% ;text-align:center;}
 #imageToolBar .pwg-button {width:42px;}
 
 .switchBox {
@@ -1028,6 +1034,10 @@ FIELDSET {
 	float:right;
 	right:385px;
 	top:-25px;
+}
+#imageShare dt{
+	position:relative;
+	top:-10px;
 }
 /*-------register login---------------*/
 element.style {
@@ -1305,7 +1315,7 @@ LEGEND {
 
 /* image comments rules */
 
-#commentAdd, #pictureCommentList 	{ width: 48%; padding: 0 1%;}
+#commentAdd, #pictureCommentList 	{ width: 60%; padding: 0 1%;}
 #commentAdd  						{ float: left; }
 #pictureCommentList 					{ float: right; }
 
@@ -1353,7 +1363,7 @@ LEGEND {
 }
 .contact-us {
     margin: 15px 0 0;
-    background: url("/piwigo/themes/default/images/contact-map.png") no-repeat center bottom;
+    background: url("/themes/becktu/images/contact-map.png") no-repeat center bottom;
 }
 .contact-us .icon-map-marker {
     font-size: 16px;

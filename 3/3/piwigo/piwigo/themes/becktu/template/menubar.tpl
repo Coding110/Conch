@@ -1,7 +1,7 @@
 {if !empty($blocks) }
 <div id="menubar">
  <div class="col-md-4">
-  <div class="logo"><a href="{$U_HOME}/"><img src="{$ROOT_URL}themes/becktu/images/Becktu-logo-2.0.2.png" height="50px" width="100px" alt=""/></a></div>
+  <div><a href="./"><img src="{$ROOT_URL}themes/becktu/images/Becktu-logo-2.0.2.png" height="50px" width="100px" alt=""/></a></div>
 </div>
   <div id="head_1">
 	{foreach from=$blocks key=id item=block}
@@ -21,7 +21,7 @@
    </div>
 	<div class="user">
 	 <div class="userInfo">
-	 <div style="position:relative;float:left;top:15px;">
+	 <div style="position:relative;float:left;top:18px;font-size:18px;">
 	  {if isset($U_REGISTER)}
 	    <a role="menuitem" href="{$U_REGISTER}" title="{'Create a new account'|@translate}" rel="nofollow">{'Register'|@translate}</a>	
 	  {/if}

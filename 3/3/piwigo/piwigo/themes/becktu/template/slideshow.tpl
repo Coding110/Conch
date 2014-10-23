@@ -9,7 +9,6 @@
 	</div>
 
 	<div id="imageToolBar">
-	  <div class="imageNumber">{$PHOTO}</div>
 	  {include file='picture_nav_buttons.tpl'|@get_extent:'picture_nav_buttons'}
 	</div>
 

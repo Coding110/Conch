@@ -65,7 +65,7 @@
     <script src="{$ROOT_URL}themes/becktu/js/jflickrfeed.js"></script>
     <script src="{$ROOT_URL}themes/becktu/js/imagesloaded.pkgd.min.js"></script>     
     {get_combined_scripts load='footer'}
-     
+
 </div>{* the_page *}
 </body>
 </html>

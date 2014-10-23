@@ -13,6 +13,8 @@
 <div class="titrePage{if isset($chronology.TITLE)} calendarTitleBar{/if}">
 	<ul class="categoryActions">
 {if !empty($image_orders)}
+		<li>{strip}<a  href="./" title="返回主页" class="glyphicon glyphicon-home" rel="nofollow">
+		</a>{/strip}</li>
 		<li>{strip}<a id="sortOrderLink" title="{'Sort order'|@translate}" class="pwg-state-default pwg-button" rel="nofollow">
 			<span class="glyphicon glyphicon-sort-by-alphabet"></span><span class="pwg-button-text">{'Sort order'|@translate}</span>
 		</a>
