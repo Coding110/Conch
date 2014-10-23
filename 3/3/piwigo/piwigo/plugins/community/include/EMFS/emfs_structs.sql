@@ -20,7 +20,7 @@ CREATE TABLE `piwigo_emfs_folders` (
 	`shareable` int(11),
 	`createtime` datetime,
 	PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `piwigo_emfs_files`
@@ -32,15 +32,16 @@ CREATE TABLE `piwigo_emfs_files` (
 	-- same as 'image_id'
 	`fid` mediumint(8) unsigned NOT NULL,
 	-- emfs_folders' id
-	`folderid` int(11) NOT NULL, 
+	--`folderid` int(11) NOT NULL, 
+	`mailfolder` varchar(255) NOT NULL,
 	`mailuids` varchar(255),
 	`mailuid_preview` varchar(128),
 	`mailuid_net` varchar(128),
-	-- file status: 0 - No file, 1 - file is fine, 2 - file is not ready (such as uploading)
+	-- file status: 0 - No file, 1 - file is fine, 2 - file is not ready (e.g. uploading), 3 - file error
 	`status` int(4),
 	`shareable` int(11),
 	PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `piwigo_emfs_mails`
@@ -57,4 +58,4 @@ CREATE TABLE `piwigo_emfs_mails` (
 	`imapport` int(11),
 	PRIMARY KEY  (`id`),
 	UNIQUE KEY `email_ui1` (`email`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

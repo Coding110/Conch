@@ -1,6 +1,7 @@
 <?php
 
 define('PHP_EMFS_VERSION', '0.1');
+$prefixeTable = "piwigo_";
 
 if (!defined('EMFS_FOLDERS_TABLE'))
 	define('EMFS_FOLDERS_TABLE', $prefixeTable.'emfs_folders');
