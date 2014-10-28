@@ -85,8 +85,10 @@ function db_fetch_row($result)
 
 function db_close()
 {
+	@syslog(LOG_INFO, "db close");
 	global $mysqli;
-	return $mysqli->close();
+	//return $mysqli->close();
+	@syslog(LOG_INFO, "db close complete");
 }
 
 

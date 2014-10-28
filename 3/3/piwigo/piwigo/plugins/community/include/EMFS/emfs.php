@@ -33,6 +33,7 @@ class EMFS extends Stackable{
 	public $mailBox;
 	
 	public $mimeHeaders;// = array();
+	public $privateHeaders;// = array();
 	public $parts;// = array();
 	public $msgno;// = 0;
 	
@@ -52,16 +53,18 @@ class EMFS extends Stackable{
 		$this->ssl = $ssl;
 		//@syslog(LOG_ERR, 'EMFS construct 2');
 
-		$head = array("from" => $user, "to" => $user); 
+		//$head = array("from" => $user, "to" => $user); 
 		$this->mimeHeaders = new TaskData();
 		//$this->mimeHeaders[] = $head;
-		$this->mimeHeaders["from"] = $user;
-		$this->mimeHeaders["to"] = $user;
+		//$this->mimeHeaders["from"] = "Photos backup<photos@backup.becktu.com>";
+		//$this->mimeHeaders["to"] = $user;
 
 		$this->parts = new TaskData();
 		$part["type"] = TYPEMULTIPART;
 		$part["subtype"] = "mixed";
 		$this->parts[] = $part;
+
+		$this->privateHeaders = new TaskData();
 	}	
 
 	public function SetVar($key, $value)
@@ -74,7 +77,7 @@ class EMFS extends Stackable{
 	*/
 	public function __destruct()
 	{
-		//echo "destruct.\n";
+		@syslog(LOG_INFO, "EMFS destruct");
 		if(isset($this->mailBox)){
 			imap_close($this->mailBox);
 		}
@@ -86,40 +89,34 @@ class EMFS extends Stackable{
 	public function Open($folder = "INBOX")
 	{
 		if($this->ssl == false){
-			$this->mailLink = "{{$this->mailServer}:{$this->imapPort}}".$folder;
+			$this->mailLink = "{{$this->mailServer}:{$this->imapPort}/imap/notls}".$folder;
 		}else{
 			$this->mailLink = "{{$this->mailServer}:{$this->imapPort}/imap/ssl}".$folder;
 		}
 		
 		@syslog(LOG_INFO, "imap open, mail link: ".$this->mailLink.", user: ".$this->mailUser.", passwd: ".$this->mailPasswd);
 		$this->mailBox = imap_open($this->mailLink, $this->mailUser, $this->mailPasswd);
-		$lasterr = imap_last_error();
-		
-		//$_SESSION["mailBox"] = $this->mailBox;
 
-		//ob_start();
-		//var_dump($this->mailBox);
-		//$tmp = ob_get_contents();
-		//ob_end_clean();
-		//@syslog(LOG_ERR, 'EMFS imap open: '.$tmp);
+		@syslog(LOG_INFO, "imap after open");
+		if($this->mailBox == false){
+			@syslog(LOG_INFO, "imap open failed, error: ".imap_last_error());
 
-		if(empty($lasterr) == false){
-			@syslog(LOG_INFO, "imap open failed, error: ".$lasterr);
-			return false;				
+			if(strstr($lasterr, "Folder not exist") != false)
+			{
+				if($this->CreateFolder($folder) == false){
+					@syslog(LOG_INFO, "imap create mailbox failed, mail link: ".$this->mailLink.", error: ".imap_last_error());
+					return false;
+				}
+				$this->mailBox = imap_open($this->mailLink, $this->mailUser, $this->mailPasswd);
+				if($this->mailBox == false){
+					@syslog(LOG_INFO, "imap open failed after create mailbox, mail link: ".$this->mailLink.", error: ".imap_createmailbox());
+					return false;
+				}
+			}
 		}
 		return $this->mailBox;
 	}
 
-	public function TestMailBox($hd)
-	{
-		//ob_start();
-		//var_dump($hd);
-		//var_dump($this->mailBox);
-		//$tmp = ob_get_contents();
-		//ob_end_clean();
-		//@syslog(LOG_ERR, 'EMFS mail box test: '.$tmp);
-	}
-	
 	/*
 	 * 	Return TRUE or FALSE
 	 */
@@ -182,12 +179,13 @@ class EMFS extends Stackable{
 		//echo "MIME Headers:\n";
 		//var_dump($this->mimeHeaders);
 		//echo "Parts, count: ".count($this->parts)."\n";
-		////var_dump($this->parts);
+		//var_dump($this->parts);
 		//$tmp = ob_get_contents();
 		//ob_end_clean();
-		//@syslog(LOG_ERR, 'EMFS save file before \'append\': '.$tmp);
+		//@syslog(LOG_ERR, 'EMFS save file before \'append\', parts: '.$tmp);
 
 		// object should convert to array
+		#@syslog(LOG_INFO, "imap append, private headers: ".$this->privateHeaders);
 		$headers = array();
 		foreach($this->mimeHeaders as $key => $val)
 		{
@@ -202,21 +200,40 @@ class EMFS extends Stackable{
 		ob_start();
 		//$imap_cont = imap_mail_compose($this->mimeHeaders, $this->parts);
 		$imap_cont = imap_mail_compose($headers, $body);
-		$lasterr = imap_last_error();
-		@syslog(LOG_INFO, "imap append, mail link: ".$this->mailLink.", content size: ".strlen($imap_cont).", error: ".$lasterr);
-		imap_append($this->mailBox, $this->mailLink, $imap_cont);
-		$lasterr = imap_last_error();
-		if(empty($lasterr) == false){
-			@syslog(LOG_INFO, "imap append failed, error: ".$lasterr);
-			return false;
+		//$lasterr = imap_last_error();
+		//@syslog(LOG_INFO, "imap append, mail link: ".$this->mailLink.", content size: ".strlen($imap_cont).", error: ".$lasterr);
+		//$subject = "=?UTF-8?B?".base64_encode("请勿删除，自来becktu.com照片备份")."?=";
+		//@syslog(LOG_INFO, "imap append headers: ".$this->privateHeaders);
+		//@syslog(LOG_INFO, "imap append content: ".$imap_cont);
+		$imap_cont = $this->privateHeaders.$imap_cont;
+		//@syslog(LOG_INFO, "imap append all content: ".$imap_cont);
+		$ret = imap_append($this->mailBox, $this->mailLink, $imap_cont);
+		if($ret == false){
+			$lasterr = imap_last_error();
+			//@syslog(LOG_INFO, "imap append failed, error: ".$lasterr);
+			//return false;
+			if(strstr($lasterr, "Folder not exist") != false)
+			{
+				if($this->CreateFolder($this->mailLink) == false){
+					@syslog(LOG_INFO, "imap create mailbox failed, mail link: ".$this->mailLink.", error: ".imap_last_error());
+					return false;
+				}
+				$ret = imap_append($this->mailBox, $this->mailLink, $imap_cont);
+				if($ret == false){
+					@syslog(LOG_INFO, "imap append failed after create mailbox, mail link: ".$this->mailLink.", error: ".imap_last_error());
+					return false;
+				}
+			}
 		}
 
 		$tmp = ob_get_contents();
 		ob_end_clean();
 		@syslog(LOG_ERR, 'EMFS save file after \'append\': '.$tmp);
 
+		$this->privateHeaders = "";
 		$check = imap_check($this->mailBox);
 		$uid = imap_uid($this->mailBox, $check->Nmsgs);
+		imap_setflag_full($this->mailBox, $uid, "\\Seen");
 		return $uid;
 	}
 	
@@ -228,7 +245,7 @@ class EMFS extends Stackable{
 	
 	public function Write($data)
 	{
-		ob_start();
+		//ob_start();
 
 		$part["type"] = TYPEAPPLICATION;
 		$part["encoding"] = ENCBINARY;
@@ -236,9 +253,9 @@ class EMFS extends Stackable{
 		$part["contents.data"] = $data;
 		$this->parts[] = $part;		
 
-		$tmp = ob_get_contents();
-		ob_end_clean();
-		@syslog(LOG_ERR, 'EMFS Write: '.$tmp);
+		//$tmp = ob_get_contents();
+		//ob_end_clean();
+		//@syslog(LOG_ERR, 'EMFS Write: '.$tmp);
 	}
 	
 	public function CloseFile()
@@ -253,8 +270,41 @@ class EMFS extends Stackable{
 		}
 	}
 	
-	function IsConnected(){
+	public function IsConnected(){
 		return imap_ping($mailBox);
+	}
+
+	public function HeaderEncode($msg)
+	{
+		$hdmsg = "=?UTF-8?B?".base64_encode($msg)."?=";
+		@syslog(LOG_INFO, "headers encode: ".$hdmsg);
+		return $hdmsg;
+	}
+
+	public function SetPrivateAttribute($key, $value)
+	{
+		//ob_start();
+		//var_dump($this->privateHeaders);
+		//$tmp = ob_get_contents();
+		//ob_end_clean();
+		////@syslog(LOG_INFO, "imap private headers var dump: ".$tmp);
+		//@syslog(LOG_INFO, "imap private headers set over, strlen: ".strlen($this->privateHeaders).", headers var dump: ".$tmp);
+
+		if(strlen($this->privateHeaders) == false){
+			//@syslog(LOG_INFO, "imap private headers is NULL.");
+			$this->privateHeaders = $key.": ".$value;//."\r\n";
+		}else{
+			//@syslog(LOG_INFO, "imap private headers is not NULL.");
+			//@syslog(LOG_INFO, "imap private headers: ".$this->privateHeaders);
+			$this->privateHeaders .= "\r\n".$key.": ".$value;//."\r\n";
+		}
+
+		//ob_start();
+		//var_dump($this->privateHeaders);
+		//$tmp = ob_get_contents();
+		//ob_end_clean();
+		////@syslog(LOG_INFO, "imap private headers var dump: ".$tmp);
+		//@syslog(LOG_INFO, "imap private headers set over, strlen: ".strlen($this->privateHeaders).", headers var dump: ".$tmp);
 	}
 }
 
@@ -284,21 +334,38 @@ class EMFSTaskThread extends Thread{
 	var $imap_port;
 	var $imap_ssl;
 
+	public static $mysqli = NULL;
+
 	//public $mysql_hd;
 	
 	// @param TaskData $task_data, 线程中使用数组必须这样使用
-	public function __construct($task_data)
+	public function __construct($task_data, $mutex_data)
 	{
 		@syslog(LOG_INFO, "New EMFS task thread creating.");
 		$this->task = $task_data;
+		$this->mutex = $mutex_data;
 		$this->mutex = Mutex::create();
 		$this->delete_flag = 0;
 		//$this->mysql_hd = $db_hd;
 		//$this->CheckEMFS(); //
+		
+		//if(isset($mysqli) or $msyqli == NULL){
+		//	$mysqli = new TaskData();
+		//	$mysqli = db_open();
+		//}
 	}
 
 	public function __destruct()
 	{		
+		@syslog(LOG_INFO, "Task thread destruct.");
+		unset($this->emfs);
+		Mutex::destroy($this->mutex);
+	}
+	public function emfs_destruct()
+	{
+		@syslog(LOG_INFO, "Task thread emfs destruct.");
+		unset($this->emfs);
+		unset($this->task);
 		Mutex::destroy($this->mutex);
 	}
 
@@ -309,9 +376,10 @@ class EMFSTaskThread extends Thread{
 		$usleep_time = 100000; // microsecond
 		$max_usleep_time = 60000000; // 1 minute
 
+		db_open();
+
 		//ob_start();
 		//$this->mysql_hd = db_open();
-		db_open();
 		//var_dump($this->mysql_hd);
 		//echo "posix uid: ".posix_getuid()."\n";
 		//echo "posix gid: ".posix_getgid()."\n";
@@ -338,8 +406,9 @@ class EMFSTaskThread extends Thread{
 				} 
 			}
 		}
-		@syslog(LOG_INFO, "task thread \'run\' complete.");
 		db_close();
+		emfs_destruct();
+		@syslog(LOG_INFO, "task thread \'run\' complete.");
 	}
 	
 	/* $task_obj is same as $photoinfo of 'photo_upload' trigger event */
@@ -389,6 +458,7 @@ class EMFSTaskThread extends Thread{
 		if($fh == false){
 			$file_info = array("mailids" => $mailids, "status" => 3);
 			@syslog(LOG_ERR, 'Upload source file open failed. ');
+			//update_file_info($this->mysqli, $task_obj["image_id"], $file_info);
 			update_file_info($task_obj["image_id"], $file_info);
 			return false;
 		}
@@ -409,14 +479,20 @@ class EMFSTaskThread extends Thread{
 
 		while($readsize < $fsize)
 		{
-			$this->emfs->SetAttribute("EMFS", "1");
-			$this->emfs->SetAttribute("FNAME", $task_obj["original_filename"]);
-			$this->emfs->SetAttribute("FTYPE", $ftype);
-			$this->emfs->SetAttribute("FSIZE", $fsize);
-			$this->emfs->SetAttribute("LAST-MAILID", $last_mailid);
-			$this->emfs->SetAttribute("FOWNER", $task_obj["owner"]);
-			$this->emfs->SetAttribute("FMD5", $task_obj["original_md5sum"]);
-			if(isset($th_img_cont)) $this->emfs->SetAttribute("THUMBNAIL", imap_binary($th_img_cont));
+			//$this->mimeHeaders["from"] = "Photos backup<photos@backup.becktu.com>";
+			//$this->mimeHeaders["to"] = $user;
+			$this->emfs->SetPrivateAttribute("From", "Photos backup<photos@backup.becktu.com>");
+			$this->emfs->SetPrivateAttribute("To", $this->imap_user);
+			$subject = $this->emfs->HeaderEncode($task_obj["original_md5sum"]." - 自来becktu.com的照片备份");
+			$this->emfs->SetPrivateAttribute("Subject", $subject);
+			$this->emfs->SetPrivateAttribute("EMFS", "1");
+			$this->emfs->SetPrivateAttribute("FNAME", $task_obj["original_filename"]);
+			$this->emfs->SetPrivateAttribute("FTYPE", $ftype);
+			$this->emfs->SetPrivateAttribute("FSIZE", $fsize);
+			$this->emfs->SetPrivateAttribute("LAST-MAILID", $last_mailid);
+			$this->emfs->SetPrivateAttribute("FOWNER", $task_obj["owner"]);
+			$this->emfs->SetPrivateAttribute("FMD5", $task_obj["original_md5sum"]);
+			if(isset($th_img_cont)) $this->emfs->SetPrivateAttribute("THUMBNAIL", imap_binary($th_img_cont));
 
 
 			$sending_data_size = 0;
@@ -438,6 +514,7 @@ class EMFSTaskThread extends Thread{
 				if($data == false){
 					fclose($fh);
 					$file_info = array("mailids" => $mailids, "status" => 3);
+					//update_file_info($this->mysqli, $task_obj["image_id"], $file_info);
 					update_file_info($task_obj["image_id"], $file_info);
 					return false;
 				}
@@ -463,6 +540,12 @@ class EMFSTaskThread extends Thread{
 
 	public function SetTask($task_msg)
 	{
+		ob_start();
+		var_dump($this->mutex);
+		$tmp = ob_get_contents(); 
+		ob_end_clean();
+		@syslog(LOG_INFO, "task mutex: ".$tmp);
+
 		Mutex::lock($this->mutex);
 		@syslog(LOG_INFO, "1 task size: ".count($this->task).", new task: ".$task_msg);
 		$this->task[] = $task_msg;
@@ -512,7 +595,7 @@ class EMFSTaskThread extends Thread{
 			// Note: SSL
 			//list($mail, $passwd, $imapserver, $imapport) = pwg_db_fetch_row($result);
 			//list($this->imap_user, $this->passwd, $this->imap_server, $this->imap_port) = pwg_db_fetch_row($mail_info);
-			//@syslog(LOG_INFO, "mail info for emfs, server:".$this->imap_server.", port: ".$this->imap_port.", user: ".$this->imap_user.", passwd: ".$this->imap_passwd);
+			@syslog(LOG_INFO, "mail info for emfs, server:".$this->imap_server.", port: ".$this->imap_port.", user: ".$this->imap_user.", passwd: ".$this->imap_passwd);
 			// need code here, $passwd 有加密的话，需要解密
 			$this->emfs = new EMFS($this->imap_server, $this->imap_user, $this->imap_passwd, $this->imap_port, $this->imap_ssl);
 			//ob_start();
@@ -589,12 +672,14 @@ class ThreadWorkspace
 				//ob_end_clean();
 				//@syslog(LOG_INFO, "task search, emfs thd: ".$tmp);
 				if(!isset($val["emfs_thd"]) or $val["emfs_thd"] == NULL or $this->IsDestroyed($val["emfs_thd"]))
-if(isset($val["uid"]) and strcmp($val["uid"], $user_id) == 0)
+				//if(isset($val["uid"]) and strcmp($val["uid"], $user_id) == 0)
 				{
+					@syslog(LOG_INFO, "EMFS thread is destoryed.");
 					unset($this->task_thread_pool[$i]); // 清除长时间空闲的线程
 				//}else if(!isset($val["emfs_thd"]) or $val["emfs_thd"] == NULL)// and $val["emfs_thd"]->delete_flag == 1)
 				}else if(isset($val["uid"]) and strcmp($val["uid"], $user_id) == 0)
 				{
+					@syslog(LOG_INFO, "EMFS thread is running.");
 					$flag = 1;
 					$idx = $i;
 					break;
@@ -642,9 +727,8 @@ if(isset($val["uid"]) and strcmp($val["uid"], $user_id) == 0)
 		//syslog(LOG_INFO, "task search: $uid_key");
 		if($uid_key == -1){
 			$task_arr = new TaskData('');
-			//$mysql_dh = new TaskData('');
-			//$emfs_thd = new EMFSTaskThread($mysql_hd, $task_arr);
-			$emfs_thd = new EMFSTaskThread($task_arr);
+			$mutex_data = new TaskData('');
+			$emfs_thd = new EMFSTaskThread($task_arr, $mutex_data);
 			$emfs_thd->start();
 
 			//@syslog(LOG_INFO, 'image id = '.$task_obj["image_id"]);

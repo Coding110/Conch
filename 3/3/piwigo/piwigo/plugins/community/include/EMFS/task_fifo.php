@@ -100,7 +100,7 @@ function task_consume($consume_callback)
 			//syslog(LOG_INFO, "[consume] Task msg: ".$line);
 		}else{
 			usleep($pipe_read_sleep);
-			//syslog(LOG_INFO, "[consume] No Task"); 
+			#syslog(LOG_INFO, "[consume] No Task"); 
 		}
 
 		//$tmp = ob_get_contents();
