@@ -476,7 +476,8 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 
 {if !empty($thumbnails)}
 <fieldset>
-  <legend>{'Uploaded Photos'|@translate}</legend>
+ <!-- <legend>{'Uploaded Photos'|@translate}</legend>-->
+  <div style="font-size:22px;font-weight:normal;padding:0px 0px 30px 0px;"><span>{'Uploaded Photos'|@translate}</span></div>
   <div>
   {foreach from=$thumbnails item=thumbnail}
     <a href="{$thumbnail.link}"  class="{if isset($thumbnail.lightbox)}colorboxThumb{else}externalLink{/if}">
@@ -485,7 +486,7 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
   {/foreach}
   </div>
 </fieldset>
-<p style="margin:10px"><a href="{$another_upload_link}">{'Add another set of photos'|@translate}</a></p>
+<div style="width:60%;text-align:center;"><a href="{$another_upload_link}">{'Add another set of photos'|@translate}</a></div>
 {else}
 
 <div id="formErrors" class="errors" style="display:none">
