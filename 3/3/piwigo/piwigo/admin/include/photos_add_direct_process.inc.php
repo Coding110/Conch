@@ -202,7 +202,7 @@ SELECT
     // function get_image_name($name, $file) would be better
     $thumbnail['title'] = get_name_from_file($image_infos['file']);
 
-    $thumbnail['link'] = get_root_url().'admin.php?page=photo-'.$image_id.'&amp;cat_id='.$category_id;
+    $thumbnail['link'] = get_root_url().'picture.php?/'.$image_id.'/category/'.$category_id;//get_root_url().'admin.php?page=photo-'.$image_id.'&amp;cat_id='.$category_id;
 
     $page['thumbnails'][] = $thumbnail;
   }

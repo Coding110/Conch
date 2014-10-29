@@ -335,7 +335,7 @@ UPDATE '.IMAGES_TABLE.'
       }
     }
   }
-
+  
   invalidate_user_cache();
   
   if (count($page['thumbnails']))
@@ -510,11 +510,12 @@ if (count($upload_categories) == 0)
 {
   $upload_categories = array(-1);
 }
+  $tempu = $user['id'];
 
 $query = '
-SELECT id,name,uppercats,global_rank
+SELECT id,name,uppercats,global_rank,community_user
   FROM '.CATEGORIES_TABLE.'
-  WHERE id IN ('.implode(',', $upload_categories).')
+  WHERE id IN ('.implode(',', $upload_categories).')and community_user ='.$tempu.'
 ;';
 
 display_select_cat_wrapper(
@@ -536,9 +537,9 @@ if (count($user_permissions['create_categories']) == 0)
 }
 
 $query = '
-SELECT id,name,uppercats,global_rank
+SELECT id,name,uppercats,global_rank,community_user
   FROM '.CATEGORIES_TABLE.'
-  WHERE id IN ('.implode(',', $create_categories).')
+  WHERE id IN ('.implode(',', $create_categories).') and community_user ='.$tempu.'
 ;';
 
 display_select_cat_wrapper(

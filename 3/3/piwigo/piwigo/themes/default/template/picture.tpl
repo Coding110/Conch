@@ -86,6 +86,11 @@ function changeImgSrc(url,typeSave,typeMap)
 		<span class="pwg-icon pwg-icon-edit"></span><span class="pwg-button-text">{'Edit'|@translate}</span>
 	</a>
 {/if}{/strip}
+{strip}{if isset($U_PHOTO_ADMIN)}
+        <a id="DeletePhoto" href="{$U_PHOTO_DELETE}" title="{'Delete my photo'|@translate}" class="pwg-state-default pwg-button" rel="nofollow">
+        <span class="pwg-icon pwg-icon-edit"></span><span class="pwg-button-text">{'Delete'|@translate}</span>
+        </a>
+{/if}{/strip}
 {strip}{if isset($U_CADDIE)}{*caddie management BEGIN*}
 {footer_script}
 {literal}function addToCadie(aElement, rootUrl, id)
