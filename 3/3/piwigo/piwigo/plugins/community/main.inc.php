@@ -391,11 +391,12 @@ SELECT
     count_images AS total_nb_images,
     date_last,
     max_date_last,
-    count_categories AS nb_categories
+    count_categories AS nb_categories,
+	community_user
   FROM '.CATEGORIES_TABLE.'
    '.$join_type.' JOIN '.USER_CACHE_CATEGORIES_TABLE.' ON id=cat_id AND user_id='.$join_user.'
   WHERE '. implode('
-    AND ', $where);
+    AND ', $where).' and community_user='.$join_user.';';
 
   $result = pwg_query($query);
 
