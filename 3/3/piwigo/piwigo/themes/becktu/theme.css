@@ -257,6 +257,7 @@ left:95%;
 position:absolute;
 }
 #menubar {  position: relative;; background-color: #ffffff;}
+
 #content div.thumbnailCategory div.description {
 	overflow: hidden;font-size:12px; /* bug in FF 1.0 (not 1.5) */
 }
@@ -337,10 +338,6 @@ button.btn.btn-default.dropdown-toggle-login {
 	top:14px;
 	width:8%;
 }
-#user ul{
-	width:18em;
-}
-
 /*#content div.thumbnailCategory>div.description:hover {
   overflow: visible;
 }*/
@@ -739,7 +736,6 @@ TD.calDayCellFull, TD.calDayCellEmpty {
 	padding: 2px 0 0 2px;
 	margin: 5px;
 }
-
 .thumbnailCategory .description {
 	font-size: 90%;
 	overflow: auto;
@@ -1044,6 +1040,18 @@ element.style {
 }
 .container {
   width:70%;
+}
+#u_register{
+	position:relative;
+	float:left;
+	top:18px;
+	font-size:18px;	
+}
+#u_register a{
+	color:#000000;
+}
+#u_register a:hover{
+	color:#004040;
 }
 .register-info{
     font-family: Microsoft YaHei;

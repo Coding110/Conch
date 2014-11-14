@@ -10,7 +10,7 @@
 
 {if !empty($PLUGIN_INDEX_CONTENT_BEFORE)}{$PLUGIN_INDEX_CONTENT_BEFORE}{/if}
 <div id="content" class="content{if isset($MENUBAR)} contentWithMenu{/if}">
-<div class="titrePage{if isset($chronology.TITLE)} calendarTitleBar{/if}">
+<div class="titrePage{if isset($chronology.TITLE)} calendarTitleBar{/if}" style="{if isset($ishome_page)} display:none{/if}">
 	<ul class="categoryActions">
 {if !empty($image_orders)}
 		<li>{strip}<a  href="./" title="返回主页" class="glyphicon glyphicon-home" rel="nofollow">

@@ -7,7 +7,6 @@
 .thumbnails LABEL{ldelim}
 	width: {$derivative_params->max_width()+2}px;
 }
-
 .thumbnails .wrap2{ldelim}
 	height: {$derivative_params->max_height()+3}px;
 }
@@ -24,12 +23,15 @@
 {footer_script}
   var error_icon = "{$ROOT_URL}{$themeconf.icon_dir}/errors_small.png", max_requests = {$maxRequests};
 {/footer_script}
+
 {foreach from=$thumbnails item=thumbnail}
+
 {assign var=derivative value=$pwg->derivative($derivative_params, $thumbnail.src_image)}
 {if !$derivative->is_cached()}
 {combine_script id='jquery.ajaxmanager' path='themes/becktu/js/plugins/jquery.ajaxmanager.js' load='footer'}
 {combine_script id='thumbnails.loader' path='themes/becktu/js/thumbnails.loader.js' require='jquery.ajaxmanager' load='footer'}
 {/if}
+
 <li>
 	<span class="wrap1">
 		<span class="wrap2">
