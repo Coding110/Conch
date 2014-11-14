@@ -8,19 +8,19 @@
 -- Table structure for table `piwigo_emfs_folders`
 --
 
-DROP TABLE IF EXISTS `piwigo_emfs_folders`;
-CREATE TABLE `piwigo_emfs_folders` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	--  封面
-	`cover` varchar(255), 
-	`mailfolder` varchar(255) NOT NULL,
-	-- same as 'category_id'
-	`aliasfolder` varchar(255),
-	`mailid` int(11) NOT NULL,
-	`shareable` int(11),
-	`createtime` datetime,
-	PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+--DROP TABLE IF EXISTS `piwigo_emfs_folders`;
+--CREATE TABLE `piwigo_emfs_folders` (
+--	`id` int(11) NOT NULL AUTO_INCREMENT,
+--	--  封面
+--	`cover` varchar(255), 
+--	`mailfolder` varchar(255) NOT NULL,
+--	-- same as 'category_id'
+--	`aliasfolder` varchar(255),
+--	`mailid` int(11) NOT NULL,
+--	`shareable` int(11),
+--	`createtime` datetime,
+--	PRIMARY KEY  (`id`)
+--) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `piwigo_emfs_files`
@@ -59,3 +59,29 @@ CREATE TABLE `piwigo_emfs_mails` (
 	PRIMARY KEY  (`id`),
 	UNIQUE KEY `email_ui1` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+--
+-- Table structure for table `piwigo_emfs_task`
+--
+
+DROP TABLE IF EXISTS `piwigo_emfs_tasks`;
+CREATE TABLE `piwigo_emfs_tasks` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	-- same as 'user_id'
+	`uid` smallint(5) unsigned NOT NULL, 
+	-- same as 'image_id'
+	`fid` mediumint(8) unsigned NOT NULL,
+	-- aorignal image file path
+	`orig_file` varchar(255),
+	-- network image file path
+	`net_file` varchar(255),
+	-- thumbnail image file path
+	`th_file` varchar(255),
+	`add_time` datetime,
+	`exec_time` datetime,
+	`status` int(11), -- 0 - not upload, 1 - uploading, 2 - uploaded, 3 - error
+	`owner` varchar(128),
+	PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
