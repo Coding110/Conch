@@ -3,6 +3,11 @@
 #include <libetpan/libetpan.h>
 #include <libetpan/connect.h>
 #include "db.h"
+#include "log.h"
+#include "imap_message.h"
+#include "base64.h"
+
+#define MAX_MAIL_FILE_SIZE 4194304 // 4MB
 
 static int thread_count = 0;
 static int thread_sleep = 5; // seconds
@@ -60,6 +65,7 @@ int imap_upload(task_info_t &task, mail_info_t &mail_info)
 	mailimap * imap;
     mailstream *ms;
 	int fd, r;
+	char strtmp[256];
 
 	imap = mailimap_new(0, NULL);
 	if(mail_info.imapport == 143){
@@ -96,11 +102,85 @@ int imap_upload(task_info_t &task, mail_info_t &mail_info)
 		Logging(E_LOG_ERROR, "imap select failed, mail box: %s.", maildir);
 		return -1;
 	}
+
+	// 上传文件到邮箱
+	//
+	struct stat img_stat;
+	struct mailimap_date_time * date_time = now_date_for_mail();
+	long long fsize; // file size
+	long long rsize; // read size
+	long long ssize; // sending size
+	uint32_t last_mailid;
+
+	// 上传原图
+	//
 	// 大部分imap在append之后返回UID（像163邮箱等）
 	// 但有些imap在select时，预测UID（像QQ邮箱）
     uint32_t mUIDNext = imap->imap_selection_info->sel_uidnext;
+	imap_msg_t *p_imap_msg = imap_msg_new();
 
-	// 上传文件到邮箱
+	// 设置头信息
+	imap_mime_head_set("From", "Photos backup<photos@backup.becktu.com>");
+	imap_mime_head_set("To", mail_info.email);
+
+	snprintf(strtmp, 256, "%s - 自来becktu.com的照片备份", mail_info.md5);
+	char *head_encode = mime_head_encode(strtmp);
+	imap_mime_head_set("Subject", head_encode);
+	delete[] head_encode;
+
+	imap_mime_head_set("EMFS", "1");
+	imap_mime_head_set("FNAME", mail_info.orig_filename);
+	imap_mime_head_set("FTYPE", "");
+
+	stat(mail_info.orig_img, &img_stat);
+	snprintf(strtmp, 256, "%d", img_stat.st_size);
+	imap_mime_head_set("FSIZE", strtmp);
+
+	snprintf(strtmp, 256, "becktu.com %s", mail_info.username);
+	imap_mime_head_set("FOWNER", strtmp);
+	imap_mime_head_set("FMD5", mail_info.md5);
+
+	fsize = img_stat.st_size;
+	rsize = 0;
+	last_mailid = -1; // 存储图片的第一封邮件的上一个mail id为-1
+	// 图片为邮件的正文，图片太大时，分开存储
+	while(rsize < fsize){
+
+		if(fsize - rsize > MAX_MAIL_FILE_SIZE)
+		{
+		    ssize = MAX_MAIL_FILE_SIZE;
+		}else{
+		    ssize = fsize - rsize;
+		}
+
+		snprintf(strtmp, 256, "%d", ssize);
+		imap_mime_head_set("PSIZE", strtmp);
+		snprintf(strtmp, 256, "%d", last_mailid);
+		imap_mime_head_set("LAST-MAILID", strtmp);
+
+		r = mailimap_append(imap, 
+    	        maildir,
+    	        0,//flag_list,
+    	        date_time,
+    	        cont, 
+    	        strlen(cont));
+
+    	uint32_t uidvr, uidr;
+    	r = mailimap_uidplus_append(imap, "INBOX",
+    	        0,
+    	        date_time,
+    	        cont, strlen(cont),
+    	        &uidvr,
+    	        &uidr);
+
+    	check_error(r, "could not append INBOX");
+    	printf("imap append: %u - %u\n", uidvr, uidr);
+	}
+
+	// 上传网络查看图
+	//
+
+	imap_msg_free(p_imap_msg);
 
 	return 0;
 }
@@ -122,6 +202,22 @@ int check_maildir(mailimap *imap, const char *maildir)
 	return 0;
 }
 
+/*
+ *	@return encoded head with 0-terminated, caller should delete[] the memory
+ */
+char *mime_head_encode(const char *value)
+{
+    //$hdmsg = "=?UTF-8?B?".base64_encode($msg)."?=";
+    //@syslog(LOG_INFO, "headers encode: ".$hdmsg);
+    //return $hdmsg;
+    
+	char *pbase64 = base64Encode(value, strlen(value));
+	int enc_buf_len = strlen(pbase64) + 20;
+	char *enc_buf = new char[enc_buf_len];
+	snprintf(enc_buf, enc_buf_len, "=?UTF-8?B?%s?=", pbase64);
+	delete[] pbase64;
+	return enc_buf;
+}
 /*
  * 	@return 0 - OK, else - failed
  */
