@@ -3,7 +3,7 @@
  <div class="col-md-4">
   <div><a href="./"><img src="{$ROOT_URL}themes/becktu/images/Becktu-logo-2.0.2.png" height="50px" width="100px" alt=""/></a></div>
 </div>
-  <div id="head_1">
+  <div id="head_1" style="{if isset($ishome_page)} display:none{/if}">
 	{foreach from=$blocks key=id item=block}
 	{if "menubar_identification.tpl"!=$block->template}
 	<dl id="{$id}">
@@ -16,12 +16,13 @@
 	{/if}
 	{/foreach}
   </div>	
+  <div style="{if isset($ishome_page)}postion:relative;float:left;height:20px;width:25%;{else}display:none{/if}"></div>
    <div class="uploadPhoto">
-      <a class="btn btn-primary"  href="{$ROOT_URL}index.php?/add_photos">{'Upload Photos'|@translate}</a>
+      <a class="btn btn-primary"  href=" {if isset($USERNAME)}{$ROOT_URL}index.php?/add_photos{else}{$ROOT_URL}identification.php{/if}">{'Upload Photos'|@translate}</a>
    </div>
 	<div class="user">
 	 <div class="userInfo">
-	 <div style="position:relative;float:left;top:18px;font-size:18px;">
+	 <div id="u_register">
 	  {if isset($U_REGISTER)}
 	    <a role="menuitem" href="{$U_REGISTER}" title="{'Create a new account'|@translate}" rel="nofollow">{'Register'|@translate}</a>	
 	  {/if}

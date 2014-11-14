@@ -52,19 +52,11 @@
             </div>
             <!-- Footer Bottom End -->   
 
-    <script src="{$ROOT_URL}themes/becktu/js/jquery.min.js"></script>
-    <script src="{$ROOT_URL}themes/becktu/js/bootstrap.js"></script> 
-    <script src="{$ROOT_URL}themes/becktu/js/jquery.themepunch.revolution.min.js"></script>
-    <script src="{$ROOT_URL}themes/becktu/js/spectrum.js"></script>
-    <script src="{$ROOT_URL}themes/becktu/js/custom.js"></script
-    <script src="{$ROOT_URL}themes/becktu/js/jquery.min.js"></script>
-    <script src="{$ROOT_URL}themes/becktu/js/jquery.parallax.js"></script> 
-    <script src="{$ROOT_URL}themes/becktu/js/jquery.prettyPhoto.js"></script>  
-    <script src="{$ROOT_URL}themes/becktu/js/circularnav.js"></script> 
-    <script src="{$ROOT_URL}themes/becktu/js/jquery.sticky.js"></script>	  
-    <script src="{$ROOT_URL}themes/becktu/js/jflickrfeed.js"></script>
-    <script src="{$ROOT_URL}themes/becktu/js/imagesloaded.pkgd.min.js"></script>     
-    {get_combined_scripts load='footer'}
+     <script src="{$ROOT_URL}themes/becktu/js/jquery.min.js"></script>   
+	 <script src="{$ROOT_URL}themes/becktu/js/jquery.flexslider.js"></script>
+	 <script src="{$ROOT_URL}themes/becktu/js/jquery.singlePageNav.min.js"></script>
+	 {get_combined_scripts load='footer'}
+	 <script src="{$ROOT_URL}themes/becktu/js/templatemo_script.js"></script>
 
 </div>{* the_page *}
 </body>

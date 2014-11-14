@@ -16,19 +16,19 @@
   <fieldset>
    <!--<legend>{'Filter'|@translate}</legend>-->
     <div style="font-size:22px;font-weight:normal;padding:0px 0px 15px 0px;width:18%"><span>{'Filter'|@translate}</span></div>
-    <label>{'Keyword'|@translate}<input type="text" class="form-control" style="display: inline;width:70%;"  name="keyword" value="{$F_KEYWORD}"></label>
+    <label style="width:20%;">{'Keyword'|@translate}<input type="text" class="form-control" style="display: inline;width:60%;"  name="keyword" value="{$F_KEYWORD}"></label>
 
-    <label>{'Author'|@translate}<input type="text" class="form-control" style="display: inline;width:70%;"  name="author" value="{$F_AUTHOR}"></label>
+    <label style="width:20%;">{'Author'|@translate}<input type="text" class="form-control" style="display: inline;width:60%;"  name="author" value="{$F_AUTHOR}"></label>
 
-    <label>
+    <label style="width:30%;">
       {'Album'|@translate}
-      <select name="cat" class="form-control" style="display: inline;width:80%;" >
+      <select name="cat" class="form-control" style="display: inline;width:75%;" >
         <option value="0">------------</option>
         {html_options options=$categories selected=$categories_selected}
       </select>
     </label>
 
-    <label style="position:relative;left:20px;">
+    <label style="position:relative;width:20%;">
       {'Since'|@translate}
       <select name="since"  class="form-control" style="display: inline;width:75%;">
         {html_options options=$since_options selected=$since_options_selected}

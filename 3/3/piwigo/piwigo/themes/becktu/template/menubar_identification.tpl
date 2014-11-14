@@ -4,7 +4,7 @@
 	{if isset($U_LOGIN)}
      	{'Login'|@translate}
 	{else}
-	    {'Identification'|@translate}
+	   {if isset($USERNAME)}{$USERNAME}{/if}
 	{/if}
     
       <span class="caret"></span>
@@ -12,16 +12,16 @@
 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 {strip}
 	{if isset($USERNAME)}
-	<li role="presentation"><p>{'Hello'|@translate} {$USERNAME} !</p></li>
-	{/if}
-	{if isset($U_LOGOUT)}
-	<li role="presentation"><a role="menuitem" href="{$U_LOGOUT}">{'Logout'|@translate}</a></li>
+	<li role="presentation"><a role="menuitem" href="./index.php?home_page">{'home page'|@translate}</a></li>
 	{/if}
 	{if isset($U_PROFILE)}
 	<li role="presentation"><a role="menuitem" href="{$U_PROFILE}" title="{'customize the appareance of the gallery'|@translate}">{'Customize'|@translate}</a></li>
 	{/if}
 	{if isset($U_ADMIN)}
 	<li role="presentation"><a role="menuitem" href="{$U_ADMIN}" title="{'available for administrators only'|@translate}">{'Administration'|@translate}</a></li>
+	{/if}
+	{if isset($U_LOGOUT)}
+	<li role="presentation"><a role="menuitem" href="{$U_LOGOUT}">{'Logout'|@translate}</a></li>
 	{/if}
 {/strip}
 {if isset($U_LOGIN)}

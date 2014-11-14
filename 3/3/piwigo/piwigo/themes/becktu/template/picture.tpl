@@ -280,7 +280,6 @@ y.callService(
 	<a class="bds_weixin" data-cmd="weixin"></a>
 	<a class="bds_douban" data-cmd="douban"></a>
 	<a class="bds_tqq" data-cmd="tqq"></a>
-	<a class="bds_mshare" data-cmd="mshare"></a>
 	</dd>
 </div>
 
@@ -354,8 +353,8 @@ function setPrivacyLevel(id, level){
 					<p><label for="email">{'Email address'|@translate}{if $comment_add.EMAIL_MANDATORY} ({'mandatory'|@translate}){/if} :</label></p>
 					<p><input type="text" name="email" id="email" value="{$comment_add.EMAIL}"></p>
 				{/if}
-				<p><label for="website_url">{'Website'|@translate} :</label></p>
-				<p><input type="text" class="form-control" name="website_url" id="website_url" value="{$comment_add.WEBSITE_URL}"></p>
+				<!--<p><label for="website_url">{'Website'|@translate} :</label></p>-->
+				<p style="display:none"><input type="text" class="form-control" name="website_url" id="website_url" value="{$comment_add.WEBSITE_URL}"></p>
 				<p><label for="contentid">{'Comment'|@translate} ({'mandatory'|@translate}) :</label></p>
 				<p><textarea name="content" class="form-control" id="contentid" rows="5" cols="50">{$comment_add.CONTENT}</textarea></p>
 				<p><input type="hidden" name="key" value="{$comment_add.KEY}">
