@@ -1,7 +1,7 @@
 #include <stdlib.h>  
 #include <stdio.h>  
 #include <string.h>  
-#include <mariadb/mysql.h>  
+#include <mysql.h>  
 #include <pthread.h>
 #include "db.h"
 #include "common.h"
@@ -108,6 +108,7 @@ int TaskComplete(vector<task_info_t> &tasks)
 {
 	int ret = 0;
 	char timenow[24] = {0};
+	char query[1024];
 	gettime(timenow);
 
 	pthread_mutex_lock(&db_mutex);
@@ -167,6 +168,7 @@ int ImageUpdate(int image_id, char *orig_image)
 int GetMailInfo(long long uid, mail_info_t &mail_info) // mail_info is output parameter
 {
 	int ret = 0;
+	unsigned long *lengths;
 	pthread_mutex_lock(&db_mutex);
 
 	do{
@@ -199,7 +201,7 @@ int GetMailInfo(long long uid, mail_info_t &mail_info) // mail_info is output pa
 		}
 
 		mysql_free_result(res);
-	}
+	}while(0);
 
 	pthread_mutex_unlock(&db_mutex);
 

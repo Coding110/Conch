@@ -1,8 +1,7 @@
 #ifndef _BASE64_HH
 #define _BASE64_HH
 
-unsigned char* base64Decode(char const* in, unsigned& resultSize,
-			    bool trimTrailingZeros = true);
+unsigned char* base64Decode(char const* in, unsigned& resultSize, bool trimTrailingZeros = true);
     // returns a newly allocated array - of size "resultSize" - that
     // the caller is responsible for delete[]ing.
 

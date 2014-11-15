@@ -18,7 +18,8 @@ typedef struct _task_info_t{
 	int status;
 	time_t add_time;
 	time_t exec_time;
-	char md5[36];
+	char orig_md5[36];
+	char net_md5[36];
 	char orig_filename[256];
 	char username[64];
 }task_info_t;

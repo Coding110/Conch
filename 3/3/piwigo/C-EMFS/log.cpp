@@ -26,7 +26,7 @@ int OpenLog(const char *logfile, int log_level)
 int CloseLog()
 {
 	if(flog) fclose(flog);
-	pthread_mutex_destroy(&log_mutex, NULL);
+	pthread_mutex_destroy(&log_mutex);
 }
 
 int Logging(int level, const char *format, ...)
