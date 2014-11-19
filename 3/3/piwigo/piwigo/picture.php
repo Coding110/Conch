@@ -39,10 +39,11 @@ $page['rank_of'] = array_flip($page['items']);
 
 // if this image_id doesn't correspond to this category, an error message is
 // displayed, and execution is stopped
+
 if ( !isset($page['rank_of'][$page['image_id']]) )
 {
   $query = '
-SELECT id, file, level
+SELECT id, file, level,added_by
   FROM '.IMAGES_TABLE.'
   WHERE ';
   if ($page['image_id']>0)
@@ -476,13 +477,11 @@ if (isset($page['next_item']))
   $ids[] = $page['next_item'];
   $ids[] = $page['last_item'];
 }
-
 $query = '
 SELECT *
   FROM '.IMAGES_TABLE.'
-  WHERE id IN ('.implode(',', $ids).')
+  WHERE id IN ('.implode(',', $ids).') 
 ;';
-
 $result = pwg_query($query);
 
 while ($row = pwg_db_fetch_assoc($result))
@@ -771,10 +770,8 @@ if (is_admin())
       'U_PHOTO_ADMIN' => $url_admin,
       )
     );
-
-  $template->assign('available_permission_levels', get_privacy_level_options());
 }
-
+$template->assign('available_permission_levels', get_privacy_level_options());
 // favorite manipulation
 if (!is_a_guest() and $conf['picture_favorite_icon'])
 {
@@ -918,6 +915,7 @@ else
     $ids = array_merge($ids, explode(',', $category['uppercats']) );
   }
   $ids = array_unique($ids);
+  if(count($ids)>1){
   $query = '
 SELECT id, name, permalink
   FROM '.CATEGORIES_TABLE.'
@@ -932,6 +930,7 @@ SELECT id, name, permalink
     }
     $template->append('related_categories', get_cat_display_name($cats) );
   }
+ }
 }
 
 // maybe someone wants a special display (call it before page_header so that
