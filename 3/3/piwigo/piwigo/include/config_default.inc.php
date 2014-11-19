@@ -227,8 +227,8 @@ $conf['allow_html_descriptions'] = true;
 $conf['users_page'] = 20;
 
 // image level permissions available in the admin interface
-$conf['available_permission_levels'] = array(0,1,2,4,8);
-
+$conf['available_permission_levels'] = array(0,1);
+//$conf['available_permission_levels'] = array(0,1,2,4,8);
 // check_upgrade_feed: check if there are database upgrade required. Set to
 // true, a message will strongly encourage you to upgrade your database if
 // needed.
