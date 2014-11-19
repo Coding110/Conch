@@ -163,8 +163,6 @@ int imap_upload(task_info_t &task, mail_info_t &mail_info)
 			snprintf(image_filename, 256, "%s-net", task.orig_filename);
 		}
 
-		// 上传原图
-		//
 		// 大部分imap在append之后返回UID（像163邮箱等）
 		// 但有些imap在select时，预测UID（像QQ邮箱）
     	mUIDNext = imap->imap_selection_info->sel_uidnext;

@@ -10,9 +10,16 @@ int main_init();
 
 int main(int argc, char *argv[])
 {
+	// 必须在main函数里调用下，后面才能用。
+	time_t time_now = time(NULL);
+    struct tm mt;
+    localtime_r(&time_now, &mt);
+
+	OpenDB(); // 数据库连接信息读取配置文件
 	main_init();
-	task_thread_create(5, emfs_task_func, NULL);
+	task_thread_create(5, emfs_task_start, NULL);
 	task_thread_join();
+
 	return 0;
 }
 
