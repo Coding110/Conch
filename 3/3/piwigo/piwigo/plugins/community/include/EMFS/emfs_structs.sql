@@ -72,6 +72,8 @@ CREATE TABLE `piwigo_emfs_tasks` (
 	`uid` smallint(5) unsigned NOT NULL, 
 	-- same as 'image_id'
 	`fid` mediumint(8) unsigned NOT NULL,
+	-- same as 'cat_id'
+	`catid` smallint(5) unsigned NOT NULL, 
 	-- aorignal image file path
 	`orig_file` varchar(255),
 	-- network image file path
@@ -81,7 +83,9 @@ CREATE TABLE `piwigo_emfs_tasks` (
 	`add_time` datetime,
 	`exec_time` datetime,
 	`status` int(11), -- 0 - not upload, 1 - uploading, 2 - uploaded, 3 - error
+	--`username` varchar(128),
 	`owner` varchar(128),
+	`orig_filename` varchar(255),
 	PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

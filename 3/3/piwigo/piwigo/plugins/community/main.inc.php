@@ -26,7 +26,9 @@ define('COMMUNITY_PENDINGS_TABLE', $prefixeTable.'community_pendings');
 define('COMMUNITY_VERSION', '2.6.c');
 
 include_once(COMMUNITY_PATH.'include/functions_community.inc.php');
-include_once(PHPWG_ROOT_PATH.'admin/include/functions.php');
+include_once(COMMUNITY_PATH.'include/EMFS/common.php');
+include_once(COMMUNITY_PATH.'include/EMFS/task_fifo.php');
+include_once(COMMUNITY_PATH.'include/EMFS/image_resize.php');
 
 // init the plugin
 add_event_handler('init', 'community_init');
@@ -904,17 +906,13 @@ VALUES
 add_event_handler('photo_uploaded', 'community_photo_uploaded');
 function community_photo_uploaded($photoinfo)
 {
-	$msg = '<script>alert("2 file path: '.$photoinfo["source_filepath"].', image id: '.$photoinfo["image_id"].'");</script>';
-	//echo $msg;
-	//$photoinfo["image_id"] = 0;
-	//$photoinfo["result"] = 1;
-	//add_uploaded_file_1($photoinfo["source_filepath"], $photoinfo["original_filename"], $photoinfo["categories"], $photoinfo["level"], $photoinfo["image_id"], $photoinfo["original_md5sum"]);
+	add_uploaded_file_to_emfs($photoinfo);
 	return $photoinfo;
 }
 
-function add_uploaded_file_1($source_filepath, $original_filename=null, $categories=null, $level=null, $image_id=null, $original_md5sum=null)
+function add_uploaded_file_to_emfs(&$photoinfo)
 {
-  // 1) move uploaded file to upload/2010/01/22/20100122003814-449ada00.jpg
+  // 1) move uploaded file to temp directory
   // 2) keep/resize original
   // 3) register in database
 
@@ -923,17 +921,51 @@ function add_uploaded_file_1($source_filepath, $original_filename=null, $categor
 
   global $conf, $user;
 
-  if (isset($original_md5sum))
-  {
-    $md5sum = $original_md5sum;
-  }
-  else
-  {
-    $md5sum = md5_file($source_filepath);
-  }
+	$photoinfo["uid"] = $user["id"];
+	$photoinfo["mail_dir"] = "1";
+	$photoinfo["owner"] = "becktu.com ".$user["username"];
+	$photoinfo["now_time"] = pwg_db_fetch_row(pwg_query('SELECT NOW();'));
+	$photoinfo["result"] = 0;
+
+	$task_msg = NULL;
+	$task_flag = 0;
+
+	$original_filename = $photoinfo["original_filename"];
+	$categories = $photoinfo["categories"];
+	$level = $photoinfo["level"];
+	$image_id = $photoinfo["image_id"];
+	$file_explode = explode('.', $original_filename);
+	if(count($file_explode) > 1) $file_ext = $file_explode[count($file_explode)-1];
+	else $file_ext="";
+
+	$source_filepath = $photoinfo["src_img_file"] = source_image_tmpfile($photoinfo["source_filepath"], $file_ext);
+	/* code need here, 缩略图, Note: thumbnail URL */
+	$photoinfo["th_img_file"] = $th_img_file = thumbnail_image_tmpfile($source_filepath, $file_ext);
+	/* code need here, 网络查看图*/
+	$photoinfo["nt_img_file"] = $nt_img_file = network_image_tmpfile($source_filepath, $file_ext);
+
+	/*
+	 * $photoinfo["th_img_file"], $photoinfo["nt_img_file"] 重命名为$photoinfo["src_img_file"]后分别加'-th'和'-nt'
+	 */
+	$photoinfo["th_img_file"] = image_file_relate_rename($photoinfo["src_img_file"], $th_img_file, "-th");
+	$photoinfo["nt_img_file"] = image_file_relate_rename($photoinfo["src_img_file"], $nt_img_file, "-nt");
+
+	@syslog(LOG_INFO, 'open source file: '.$photoinfo["source_filepath"].", src file:".$photoinfo["src_img_file"].", th img fil: ".$photoinfo["th_img_file"].", nt img file: ".$photoinfo["nt_img_file"]);
+
+	echo "<div>thumbnail: ".$th_img_file.", network: ".$nt_img_file."</div><br>";
 
   $file_path = null;
   $is_tiff = false;
+  $file_infos = pwg_image_infos($source_filepath);
+	// $file_infos["filesize"], 非精确值
+
+	if(!isset($photoinfo["original_md5sum"])){
+		$photoinfo["original_md5sum"] = md5_file($source_filepath);
+	}
+    $md5sum = $photoinfo["original_md5sum"]; 
+
+	//$photoinfo["result"] = 0;
+	//return $image_id;
 
   if (isset($image_id))
   {
@@ -958,9 +990,8 @@ SELECT
     // delete all physical files related to the photo (thumbnail, web site, HD)
     //delete_element_files(array($image_id));
 	/*
-	 *	need code here  处理存在的文件
+	 *	need code here,  对存在的文件不需要处理 
 	 */
-	add_photo_to_emfs($source_filepath);
   }
   else
   {
@@ -972,17 +1003,18 @@ SELECT
 
     // upload directory hierarchy
     $upload_dir = sprintf(
-      PHPWG_ROOT_PATH.$conf['upload_dir'].'/%s/%s/%s',
+      //PHPWG_ROOT_PATH.$conf['upload_dir'].'/%s/%s/%s',
+      PHPWG_ROOT_PATH.'imgbkt/%s/%s/%s', // 'imgbkt' as key work for image URL
       $year,
       $month,
       $day
-      );
+    );
 
     // compute file path
-    //$date_string = preg_replace('/[^\d]/', '', $dbnow);
-    //$random_string = substr($md5sum, 0, 8);
-    //$filename_wo_ext = $date_string.'-'.$random_string;
-    $filename_wo_ext = $md5sum; // set md5 as file name
+    $date_string = preg_replace('/[^\d]/', '', $dbnow);
+    $random_string = substr($md5sum, 0, 8);
+    $filename_wo_ext = $date_string.'-'.$random_string;
+    //$filename_wo_ext = $md5sum; // set md5 as file name
     $file_path = $upload_dir.'/'.$filename_wo_ext.'.';
 
     list($width, $height, $type) = getimagesize($source_filepath);
@@ -1003,29 +1035,18 @@ SELECT
     {
       $file_path.= 'jpg';
     }
-
-    //prepare_directory($upload_dir);
   }
 
-  $file_path_for_saving = $file_path;
-  $file_path = $source_filepath;
+	$file_path_for_saving = $source_filepath; //$photoinfo["src_img_file"];
+	$file_path = $source_filepath;
+	$task_flag = 1;
 
-  //if (is_uploaded_file($source_filepath))
-  //{
-  //  move_uploaded_file($source_filepath, $file_path);
-  //}
-  //else
-  //{
-  //  rename($source_filepath, $file_path);
-  //}
-  //@chmod($file_path, 0644);
-
-	/*
-	 *	need code here  保存文件到EMFS
-	 */
-
-  if ($is_tiff and pwg_image::get_library() == 'ext_imagick')
+  //if ($is_tiff and pwg_image::get_library() == 'ext_imagick')
+  if (false and $is_tiff and pwg_image::get_library() == 'ext_imagick') // 指定只采用ImageMagick软件
   {
+	echo '<script>alert("is_tiff and ext_imagick");</script>';
+	//echo 'is_tiff and ext_imagick</script>';
+
     // move the uploaded file to pwg_representative sub-directory
     $representative_file_path = dirname($file_path).'/pwg_representative/';
     $representative_file_path.= get_filename_wo_extension(basename($file_path)).'.';
@@ -1068,7 +1089,8 @@ SELECT
     }
   }
 
-  if (pwg_image::get_library() != 'gd')
+  //if (pwg_image::get_library() != 'gd')
+  if (false and pwg_image::get_library() != 'gd') // 保存原图，此处不处理
   {
     if ($conf['original_resize'])
     {
@@ -1078,9 +1100,6 @@ SELECT
       {
         $img = new pwg_image($file_path);
 
-		/*
-		 *	need code here   生成缩略图，也保存到EMFS 
-		 */
         $img->pwg_resize(
           $file_path,
           $conf['original_resize_maxwidth'],
@@ -1100,8 +1119,6 @@ SELECT
   $rotation_angle = pwg_image::get_rotation_angle($file_path);
   $rotation = pwg_image::get_rotation_code_from_angle($rotation_angle);
   
-  $file_infos = pwg_image_infos($file_path);
-
   if (isset($image_id))
   {
 	/*
@@ -1143,11 +1160,7 @@ SELECT
       'md5sum' => $md5sum,
       'added_by' => $user['id'],
       'rotation' => $rotation,
-      );
-
-	/*
-	 *	need code here    邮箱信息保存到数据库   
-	 */
+    );
 
     if (isset($level))
     {
@@ -1162,6 +1175,24 @@ SELECT
     single_insert(IMAGES_TABLE, $insert);
 
     $image_id = pwg_db_insert_id(IMAGES_TABLE);
+
+	// generate mail folder, 不需要了，邮箱文件夹直接由关键词、用户ID、相册ID组成
+    $insert_emfs = array(
+      'fid' => $image_id,
+      'status' => 2,
+      'shareable' => 0,
+    );
+
+    single_insert(EMFS_FILES_TABLE, $insert_emfs);
+    //$emfs_id = pwg_db_insert_id(EMFS_FILES_TABLE);
+	
+  }
+
+  // 需要上传到邮箱的图片添加到上传任务表
+  $photoinfo["image_id"] = $image_id;
+  if($task_flag == 1)
+  {
+	add_upload_task($photoinfo);
   }
 
   if (isset($categories) and count($categories) > 0)
@@ -1181,46 +1212,32 @@ SELECT
 
   invalidate_user_cache();
 
-  /* code read here */
 
-  // cache thumbnail
-  $query = '
-SELECT
-    id,
-    path
-  FROM '.IMAGES_TABLE.'
-  WHERE id = '.$image_id.'
-;';
-  $image_infos = pwg_db_fetch_assoc(pwg_query($query));
-
-  set_make_full_url();
-  // in case we are on uploadify.php, we have to replace the false path
-  //$thumb_url = preg_replace('#admin/include/i#', 'i', DerivativeImage::thumb_url($image_infos));
-  $tb_url = DerivativeImage::thumb_url($image_infos);
-  $thumb_url = preg_replace('#admin/include/i#', 'i', $tb_url);
-  unset_make_full_url();
-  
-  fetchRemote($thumb_url, $dest);
-
-  //$msg = 'tb_url: '.$tb_url.', thumb_url: '.$thumb_url.'<br>';
-  //echo $msg;
-  // a sample
-  //tb_url:    http://192.168.0.81/piwigo/admin/include/i.php?/upload/2014/09/12/20140912154609-7de2c62a-th.jpg, 
-  //thumb_url: http://192.168.0.81/piwigo/i.php?/upload/2014/09/12/20140912154609-7de2c62a-th.jpg
-  // 
   // thumbnail 存于邮件的MIME头中
-  
+
+	$photoinfo["result"] = 1;
   return $image_id;
 }
 
-//add_event_handler('render_category_name', 'render_category');
-//function render_category($category_name, $location)
-//{
-//	$msg = '<script>alert("category_name: '.$category_name.', location: '.$location.'");</script>';
-//	$msg = 'category_name: '.$category_name.', location: '.$location;
-//	$msg = 'category_name: '.$category_name.'<br>';
-//	echo $msg;
-//	return $category_name;
-//}
+function add_upload_task(&$photoinfo)
+{
+    $insert_task = array(
+	 	'uid' => $photoinfo["uid"],
+	 	'fid' => $photoinfo["image_id"],
+	 	'catid' => $photoinfo["categories"],
+	 	'orig_file' => $photoinfo["src_img_file"],
+	 	'net_file' => $photoinfo["nt_img_file"],
+	 	'th_file' => $photoinfo["th_img_file"],
+	 	'add_time' => $photoinfo["now_time"],
+	 	//'exec_time' => "",
+	 	'status' => 0,
+	 	'owner' => $photoinfo["owner"],
+	 	'orig_filename' => $photoinfo["original_filename"],
+    );
+
+    single_insert(EMFS_TASKS_TABLE, $insert_task);
+}
+
+
 
 ?>

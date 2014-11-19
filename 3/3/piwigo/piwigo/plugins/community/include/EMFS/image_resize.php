@@ -148,5 +148,18 @@ function thumbnail_image_resize($src_img, $dst_img)
 	return true;
 }
 
+/*
+ *	把网络查看图和缩略图重命名与原图相关的名称
+ *	规则：网络查看图的名称为在原图名称后面加后缀'-nt' (非文件名后缀的后面)
+ *		  缩略图的名称在原图名称后面加后缀'-th'
+ */
+function image_file_relate_rename($main_file, $sub_file, $suffix)
+{
+	list($filename, $filesuffix) = explode(".", $main_file);
+	$new_file = $filename.$suffix.".".$filesuffix;
+	rename($sub_file, $new_file);
+	return $new_file;
+}
+
 ?>
 
