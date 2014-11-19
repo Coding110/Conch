@@ -287,7 +287,7 @@ y.callService(
 	<div id="Privacy" class="imageInfo">
 		<dt>{'Who can see this photo?'|@translate}</dt>
 		<dd>
-			<div>
+			<div> 
 				<a id="privacyLevelLink" href>{$available_permission_levels[$current.level]}</a>
 			</div>
 {combine_script id='core.scripts' load='async' path='themes/default/js/scripts.js'}
@@ -295,7 +295,7 @@ y.callService(
 function setPrivacyLevel(id, level){
 (new PwgWS('{$ROOT_URL}')).callService(
 	"pwg.images.setPrivacyLevel", { image_id:id, level:level},
-	{
+	{  
 		method: "POST",
 		onFailure: function(num, text) { alert(num + " " + text); },
 		onSuccess: function(result) {
@@ -346,12 +346,12 @@ function setPrivacyLevel(id, level){
 			<h4>{'Add a comment'|@translate}</h4>
 			<form method="post" action="{$comment_add.F_ACTION}" id="addComment">
 				{if $comment_add.SHOW_AUTHOR}
-					<p><label for="author">{'Author'|@translate}{if $comment_add.AUTHOR_MANDATORY} ({'mandatory'|@translate}){/if} :</label></p>
-					<p><input type="text" name="author" id="author" value="{$comment_add.AUTHOR}"></p>
+					<!--<p><label for="author">{'Author'|@translate}{if $comment_add.AUTHOR_MANDATORY} ({'mandatory'|@translate}){/if} :</label></p>-->
+					<p><input style="display:none" type="text" name="author" id="author" value="{$comment_add.AUTHOR}"></p>
 				{/if}
 				{if $comment_add.SHOW_EMAIL}
-					<p><label for="email">{'Email address'|@translate}{if $comment_add.EMAIL_MANDATORY} ({'mandatory'|@translate}){/if} :</label></p>
-					<p><input type="text" name="email" id="email" value="{$comment_add.EMAIL}"></p>
+					<!--<p><label for="email">{'Email address'|@translate}{if $comment_add.EMAIL_MANDATORY} ({'mandatory'|@translate}){/if} :</label></p>-->
+					<p><input style="display:none" type="text" name="email" id="email" value="{$comment_add.EMAIL}"></p>
 				{/if}
 				<!--<p><label for="website_url">{'Website'|@translate} :</label></p>-->
 				<p style="display:none"><input type="text" class="form-control" name="website_url" id="website_url" value="{$comment_add.WEBSITE_URL}"></p>

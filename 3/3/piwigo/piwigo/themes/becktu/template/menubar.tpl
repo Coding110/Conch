@@ -5,7 +5,7 @@
 </div>
   <div id="head_1" style="{if isset($ishome_page)} display:none{/if}">
 	{foreach from=$blocks key=id item=block}
-	{if "menubar_identification.tpl"!=$block->template}
+	{if "menubar_identification.tpl"!=$block->template and "menubar_menu.tpl"!=$block->template}
 	<dl id="{$id}">
 		{if not empty($block->template)}
 		{include file=$block->template|@get_extent:$id }

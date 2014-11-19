@@ -1,6 +1,6 @@
 <div id="copyright">
    <!-- Footer Top Start -->
-   <div class="footer-top">
+   <!-- <div class="footer-top">
                <div class="container">
                   <div class="row">
                      <section class="col-lg-3 col-md-3 col-xs-12 col-sm-3 footer-one">
@@ -40,13 +40,15 @@
                      </section>
                   </div>
                </div>
-            </div>
-     <!-- Footer Top End -->        
+            </div>-->
+     <!-- Footer Top End -->    
+     <hr>    
      <!-- Footer Bottom Start -->
             <div class="footer-bottom">
                <div class="container">
-                  <div class="row">
-                     <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6 ">Copyright &copy; 2014.Company name All rights reserved.</div>
+                  <div class="footer-row">
+                     Copyright &copy; 2014 Becktu.com&nbsp;&nbsp; <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14053565号</a>
+                    &nbsp;&nbsp;<strong>Email:</strong><a href="mailto:info@fifothemes.com">becktu@163.com</a>
                   </div>
                </div>
             </div>
