@@ -288,7 +288,6 @@ function display_select_categories($categories,
     }
     $tpl_cats[ $category['id'] ] = $option;
   }
-
   $template->assign( $blockname, $tpl_cats);
   $template->assign( $blockname.'_selected', $selecteds);
 }

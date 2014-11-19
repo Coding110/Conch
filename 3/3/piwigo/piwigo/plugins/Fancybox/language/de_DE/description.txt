@@ -1,1 +1,0 @@
-FancyBox zeigt Bilder schwimmend über der eigentlichen Webseite, wie bei Mac OS/X die "lightbox"

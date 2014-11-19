@@ -79,6 +79,4 @@ $lang['File %s too big (%uMB), quota of %uMB exceeded'] = '文件 %s 过大 (%uM
 $lang['Gallery root'] = '相册根目录';
 $lang['a user can own only one album'] = '一个用户只能拥有一个相册';
 $lang['Album of user'] = '用户相册';
-$lang['Delete my photo'] = '删除图片';
-$lang['Delete'] = '删除';
 ?>

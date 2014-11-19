@@ -335,7 +335,7 @@ UPDATE '.IMAGES_TABLE.'
       }
     }
   }
-  
+
   invalidate_user_cache();
   
   if (count($page['thumbnails']))
@@ -510,20 +510,21 @@ if (count($upload_categories) == 0)
 {
   $upload_categories = array(-1);
 }
+//added by wu 20141115 start
   $tempu = $user['id'];
+ //added by wu 20141115 end
 
 $query = '
 SELECT id,name,uppercats,global_rank,community_user
   FROM '.CATEGORIES_TABLE.'
-  WHERE id IN ('.implode(',', $upload_categories).')and community_user ='.$tempu.'
-;';
+  WHERE id IN ('.implode(',', $upload_categories).') and community_user ='.$tempu.'
+;';//updated by wu 20141115
 
 display_select_cat_wrapper(
   $query,
   $selected_category,
   'category_options'
   );
-
 $create_subcategories = false;
 if ($user_permissions['create_whole_gallery'] or count($user_permissions['create_categories']) > 0)
 {
@@ -536,6 +537,7 @@ if (count($user_permissions['create_categories']) == 0)
   $create_categories = array(-1);
 }
 
+//updated by wu 20141115
 $query = '
 SELECT id,name,uppercats,global_rank,community_user
   FROM '.CATEGORIES_TABLE.'

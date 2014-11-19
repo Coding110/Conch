@@ -1,1 +1,0 @@
-Display pictures in a lightbox (with fancybox).

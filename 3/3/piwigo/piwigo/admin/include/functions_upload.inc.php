@@ -160,13 +160,13 @@ function add_uploaded_file($source_filepath, $original_filename=null, $categorie
   // * check md5sum (already exists?)
 
   global $conf, $user;
-
+//added by wu 20141115 start
 	$msg = '<script>alert("1 file path: '.$source_filepath.', image id: '.$image_id.'");</script>';
 	//echo $msg;
 
   // add a event 'photo_uploaded'
   // $photoinfo["source_filepath"] => $source_filepath
-  // $photoinfo["result"], 0: 没修改存储方式，按默认处理; 1: 修改了存储方式，无需不再处理;
+  // $photoinfo["result"],0:没修改存储方式，按默认处理; 1: 修改了存储方式，无需不再处理;
   $photoinfo["source_filepath"] = $source_filepath;
   $photoinfo["original_filename"] = $original_filename;
   $photoinfo["categories"] = $categories;
@@ -178,7 +178,7 @@ function add_uploaded_file($source_filepath, $original_filename=null, $categorie
   if($photoinfo["result"] == 1){
     return $photoinfo["image_id"];
   }
-
+  //added by wu 20141115 end
   if (isset($original_md5sum))
   {
     $md5sum = $original_md5sum;

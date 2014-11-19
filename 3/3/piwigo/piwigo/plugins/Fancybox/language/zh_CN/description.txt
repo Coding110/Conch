@@ -1,1 +1,0 @@
-以lightbox的形式显示图片（基于fancybox上修改的）

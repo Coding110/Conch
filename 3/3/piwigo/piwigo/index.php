@@ -23,8 +23,10 @@
 
 //--------------------------------------------------------------------- include
 define('PHPWG_ROOT_PATH','./');
+
 include_once( PHPWG_ROOT_PATH.'include/common.inc.php' );
 include(PHPWG_ROOT_PATH.'include/section_init.inc.php');
+
 
 // Check Access and exit when user status is not ok
 check_status(ACCESS_GUEST);
@@ -110,6 +112,7 @@ $template->assign('U_CANONICAL', $canonical_url);
 //-------------------------------------------------------------- page title
 $title = $page['title'];
 $template_title = $page['section_title'];
+
 if (count($page['items']) > 0)
 {
   $template_title.= ' ['.count($page['items']).']';
@@ -120,7 +123,6 @@ $template->assign('TITLE', $template_title);
 include( PHPWG_ROOT_PATH.'include/menubar.inc.php');
 
 $template->set_filename('index', 'index.tpl');
-
 // +-----------------------------------------------------------------------+
 // |  index page (categories, thumbnails, search, calendar, random, etc.)  |
 // +-----------------------------------------------------------------------+
@@ -309,11 +311,14 @@ if ( empty($page['is_external']) or !$page['is_external'] )
     and (!isset($page['category']['count_categories']) or $page['category']['count_categories']>0 )
   )
   {
-    include(PHPWG_ROOT_PATH.'include/category_cats.inc.php');
+  	$main_page_ret = 0;
+   	$main_page_ret = trigger_event('main_index_page', $main_page_ret);
+   	if($main_page_ret == 0){
+  		include(PHPWG_ROOT_PATH.'include/category_cats.inc.php');
+   	}
   }
-
   if ( !empty($page['items']) )
-  {
+  { 
     include(PHPWG_ROOT_PATH.'include/category_default.inc.php');
     $url = add_url_params(
             duplicate_index_url(),
@@ -357,8 +362,16 @@ if ( empty($page['is_external']) or !$page['is_external'] )
 include(PHPWG_ROOT_PATH.'include/page_header.php');
 trigger_action('loc_end_index');
 flush_page_messages();
+
 $template->parse_index_buttons();
 $template->pparse('index');
+
+// if (isset($_GET['param']) && $_GET['param']=="login"){
+// 	$template->pparse('index');
+// }else {
+// 	$template->pparse('main');
+// }
+
 
 //------------------------------------------------------------ log informations
 pwg_log();

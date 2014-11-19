@@ -130,6 +130,10 @@ SELECT id, name, permalink
   $is_first = true;
   foreach (explode(',', $uppercats) as $category_id)
   {
+  	if($category_id==null or !isset($category_id))
+  		continue;
+//    echo "<div>".var_dump($category_id)."</div><br>";
+//    echo "<div>".var_dump($cache['cat_names'][$category_id])."</div>";
     $cat = $cache['cat_names'][$category_id];
 
     $cat['name'] = trigger_event(

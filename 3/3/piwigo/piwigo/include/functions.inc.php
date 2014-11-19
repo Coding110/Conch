@@ -1912,24 +1912,23 @@ function check_input_parameter($param_name, $param_array, $is_array, $pattern, $
 function get_privacy_level_options()
 {
   global $conf;
-
   $options = array();
   $label = '';
   foreach (array_reverse($conf['available_permission_levels']) as $level)
   {
-    if (0 == $level)
-    {
-      $label = l10n('Everybody');
-    }
-    else
-    {
-      if (strlen($label))
-      {
-        $label .= ', ';
-      }
-      $label .= l10n( sprintf('Level %d', $level) );
-    }
-    $options[$level] = $label;
+//     if (0 == $level)
+//     {
+//       $label = l10n('Everybody');
+//     }
+//     else
+//     {
+//       if (strlen($label))
+//       {
+//         $label .= ', ';
+//       }
+//       $label .= l10n( sprintf('Level %d', $level) );
+//     }
+    $options[$level] = l10n( sprintf('Level %d', $level));
   }
   return $options;
 }

@@ -435,7 +435,7 @@ if (count($comments) > 0)
   $query = '
 SELECT *
   FROM '.IMAGES_TABLE.'
-  WHERE id IN ('.implode(',', $element_ids).')
+  WHERE id IN ('.implode(',', $element_ids).') 
 ;';
   $elements = hash_from_query($query, 'id');
 

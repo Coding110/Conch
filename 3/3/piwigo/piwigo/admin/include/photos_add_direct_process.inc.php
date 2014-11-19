@@ -201,7 +201,7 @@ SELECT
     // (empty($name)) {$name = get_name_from_file($file)}, a clean
     // function get_image_name($name, $file) would be better
     $thumbnail['title'] = get_name_from_file($image_infos['file']);
-
+    //updated by wu 20141115
     $thumbnail['link'] = get_root_url().'picture.php?/'.$image_id.'/category/'.$category_id;//get_root_url().'admin.php?page=photo-'.$image_id.'&amp;cat_id='.$category_id;
 
     $page['thumbnails'][] = $thumbnail;

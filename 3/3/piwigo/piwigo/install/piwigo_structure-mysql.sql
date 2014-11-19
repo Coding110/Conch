@@ -453,4 +453,3 @@ CREATE TABLE `piwigo_users` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `users_ui1` (`username`)
 ) ENGINE=MyISAM;
-

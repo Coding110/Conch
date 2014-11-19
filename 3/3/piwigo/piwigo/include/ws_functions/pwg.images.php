@@ -707,7 +707,6 @@ SELECT *
 function ws_images_setPrivacyLevel($params, &$service)
 {
   global $conf;
-
   if (!in_array($params['level'], $conf['available_permission_levels']))
   {
     return new PwgError(WS_ERR_INVALID_PARAM, 'Invalid level');

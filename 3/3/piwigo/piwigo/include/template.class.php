@@ -1443,7 +1443,8 @@ class ScriptLoader
 
   private static $known_paths = array(
       'core.scripts' => 'themes/default/js/scripts.js',
-      'jquery' => 'themes/default/js/jquery.min.js',
+     // 'jquery' => 'themes/default/js/jquery.min.js',
+  	  'jquery' =>'',
       'jquery.ui' => 'themes/default/js/ui/minified/jquery.ui.core.min.js',
       'jquery.ui.effect' => 'themes/default/js/ui/minified/jquery.ui.effect.min.js',
     );

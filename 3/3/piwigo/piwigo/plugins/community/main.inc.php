@@ -26,7 +26,9 @@ define('COMMUNITY_PENDINGS_TABLE', $prefixeTable.'community_pendings');
 define('COMMUNITY_VERSION', '2.6.c');
 
 include_once(COMMUNITY_PATH.'include/functions_community.inc.php');
+//added by wu 20141115 start
 include_once(PHPWG_ROOT_PATH.'admin/include/functions.php');
+//added by wu 20141115 end
 
 // init the plugin
 add_event_handler('init', 'community_init');
@@ -50,7 +52,6 @@ function community_init()
     // call install function
     include_once(COMMUNITY_PATH.'include/install.inc.php');
     community_install();
-    emfs_install();
 
     // update plugin version in database
     if ( $pwg_loaded_plugins[COMMUNITY_ID]['version'] != 'auto' and COMMUNITY_VERSION != 'auto' )
@@ -81,6 +82,8 @@ add_event_handler('get_admin_plugin_menu_links', 'community_admin_menu');
 function community_admin_menu($menu)
 {
   global $page;
+  
+
   
   $query = '
 SELECT
@@ -119,7 +122,7 @@ SELECT
         );
     }
   }
-  
+
   array_push(
     $menu,
     array(
@@ -154,21 +157,26 @@ add_event_handler('loc_end_section_init', 'community_section_init');
 function community_section_init()
 {
   global $tokens, $page;
-  
   if ($tokens[0] == 'add_photos')
   {
     $page['section'] = 'add_photos';
+  }else if ($tokens[0] == 'home_page'){
+  	$page['section'] = 'home_page';
   }
+  
 }
 
 add_event_handler('loc_end_index', 'community_index');
 function community_index()
 {
-  global $page;
+  global $page, $user, $conf, $template;
   
   if (isset($page['section']) and $page['section'] == 'add_photos')
   {
     include(COMMUNITY_PATH.'add_photos.php');
+  }else if (isset($page['section']) and $page['section'] == 'home_page')
+  {
+  	include(PHPWG_ROOT_PATH.'include/category_cats.inc.php');
   }
 }
 
@@ -214,7 +222,7 @@ function community_switch_user_to_admin($arr)
   global $user, $community;
 
   $service = &$arr[0];
-  
+
   if (is_admin())
   {
     return;
@@ -232,8 +240,6 @@ function community_switch_user_to_admin($arr)
     $community['md5sum'] = $_REQUEST['original_sum'];
   }
 
-  
-  
   // $print_params = $params;
   // unset($print_params['data']);
   // file_put_contents('/tmp/community.log', '['.$methodName.'] '.json_encode($print_params)."\n" ,FILE_APPEND);
@@ -270,6 +276,7 @@ function community_switch_user_to_admin($arr)
         or $user_permissions['create_whole_gallery'])
     {
       $user['status'] = 'admin';
+      invalidate_user_cache();
     }
   }
 
@@ -318,6 +325,25 @@ function community_ws_replace_methods($arr)
     array(),
     'administration method only'
     );
+  
+  $service->addMethod(
+  		'pwg.images.setPrivacyLevel',
+  		'community_ws_setPrivacyLevel',
+     	 array(
+        'image_id' => array('flags'=>WS_PARAM_FORCE_ARRAY,
+                            'type'=>WS_TYPE_ID),
+        'level' =>    array('maxValue'=>max($conf['available_permission_levels']),
+                            'type'=>WS_TYPE_INT|WS_TYPE_POSITIVE),
+        ),
+  		''
+  );
+}
+
+function community_ws_setPrivacyLevel($params, &$service){
+	include_once(PHPWG_ROOT_PATH.'include/ws_functions/pwg.images.php');
+	$user['status'] = 'admin';
+	  //var_dump($params);
+	ws_images_setPrivacyLevel($params, $service);
 }
 
 /**
@@ -326,7 +352,6 @@ function community_ws_replace_methods($arr)
 function community_ws_categories_getList($params, &$service)
 {
   global $user, $conf;
-
   if ($params['tree_output'])
   {
     if (!isset($_GET['format']) or !in_array($_GET['format'], array('php', 'json')))
@@ -397,7 +422,7 @@ SELECT
    '.$join_type.' JOIN '.USER_CACHE_CATEGORIES_TABLE.' ON id=cat_id AND user_id='.$join_user.'
   WHERE '. implode('
     AND ', $where).' and community_user='.$join_user.';';
-
+//updated by wu 20141115
   $result = pwg_query($query);
 
   $cats = array();
@@ -771,67 +796,48 @@ function community_cat_modify_submit()
   }
 }
 
-add_event_handler('loc_end_section_init', 'add_delete_picture_btn');
-function add_delete_picture_btn()
+add_event_handler('main_index_page' , 'main_index_page_func');
+function main_index_page_func($main_page_ret)
 {
-  global $tokens, $page;
-
-  if ($tokens[0] == 'delete_image')
-  {
-    $page['section'] = 'delete_image';
-    $page["image_id"] = $tokens[1];
-    $page["category_id"] = $tokens[2];
-  }
-
-  //echo "<div>".var_dump($tokens)."</div><br>";
+	global $tokens;
+	if(isset($tokens) and count($tokens)>=2 and $tokens[0]=="category"){
+		$main_page_ret = 0;
+	}else {
+		include('main_index.php');
+		$main_page_ret = 1;
+	}
+	return $main_page_ret;
 }
-add_event_handler('loc_end_index', 'delete_picture_dealwith');
-function delete_picture_dealwith()
-{
-  global $page;
 
-  if (isset($page['section']) and $page['section'] == 'delete_image')
-  {
-    echo "<div>--image id: ".var_dump($page["image_id"])."</div><br>";
-    delete_elements(array($page['image_id']), true);
-    invalidate_user_cache();
-    $red_url = make_index_url(array('section' => 'category')).'/'.$page['category_id'];
-    //echo "<div>--redirect url: ".$red_url."</div><br>";
-    redirect($red_url);
-  }
-}
-add_event_handler('loc_end_picture', 'delete_picture_end');
-function delete_picture_end()
-{
-    global $template, $page;
-    //load_language('plugin.lang', HUATEST_PATH);
-    $del_url = make_index_url(array('section' => 'delete_image'));
-    $del_url = $del_url.'/'.$page["image_id"].'/'.$page['category']['id'];
-    $template->assign("U_PHOTO_DELETE", $del_url);
-    //echo "<div>page: ".var_dump($page)."</div><br>";
-    //echo "<div>image id: ".var_dump($page["image_id"])."</div><br>";
+add_event_handler('loc_begin_index' , 'loc_begin_index_func');
+function loc_begin_index_func()
+{ 
+	global $template,$tokens;
+	if(isset($tokens) and count($tokens)==1 and $tokens[0]==NULL){
+		$template->assign('ishome_page', true);
+	}
+
 }
 
 add_event_handler('ws_add_methods', 'add_methods', EVENT_HANDLER_PRIORITY_NEUTRAL+5);
 function add_methods($arr){
-    global $user, $conf;
-    if('pwg.categories.add' == $_REQUEST['method']){
-        $conf["huatest"] = array('cat_add_end' => 1, 'category_name' => $_REQUEST['name']);
-    }
-    return ;
+	global $user, $conf;
+	if('pwg.categories.add' == $_REQUEST['method']){
+		$conf["cats_add_mark"] = array('cat_add_end' => 1, 'category_name' => $_REQUEST['name']);
+	}
+	return ;
 }
 add_event_handler('sendResponse', 'add_sendResponse');
 function add_sendResponse(){
-    global $conf, $user;
-    //echo "<div>huatest_sendResponse, ".var_dump($conf["huatest"])."</div><br>";
-    if(isset($conf["huatest"]) and $conf["huatest"]["cat_add_end"] == 1){
-        single_update(
-            CATEGORIES_TABLE,
-            array('community_user' => $user['id']),
-            array('name' => $conf["huatest"]['category_name'])
-        );
-        invalidate_user_cache();
-    }
+	global $conf, $user;
+	if(isset($conf["cats_add_mark"]) and $conf["cats_add_mark"]["cat_add_end"] == 1){
+		single_update(
+		CATEGORIES_TABLE,
+		array('community_user' => $user['id']),
+		array('name' => $conf["cats_add_mark"]['category_name'])
+		);
+		invalidate_user_cache();
+	}
 }
 
 
@@ -839,65 +845,69 @@ function add_sendResponse(){
 add_event_handler('get_categories_menu_sql_where', 'select_get_categories_menu_sql_where');
 function select_get_categories_menu_sql_where($where)
 {
-    global $user;
-    $where = "community_user = '".$user["id"]."'";
-    return $where;
+	global $user;
+	$where = "community_user = '".$user["id"]."'";
+	return $where;
 }
 add_event_handler('loc_begin_index_category_thumbnails', 'select_loc_begin_index_category_thumbnails');
 function select_loc_begin_index_category_thumbnails($categories){
-    return ;
-    global $user;
-    $categories_1 = array();
-    for($i=0; $i<count($categories); $i++){
-        if($categories[$i]["community_user"] == $user["id"]){
-           // echo "<h3>cat: ".var_dump($categories[$i])."</h3>";
-           // echo "<h2>user id: ".$categories[$i]["community_user"].",".$user["id"]."</h2>";
-            //unset($categories[$i]);
-            $categories_1[] = $categories[$i];
-        }
-    }
-    $categories = $categories_1;
-    //echo "<h3>cat all: ".var_dump($categories)."</h3>";
+	return ;
+	global $user;
+	$categories_1 = array();
+	for($i=0; $i<count($categories); $i++){
+		if($categories[$i]["community_user"] == $user["id"]){
+			// echo "<h3>cat: ".var_dump($categories[$i])."</h3>";
+			// echo "<h2>user id: ".$categories[$i]["community_user"].",".$user["id"]."</h2>";
+			//unset($categories[$i]);
+			$categories_1[] = $categories[$i];
+		}
+	}
+	$categories = $categories_1;
+	//echo "<h3>cat all: ".var_dump($categories)."</h3>";
 }
 
 add_event_handler('loc_end_index_category_thumbnails', 'select_loc_end_index_category_thumbnails');
 function select_loc_end_index_category_thumbnails($tpl_thumbnails_var){
-    global $user;
-    //echo "<h3>tpl all: ".var_dump($tpl_thumbnails_var)."</h3>";
-    $subtpl = array();
-    for($i=0; $i<count($tpl_thumbnails_var); $i++){
-        if($tpl_thumbnails_var[$i]["community_user"] == $user["id"]){
-            //echo "<h3>cat: ".var_dump($tpl_thumbnails_var[$i])."</h3>";
-            //echo "<h2>user id: ".$tpl_thumbnails_var[$i]["community_user"].",".$user["id"]."</h2>";
-            //unset($categories[$i]);
-            $subtpl[] = $tpl_thumbnails_var[$i];
-        }
-    }
-    $tpl_thumbnails_var = $subtpl;
-    //echo "<h3>cat all: ".var_dump($tpl_thumbnails_var)."</h3>";
-    return $tpl_thumbnails_var;
+	global $user;
+	//echo "<h3>tpl all: ".var_dump($tpl_thumbnails_var)."</h3>";
+	$subtpl = array();
+	for($i=0; $i<count($tpl_thumbnails_var); $i++){
+		if($tpl_thumbnails_var[$i]["community_user"] == $user["id"]){
+			//echo "<h3>cat: ".var_dump($tpl_thumbnails_var[$i])."</h3>";
+			//echo "<h2>user id: ".$tpl_thumbnails_var[$i]["community_user"].",".$user["id"]."</h2>";
+			//unset($categories[$i]);
+			$subtpl[] = $tpl_thumbnails_var[$i];
+		}
+	}
+	$tpl_thumbnails_var = $subtpl;
+	//echo "<h3>cat all: ".var_dump($tpl_thumbnails_var)."</h3>";
+	return $tpl_thumbnails_var;
 }
 add_event_handler('register_user','add_register_user');
 function add_register_user($user)
 {
-  if (is_admin())
-  {
-    return;
-  }
+	if (is_admin())
+	{
+		return;
+	}
 
-  global $prefixeTable;
-  //echo $user['id'];
+	global $prefixeTable;
+	//echo $user['id'];
 
-  $id = $user['id'];
-  $name = $user['username'];
+	$id = $user['id'];
+	$name = $user['username'];
 
-    $query = '
+	$query = '
 INSERT INTO '.$prefixeTable.'categories
   (name,community_user)
 VALUES
   ( \''.$name.'\','.$id.')';
-
-    pwg_query( $query );
+	pwg_query( $query );
+	$updateSql='UPDATE '.$prefixeTable.'categories SET uppercats=id WHERE community_user='.$id;
+	pwg_query( $updateSql );
+	$updateSql='UPDATE '.USER_INFOS_TABLE.' SET level=1 WHERE user_id='.$id;
+	pwg_query( $updateSql );
+	
 }
 
 
@@ -912,315 +922,32 @@ function community_photo_uploaded($photoinfo)
 	return $photoinfo;
 }
 
-function add_uploaded_file_1($source_filepath, $original_filename=null, $categories=null, $level=null, $image_id=null, $original_md5sum=null)
-{
-  // 1) move uploaded file to upload/2010/01/22/20100122003814-449ada00.jpg
-  // 2) keep/resize original
-  // 3) register in database
-
-  // TODO
-  // * check md5sum (already exists?)
-
-  global $conf, $user;
-
-  if (isset($original_md5sum))
-  {
-    $md5sum = $original_md5sum;
-  }
-  else
-  {
-    $md5sum = md5_file($source_filepath);
-  }
-
-  $file_path = null;
-  $is_tiff = false;
-
-  if (isset($image_id))
-  {
-    // this photo already exists, we update it
-    $query = '
-SELECT
-    path
-  FROM '.IMAGES_TABLE.'
-  WHERE id = '.$image_id.'
-;';
-    $result = pwg_query($query);
-    while ($row = pwg_db_fetch_assoc($result))
-    {
-      $file_path = $row['path'];
-    }
-
-    if (!isset($file_path))
-    {
-      die('['.__FUNCTION__.'] this photo does not exist in the database');
-    }
-
-    // delete all physical files related to the photo (thumbnail, web site, HD)
-    //delete_element_files(array($image_id));
-	/*
-	 *	need code here  处理存在的文件
-	 */
-	add_photo_to_emfs($source_filepath);
-  }
-  else
-  {
-    // this photo is new
-
-    // current date
-    list($dbnow) = pwg_db_fetch_row(pwg_query('SELECT NOW();'));
-    list($year, $month, $day) = preg_split('/[^\d]/', $dbnow, 4);
-
-    // upload directory hierarchy
-    $upload_dir = sprintf(
-      PHPWG_ROOT_PATH.$conf['upload_dir'].'/%s/%s/%s',
-      $year,
-      $month,
-      $day
-      );
-
-    // compute file path
-    //$date_string = preg_replace('/[^\d]/', '', $dbnow);
-    //$random_string = substr($md5sum, 0, 8);
-    //$filename_wo_ext = $date_string.'-'.$random_string;
-    $filename_wo_ext = $md5sum; // set md5 as file name
-    $file_path = $upload_dir.'/'.$filename_wo_ext.'.';
-
-    list($width, $height, $type) = getimagesize($source_filepath);
-    if (IMAGETYPE_PNG == $type)
-    {
-      $file_path.= 'png';
-    }
-    elseif (IMAGETYPE_GIF == $type)
-    {
-      $file_path.= 'gif';
-    }
-    elseif (IMAGETYPE_TIFF_MM == $type or IMAGETYPE_TIFF_II == $type)
-    {
-      $is_tiff = true;
-      $file_path.= 'tif';
-    }
-    else
-    {
-      $file_path.= 'jpg';
-    }
-
-    //prepare_directory($upload_dir);
-  }
-
-  $file_path_for_saving = $file_path;
-  $file_path = $source_filepath;
-
-  //if (is_uploaded_file($source_filepath))
-  //{
-  //  move_uploaded_file($source_filepath, $file_path);
-  //}
-  //else
-  //{
-  //  rename($source_filepath, $file_path);
-  //}
-  //@chmod($file_path, 0644);
-
-	/*
-	 *	need code here  保存文件到EMFS
-	 */
-
-  if ($is_tiff and pwg_image::get_library() == 'ext_imagick')
-  {
-    // move the uploaded file to pwg_representative sub-directory
-    $representative_file_path = dirname($file_path).'/pwg_representative/';
-    $representative_file_path.= get_filename_wo_extension(basename($file_path)).'.';
-
-    $representative_ext = $conf['tiff_representative_ext'];
-    $representative_file_path.= $representative_ext;
-
-    prepare_directory(dirname($representative_file_path));
-    
-    $exec = $conf['ext_imagick_dir'].'convert';
-
-    if ('jpg' == $conf['tiff_representative_ext'])
-    {
-      $exec .= ' -quality 98';
-    }
-    
-    $exec .= ' "'.realpath($file_path).'"';
-
-    $dest = pathinfo($representative_file_path);
-    $exec .= ' "'.realpath($dest['dirname']).'/'.$dest['basename'].'"';
-    
-    $exec .= ' 2>&1';
-    @exec($exec, $returnarray);
-
-    // sometimes ImageMagick creates file-0.jpg (full size) + file-1.jpg
-    // (thumbnail). I don't know how to avoid it.
-    $representative_file_abspath = realpath($dest['dirname']).'/'.$dest['basename'];
-    if (!file_exists($representative_file_abspath))
-    {
-      $first_file_abspath = preg_replace(
-        '/\.'.$representative_ext.'$/',
-        '-0.'.$representative_ext,
-        $representative_file_abspath
-        );
-      
-      if (file_exists($first_file_abspath))
-      {
-        rename($first_file_abspath, $representative_file_abspath);
-      }
-    }
-  }
-
-  if (pwg_image::get_library() != 'gd')
-  {
-    if ($conf['original_resize'])
-    {
-      $need_resize = need_resize($file_path, $conf['original_resize_maxwidth'], $conf['original_resize_maxheight']);
-
-      if ($need_resize)
-      {
-        $img = new pwg_image($file_path);
-
-		/*
-		 *	need code here   生成缩略图，也保存到EMFS 
-		 */
-        $img->pwg_resize(
-          $file_path,
-          $conf['original_resize_maxwidth'],
-          $conf['original_resize_maxheight'],
-          $conf['original_resize_quality'],
-          $conf['upload_form_automatic_rotation'],
-          false
-          );
-
-        $img->destroy();
-      }
-    }
-  }
-
-  // we need to save the rotation angle in the database to compute
-  // width/height of "multisizes"
-  $rotation_angle = pwg_image::get_rotation_angle($file_path);
-  $rotation = pwg_image::get_rotation_code_from_angle($rotation_angle);
-  
-  $file_infos = pwg_image_infos($file_path);
-
-  if (isset($image_id))
-  {
-	/*
-	 *	need code here   更新存在图片的信息
-	 */
-    $update = array(
-      'file' => pwg_db_real_escape_string(isset($original_filename) ? $original_filename : basename($file_path)),
-      'filesize' => $file_infos['filesize'],
-      'width' => $file_infos['width'],
-      'height' => $file_infos['height'],
-      'md5sum' => $md5sum,
-      'added_by' => $user['id'],
-      'rotation' => $rotation,
-      );
-
-    if (isset($level))
-    {
-      $update['level'] = $level;
-    }
-
-    single_update(
-      IMAGES_TABLE,
-      $update,
-      array('id' => $image_id)
-      );
-  }
-  else
-  {
-    // database registration
-    $file = pwg_db_real_escape_string(isset($original_filename) ? $original_filename : basename($file_path));
-    $insert = array(
-      'file' => $file,
-      'name' => get_name_from_file($file),
-      'date_available' => $dbnow,
-      'path' => preg_replace('#^'.preg_quote(PHPWG_ROOT_PATH).'#', '', $file_path_for_saving),
-      'filesize' => $file_infos['filesize'],
-      'width' => $file_infos['width'],
-      'height' => $file_infos['height'],
-      'md5sum' => $md5sum,
-      'added_by' => $user['id'],
-      'rotation' => $rotation,
-      );
-
-	/*
-	 *	need code here    邮箱信息保存到数据库   
-	 */
-
-    if (isset($level))
-    {
-      $insert['level'] = $level;
-    }
-
-    if (isset($representative_ext))
-    {
-      $insert['representative_ext'] = $representative_ext;
-    }
-
-    single_insert(IMAGES_TABLE, $insert);
-
-    $image_id = pwg_db_insert_id(IMAGES_TABLE);
-  }
-
-  if (isset($categories) and count($categories) > 0)
-  {
-    associate_images_to_categories(
-      array($image_id),
-      $categories
-      );
-  }
-
-  // update metadata from the uploaded file (exif/iptc)
-  if ($conf['use_exif'] and !function_exists('read_exif_data'))
-  {
-    $conf['use_exif'] = false;
-  }
-  sync_metadata(array($image_id));
-
-  invalidate_user_cache();
-
-  /* code read here */
-
-  // cache thumbnail
-  $query = '
-SELECT
-    id,
-    path
-  FROM '.IMAGES_TABLE.'
-  WHERE id = '.$image_id.'
-;';
-  $image_infos = pwg_db_fetch_assoc(pwg_query($query));
-
-  set_make_full_url();
-  // in case we are on uploadify.php, we have to replace the false path
-  //$thumb_url = preg_replace('#admin/include/i#', 'i', DerivativeImage::thumb_url($image_infos));
-  $tb_url = DerivativeImage::thumb_url($image_infos);
-  $thumb_url = preg_replace('#admin/include/i#', 'i', $tb_url);
-  unset_make_full_url();
-  
-  fetchRemote($thumb_url, $dest);
-
-  //$msg = 'tb_url: '.$tb_url.', thumb_url: '.$thumb_url.'<br>';
-  //echo $msg;
-  // a sample
-  //tb_url:    http://192.168.0.81/piwigo/admin/include/i.php?/upload/2014/09/12/20140912154609-7de2c62a-th.jpg, 
-  //thumb_url: http://192.168.0.81/piwigo/i.php?/upload/2014/09/12/20140912154609-7de2c62a-th.jpg
-  // 
-  // thumbnail 存于邮件的MIME头中
-  
-  return $image_id;
+add_event_handler('loc_end_index_thumbnails', 'community_loc_end_index_thumbnails');
+function community_loc_end_index_thumbnails($tpl_thumbnails_var){
+	//var_dump($tpl_thumbnails_var);
+	global $user;
+	$count = count($tpl_thumbnails_var);
+	for($i =0; $i<$count;$i++){
+		if($tpl_thumbnails_var[$i]['level']==1 and $tpl_thumbnails_var[$i]['added_by']!=$user['id']){
+			unset($tpl_thumbnails_var[$i]);
+		}
+	}
+	return $tpl_thumbnails_var;
 }
 
-//add_event_handler('render_category_name', 'render_category');
-//function render_category($category_name, $location)
-//{
-//	$msg = '<script>alert("category_name: '.$category_name.', location: '.$location.'");</script>';
-//	$msg = 'category_name: '.$category_name.', location: '.$location;
-//	$msg = 'category_name: '.$category_name.'<br>';
-//	echo $msg;
-//	return $category_name;
-//}
-
+add_event_handler('picture_items', 'community_picture_items');
+function community_picture_items($pic_items ){
+	global $user;
+	$query='SELECT id,level,added_by 
+			 FROM '.IMAGES_TABLE.'
+		  WHERE id IN ('.implode(',',$pic_items).');';
+	$result=pwg_query($query);
+	$new_items=array();
+	while($row=pwg_db_fetch_assoc($result)){
+			if($row['level']==0 or $row['added_by']==$user['id']){
+				$new_items[]=$row['id'];
+		}
+	}
+	return $new_items;
+}
 ?>

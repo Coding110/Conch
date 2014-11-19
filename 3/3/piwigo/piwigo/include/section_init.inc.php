@@ -326,6 +326,7 @@ SELECT DISTINCT(image_id)
 ;';
 
     $page['items'] = array_from_query($query, 'image_id');
+    $page['items'] = trigger_event("picture_items", $page['items']);
   }
 }
 // special sections

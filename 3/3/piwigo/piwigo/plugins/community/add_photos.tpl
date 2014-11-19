@@ -501,12 +501,12 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 <div style="display:none">
   <div id="addAlbumForm" style="text-align:left;padding:1em;font-size:12px;font-family: Microsoft YaHei;">
     <form>
-    <!--
-      {'Parent album'|@translate}<br>
-      <select id ="category_parent" name="category_parent" class="form-control">
+      <!--
+      {'Parent album'|@translate}<br>-->
+      <select style="display:none" id ="category_parent" name="category_parent" class="form-control">
         <option value="0">------------</option>
         {html_options options=$category_parent_options selected=$category_parent_options_selected}
-      </select>-->
+      </select>
       <br><br>{'Album name'|@translate}<br><input name="category_name" class="form-control"><span id="categoryNameError"></span>
       <br><br>{'Album description'|@translate}<br><textarea name="category_description" rows="3"  class="form-control"></textarea>  <span id="categoryNameError"></span>
       <br><br><br><input type="submit" class="btn btn-primary" value="{'Create'|@translate}"> <span id="albumCreationLoading" style="display:none"><img src="themes/default/images/ajax-loader-small.gif"></span>
@@ -520,7 +520,7 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
     <input name="upload_id" value="{$upload_id}" type="hidden">
 {/if}
 
-    <fieldset>
+    <fieldset>                                                      
       <!--<legend>{'Drop into album'|@translate}</legend>-->
       <div style="font-size:22px;font-weight:normal;padding:0px 0px 15px 0px;"><span>选择相册</span></div>
       <span class="albumSelection"{if count($category_options) == 0} style="display:none"{/if}>

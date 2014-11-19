@@ -1,1 +1,0 @@
-Muestra las fotos en un cuadro emergente estilo lightbox
