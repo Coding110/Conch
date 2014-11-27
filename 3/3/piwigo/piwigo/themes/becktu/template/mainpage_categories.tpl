@@ -53,11 +53,11 @@ function getScrollTop(){
     <form action ="index.php?/edit_album" method="post">
     <table>
      <tr>
-       <td>{'Album name'|@translate}：</td><td><input id="album_name"  name="album_name" class="form-control"></td>
+       <td style="font-size:14px;">{'Album name'|@translate}：</td><td><input id="album_name"  name="album_name" class="form-control"></td>
      </tr>
      <tr><td>&nbsp</td><td>&nbsp</td></tr>
      <tr>
-       <td>{'Album description'|@translate}：</td><td><textarea id="album_description" name="album_description" rows="3"  class="form-control"></textarea></td>
+       <td style="font-size:14px;">{'Album description'|@translate}：</td><td><textarea id="album_description" name="album_description" rows="3"  class="form-control"></textarea></td>
      </tr>
        <tr><td>&nbsp</td><td>&nbsp</td></tr>
      <tr>
