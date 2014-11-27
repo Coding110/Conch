@@ -1033,15 +1033,6 @@ function community_get_derivative_url($url){
 	//$template->assign( 'new_img_src', $user['bkt_img_src'] );
 }
 
-
-add_event_handler('photo_level_updated', 'community_photo_level_updated');
-function community_photo_level_updated($image_id)
-{
-	 $updateSql='UPDATE '.IMAGES_TABLE.' SET level=1 WHERE id='.$image_id.';';
-	 pwg_query($updateSql);
-	 return $image_id;
-}
-
 add_event_handler('photo_uploaded', 'community_photo_uploaded');
 function community_photo_uploaded($photoinfo)
 {
