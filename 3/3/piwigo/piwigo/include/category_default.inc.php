@@ -92,6 +92,7 @@ SELECT image_id, COUNT(*) AS nb_comments
 $template->set_filenames( array( 'index_thumbnails' => 'thumbnails.tpl',));
 
 trigger_action('loc_begin_index_thumbnails', $pictures);
+
 $tpl_thumbnails_var = array();
 
 foreach ($pictures as $row)
@@ -120,7 +121,6 @@ foreach ($pictures as $row)
     'DESCRIPTION' => $desc,
     'src_image' => new SrcImage($row),
     ) );
-
   if ($conf['index_new_icon'])
   {
     $tpl_var['icon_ts'] = get_icon($row['date_available']);

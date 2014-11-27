@@ -41,7 +41,8 @@ SELECT
     count_categories
   FROM '.CATEGORIES_TABLE.' c
     INNER JOIN '.USER_CACHE_CATEGORIES_TABLE.' ucc
-    ON id = cat_id
+    ON id = cat_id 
+
     AND user_id = '.$user['id'];
 
 if ('recent_cats' == $page['section'])
@@ -315,14 +316,15 @@ if (count($categories) > 0)
               'category' => $category
               )
             ),
-          'CAPTION_NB_IMAGES' => get_display_images_count
-                                  (
-                                    $category['nb_images'],
-                                    $category['count_images'],
-                                    $category['count_categories'],
-                                    true,
-                                    '<br>'
-                                  ),
+//           'CAPTION_NB_IMAGES' => get_display_images_count
+//                                   (
+//                                     $category['nb_images'],
+//                                     $category['count_images'],
+//                                     $category['count_categories'],
+//                                     true,
+//                                     '<br>'
+//                                   ),
+          'CAPTION_NB_IMAGES' => 	$category['count_images'],
           'DESCRIPTION' =>
             trigger_event('render_category_literal_description',
               trigger_event('render_category_description',
@@ -387,6 +389,8 @@ if (count($categories) > 0)
 
   // navigation bar
   $page['cats_navigation_bar'] = array();
+
+  
   if ($page['total_categories'] > $conf['nb_categories_page'])
   {
     $page['cats_navigation_bar'] = create_navigation_bar(
@@ -397,7 +401,6 @@ if (count($categories) > 0)
       true, 'startcat'
       );
   }
-
   $template->assign('cats_navbar', $page['cats_navigation_bar'] );
 }
 

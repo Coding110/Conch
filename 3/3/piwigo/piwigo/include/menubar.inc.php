@@ -183,37 +183,37 @@ function initialize_menu()
         'NAME' => l10n('Most visited')
       );
 
-    if ($conf['rate'])
-    {
-       $block->data['best_rated'] =
-        array(
-          'URL' => make_index_url(array('section' => 'best_rated')),
-          'TITLE' => l10n('display best rated photos'),
-          'NAME' => l10n('Best rated')
-        );
-    }
+//     if ($conf['rate'])
+//     {
+//        $block->data['best_rated'] =
+//         array(
+//           'URL' => make_index_url(array('section' => 'best_rated')),
+//           'TITLE' => l10n('display best rated photos'),
+//           'NAME' => l10n('Best rated')
+//         );
+//     }
 
-    $block->data['recent_pics'] =
-      array(
-        'URL' => make_index_url(array('section' => 'recent_pics')),
-        'TITLE' => l10n('display most recent photos'),
-        'NAME' => l10n('Recent photos'),
-      );
+//     $block->data['recent_pics'] =
+//       array(
+//         'URL' => make_index_url(array('section' => 'recent_pics')),
+//         'TITLE' => l10n('display most recent photos'),
+//         'NAME' => l10n('Recent photos'),
+//       );
 
-    $block->data['recent_cats'] =
-      array(
-        'URL' => make_index_url(array('section' => 'recent_cats')),
-        'TITLE' => l10n('display recently updated albums'),
-        'NAME' => l10n('Recent albums'),
-      );
+//     $block->data['recent_cats'] =
+//       array(
+//         'URL' => make_index_url(array('section' => 'recent_cats')),
+//         'TITLE' => l10n('display recently updated albums'),
+//         'NAME' => l10n('Recent albums'),
+//       );
 
-    $block->data['random'] =
-      array(
-        'URL' => get_root_url().'random.php',
-        'TITLE' => l10n('display a set of random photos'),
-        'NAME' => l10n('Random photos'),
-        'REL'=> 'rel="nofollow"'
-      );
+//     $block->data['random'] =
+//       array(
+//         'URL' => get_root_url().'random.php',
+//         'TITLE' => l10n('display a set of random photos'),
+//         'NAME' => l10n('Random photos'),
+//         'REL'=> 'rel="nofollow"'
+//       );
 
     $block->data['calendar'] =
       array(
