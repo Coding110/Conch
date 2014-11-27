@@ -169,7 +169,7 @@
 
 {if !empty($THUMBNAILS)}
 <div class="loader"><img src="{$ROOT_URL}{$themeconf.img_dir}/ajax_loader.gif"></div>
-<ul class="thumbnails" id="thumbnails">
+<ul class="thumbnails" id="thumbnails" >
   {$THUMBNAILS}
 </ul>
 {/if}

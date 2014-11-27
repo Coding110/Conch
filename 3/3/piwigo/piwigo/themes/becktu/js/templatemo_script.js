@@ -32,7 +32,7 @@ jQuery(document).ready(function()
         return false;
     });
     //lightbox
-    jQuery('a.overlay').lightbox(); 
+    //jQuery('a.overlay').lightbox(); 
     //google map
     function initialize() {
         //define map

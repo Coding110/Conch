@@ -72,8 +72,13 @@ function changeImgSrc(url,typeSave,typeMap)
 {if isset($PLUGIN_PICTURE_BUTTONS)}{foreach from=$PLUGIN_PICTURE_BUTTONS item=button}{$button}{/foreach}{/if}
 {if isset($PLUGIN_PICTURE_ACTIONS)}{$PLUGIN_PICTURE_ACTIONS}{/if}
 {strip}{if isset($favorite)}
-	<a href="{$favorite.U_FAVORITE}" title="{if $favorite.IS_FAVORITE}{'delete this photo from your favorites'|@translate}{else}{'add this photo to your favorites'|@translate}{/if}" class="pwg-state-default pwg-button" rel="nofollow">
+	<a href="{$favorite.U_FAVORITE}"  title="{if $favorite.IS_FAVORITE}{'delete this photo from your favorites'|@translate}{else}{'add this photo to your favorites'|@translate}{/if}" class="pwg-state-default pwg-button" rel="nofollow">
 		<span class="{if $favorite.IS_FAVORITE}glyphicon glyphicon-remove-circle{else}glyphicon glyphicon-ok-circle{/if}"></span><span class="pwg-button-text">{'Favorites'|@translate}</span>
+	</a>
+{/if}{/strip}
+{strip}{if isset($IMAGE_DELETE)}
+	<a href="{$IMAGE_DELETE}"  class="pwg-state-default pwg-button"   title=""  rel="nofollow">
+		<span class="glyphicon glyphicon-trash" style="font-size:18px;position:relative;top:3px;"></span>
 	</a>
 {/if}{/strip}
 {strip}{if isset($U_SET_AS_REPRESENTATIVE)}
@@ -283,7 +288,7 @@ y.callService(
 	</dd>
 </div>
 
-{if $display_info.privacy_level and isset($available_permission_levels)}
+{if $display_info.privacy_level and isset($available_permission_levels) and isset($if_visible) and $if_visible=="visible"}
 	<div id="Privacy" class="imageInfo">
 		<dt>{'Who can see this photo?'|@translate}</dt>
 		<dd>
