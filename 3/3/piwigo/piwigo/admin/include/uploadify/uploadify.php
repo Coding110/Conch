@@ -70,10 +70,10 @@ $image_id = add_uploaded_file(
   );
 
 $_SESSION['uploads'][ $_POST['upload_id'] ][] = $image_id;
-
 $query = '
 SELECT
     id,
+		level,
     path
   FROM '.IMAGES_TABLE.'
   WHERE id = '.$image_id.'

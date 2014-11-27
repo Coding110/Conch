@@ -174,9 +174,10 @@ function add_uploaded_file($source_filepath, $original_filename=null, $categorie
   $photoinfo["original_md5sum"] = $original_md5sum;
   $photoinfo["image_id"] = $image_id;
   $photoinfo["result"] = 0;
+
   $photoinfo = trigger_event('photo_uploaded', $photoinfo);
   if($photoinfo["result"] == 1){
-    return $photoinfo["image_id"];
+   return $photoinfo["image_id"];
   }
   //added by wu 20141115 end
   if (isset($original_md5sum))
@@ -431,8 +432,7 @@ SELECT
   unset_make_full_url();
   
   fetchRemote($thumb_url, $dest);
-  
-
+ // $image_id= trigger_event('photo_level_updated', $image_id);
   return $image_id;
 }
 
@@ -454,7 +454,7 @@ function prepare_directory($directory)
   if (!is_writable($directory))
   {
     // last chance to make the directory writable
-    @chmod($directory, 0777);
+     @chmod($directory, 0777);
 
     if (!is_writable($directory))
     {
