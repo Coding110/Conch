@@ -14,7 +14,8 @@ global $max_th_height;
 global $max_nt_width;
 global $max_nt_height;
 global $temp_dir;
-$temp_dir = PHPWG_PLUGINS_PATH.'../temp';
+//$temp_dir = PHPWG_PLUGINS_PATH.'../temp';
+$temp_dir = PHPWG_PLUGINS_PATH.'../imgbkt';
 $max_th_width = 100;
 $max_th_height= 100;
 $max_nt_width = 900;
@@ -29,14 +30,15 @@ $max_nt_height = 600;
 function source_image_tmpfile($imgfile, $file_ext)
 {
 	global $temp_dir;
+	
 	prepare_directory($temp_dir);
 	$source_image_file = tempnam($temp_dir, "BKT");
 	rename($source_image_file, $source_image_file.".".$file_ext);
 	$source_image_file .= ".".$file_ext;
 	rename($imgfile, $source_image_file);
-	@syslog(LOG_INFO, "1 imgfile: ".$imgfile.", source image file: ".$source_image_file);
+	//@syslog(LOG_INFO, "1 imgfile: ".$imgfile.", source image file: ".$source_image_file);
 	@chmod($source_image_file, 0666); // need another process to delete it
-	@syslog(LOG_INFO, "2 imgfile: ".$imgfile.", source image file: ".$source_image_file);
+	//@syslog(LOG_INFO, "2 imgfile: ".$imgfile.", source image file: ".$source_image_file);
 	return $source_image_file;
 }
 

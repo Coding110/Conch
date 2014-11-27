@@ -154,16 +154,16 @@ function sprintf() {
 
   jQuery("#addAlbumForm form").submit(function(){
       jQuery("#categoryNameError").text("");
-
       jQuery.ajax({
         url: "ws.php?format=json&method=pwg.categories.add",
         data: {
           parent: jQuery("select[name=category_parent] option:selected").val(),
           name: jQuery("input[name=category_name]").val(),
-          comment: jQuery("textarea[name=category_description]").val(),
+          comment: jQuery("textarea[name=category_description]").val()==""?"&nbsp;":jQuery("textarea[name=category_description]").val(),
         },
         beforeSend: function() {
           jQuery("#albumCreationLoading").show();
+          
         },
         success:function(html) {
           jQuery("#albumCreationLoading").hide();
@@ -438,7 +438,7 @@ p#uploadWarningsSummary .showInfo {position:static;display:inline;padding:1px 6p
 p#uploadWarnings {display:none;text-align:left;margin-bottom:1em;font-size:90%;color:#999;}
 p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 
-#photosAddContent p.showFieldset {text-align:left;margin:0  auto 10px auto;width: 630px;font-size:12px;}
+#photosAddContent p.showFieldset {text-align:left;margin:0  auto 10px auto;width: 630px;font-size:14px;}
 
 #uploadProgress {width:650px; margin:10px auto;font-size:90%;}
 #progressbar {border:1px solid #ccc; background-color:#eee;}
@@ -451,7 +451,7 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
 </style>
 {/literal}
 
-<div id="photosAddContent">
+<div id="photosAddContent" style="font-size:14px;">
 
 {if count($setup_errors) > 0}
 <div class="errors">
@@ -505,7 +505,6 @@ p#uploadModeInfos {text-align:left;margin-top:1em;font-size:90%;color:#999;}
       {'Parent album'|@translate}<br>-->
       <select style="display:none" id ="category_parent" name="category_parent" class="form-control">
         <option value="0">------------</option>
-        {html_options options=$category_parent_options selected=$category_parent_options_selected}
       </select>
       <br><br>{'Album name'|@translate}<br><input name="category_name" class="form-control"><span id="categoryNameError"></span>
       <br><br>{'Album description'|@translate}<br><textarea name="category_description" rows="3"  class="form-control"></textarea>  <span id="categoryNameError"></span>

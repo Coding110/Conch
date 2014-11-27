@@ -56,10 +56,11 @@ if (count($selection) > 0)
 	$rank_of = array_flip($selection);
 
 	$query = '
-SELECT *
-  FROM '.IMAGES_TABLE.'
+SELECT A.*,	B.category_id
+  FROM '.IMAGES_TABLE.' A INNER JOIN '. IMAGE_CATEGORY_TABLE. ' B on A.id=B.image_id
   WHERE id IN ('.implode(',', $selection).') and level <>1
 ;';
+
 	$result = pwg_query($query);
 	while ($row = pwg_db_fetch_assoc($result))
 	{
@@ -115,7 +116,7 @@ foreach ($pictures as $row)
 			),
 			array('start')
 	);
-
+	$url=$url.'/'.$row['category_id'];
 	if (isset($nb_comments_of))
 	{
 		$row['NB_COMMENTS'] = $row['nb_comments'] = (int)@$nb_comments_of[$row['id']];
@@ -146,6 +147,9 @@ foreach ($pictures as $row)
 	$tpl_var['NAME'] = $name;
 	$tpl_thumbnails_var[] = $tpl_var;
 }
+
+$derivative_params = trigger_event('get_index_album_derivative_params', ImageStdParams::get_by_type(IMG_THUMB) );
+$template->assign( 'derivative_params', $derivative_params );
 
 $template->assign('most_visited', $tpl_thumbnails_var);
 $template->assign_var_from_handle('PLUGIN_INDEX_CONTENT_BEGIN', 'main_index');

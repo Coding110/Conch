@@ -29,15 +29,15 @@
         <div class="row">       
          <div class="four columns">
             <h3><span class="glyphicon glyphicon-camera"  title="camera"></span> 多人相册亲密分享</h3>
-            <p>独有相片群功能，提供创新的多人相册-私密分享</p>
+            <p style="font-size:14px;">独有相片群功能，提供创新的多人相册-私密分享</p>
          </div>            
           <div class="four columns">
             <h3><span class="glyphicon glyphicon-cloud-upload" title="cloud"></span>支持原图存储</h3>
-            <p> 支持原图无损上传，完美保留每一个图像细节批量上传，双重备份，从此丢开那条麻烦的数据线</p>
+            <p style="font-size:14px;"> 支持原图无损上传，完美保留每一个图像细节批量上传，双重备份，从此丢开那条麻烦的数据线</p>
           </div>
           <div class="four columns">
             <h3><span class="glyphicon glyphicon-cog" title="video"></span> 强大管理功能</h3>
-            <p>支持7种相片排序方式，给你前所未有的超快感体验</p>
+            <p style="font-size:14px;">支持7种相片排序方式，给你前所未有的超快感体验</p>
           </div>
         </div>    
     </section>
@@ -50,8 +50,9 @@
     
    <section id="work"> 
 	{foreach from=$most_visited item=val}
+	{assign var=derivative value=$pwg->derivative($derivative_params, $val.src_image)}
 	 <div class="item">
-	   <a href="{$val.URL}"><img src="{$val.path}" alt="image 10"></a><!-- Image must be 400px by 300px -->
+	   <a href="{$val.URL}"><img {if $derivative->is_cached()}src="{$derivative->get_url()}"{else}src="{$ROOT_URL}{$themeconf.icon_dir}/img_small.png" data-src="{$derivative->get_url()}"{/if} alt="{$val.TN_ALT}"></a>
 	   <!-- <h3>{$val.DESCRIPTION}</h3> -->
 	   </div><!--/item-->
 	{/foreach}

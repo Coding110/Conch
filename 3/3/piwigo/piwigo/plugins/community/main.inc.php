@@ -165,6 +165,20 @@ function community_section_init()
     $page['section'] = 'add_photos';
   }else if ($tokens[0] == 'home_page'){
   	$page['section'] = 'home_page';
+  }else if ($tokens[0] == 'delete_category'){
+  	$page['section'] = 'delete_category';
+  	$page["category_id"] = $tokens[1];
+  } else if ($tokens[0] == 'delete_image')
+  {
+    $page['section'] = 'delete_image';
+	$page["image_id"] = $tokens[1];
+	$page["category_id"] = $tokens[2];
+  }else if ($tokens[0] == 'edit_album')
+  {
+    $page['section'] = 'edit_album';
+	$page["album_name"] = $_POST['album_name'];
+	$page["album_description"] = $_POST['album_description'];
+	$page["album_id"] = $_POST['album_id'];
   }
   
 }
@@ -180,8 +194,43 @@ function community_index()
   }else if (isset($page['section']) and $page['section'] == 'home_page')
   {
   	include(PHPWG_ROOT_PATH.'include/category_cats.inc.php');
+  }else if (isset($page['section']) and $page['section'] == 'delete_category')
+  {
+    delete_categories(array($page['category_id']), true);
+	invalidate_user_cache();
+	$red_url = make_index_url(array('section' => 'home_page'));
+	redirect($red_url);
+  }else if (isset($page['section']) and $page['section'] == 'delete_image')
+  {
+	delete_elements(array($page['image_id']), true);
+	invalidate_user_cache();
+	$red_url = make_index_url(array('section' => 'category')).'/'.$page['category_id'];
+	redirect($red_url);
+  }
+  else if (isset($page['section']) and $page['section'] == 'edit_album')
+  {
+
+  	$updateSql="UPDATE ".CATEGORIES_TABLE." SET name= '".$page['album_name']."' , comment='".$page['album_description']."
+  	' WHERE id=".$page['album_id'];
+  	pwg_query($updateSql);
+  	invalidate_user_cache();
+  	$red_url = make_index_url(array('section' => 'home_page'));
+  	redirect($red_url);
+  	
   }
 }
+
+add_event_handler('loc_end_picture', 'community_picture_loc');
+function community_picture_loc()//, $current_picture)
+{
+	global $template, $page;
+	$del_url = make_index_url(array('section' => 'delete_image'));
+	if(isset($page["image_id"]) and isset($page["category"])){
+		$del_url = $del_url.'/'.$page["image_id"].'/'.$page['category']['id'];
+	}
+	$template->assign("IMAGE_DELETE", $del_url);
+}
+
 
 add_event_handler('blockmanager_apply' , 'community_gallery_menu', EVENT_HANDLER_PRIORITY_NEUTRAL+10);
 function community_gallery_menu($menu_ref_arr)
@@ -852,6 +901,7 @@ function select_get_categories_menu_sql_where($where)
 	$where = "community_user = '".$user["id"]."'";
 	return $where;
 }
+
 add_event_handler('loc_begin_index_category_thumbnails', 'select_loc_begin_index_category_thumbnails');
 function select_loc_begin_index_category_thumbnails($categories){
 	return ;
@@ -871,21 +921,23 @@ function select_loc_begin_index_category_thumbnails($categories){
 
 add_event_handler('loc_end_index_category_thumbnails', 'select_loc_end_index_category_thumbnails');
 function select_loc_end_index_category_thumbnails($tpl_thumbnails_var){
-	global $user;
-	//echo "<h3>tpl all: ".var_dump($tpl_thumbnails_var)."</h3>";
+	global $user,$template;
 	$subtpl = array();
+	$delete_url;
 	for($i=0; $i<count($tpl_thumbnails_var); $i++){
 		if($tpl_thumbnails_var[$i]["community_user"] == $user["id"]){
-			//echo "<h3>cat: ".var_dump($tpl_thumbnails_var[$i])."</h3>";
-			//echo "<h2>user id: ".$tpl_thumbnails_var[$i]["community_user"].",".$user["id"]."</h2>";
-			//unset($categories[$i]);
 			$subtpl[] = $tpl_thumbnails_var[$i];
+			//array_push($subtpl,make_index_url(array('section'=>'delete_catetory')).'/'.$tpl_thumbnails_var[$i]['id']);
 		}
 	}
+	$delete_url=make_index_url(array('section'=>'delete_category')).'/';
+	$template->assign( 'CAT_DELETE', $delete_url);
 	$tpl_thumbnails_var = $subtpl;
-	//echo "<h3>cat all: ".var_dump($tpl_thumbnails_var)."</h3>";
+	$file = "themes/becktu";
+	
 	return $tpl_thumbnails_var;
 }
+
 add_event_handler('register_user','add_register_user');
 function add_register_user($user)
 {
@@ -913,18 +965,10 @@ VALUES
 	
 }
 
-
-add_event_handler('photo_uploaded', 'community_photo_uploaded');
-function community_photo_uploaded($photoinfo)
-{
-	add_uploaded_file_to_emfs($photoinfo);
-	return $photoinfo;
-}
-
 add_event_handler('loc_end_index_thumbnails', 'community_loc_end_index_thumbnails');
 function community_loc_end_index_thumbnails($tpl_thumbnails_var){
 	//var_dump($tpl_thumbnails_var);
-	global $user;
+	global $user,$template;
 	$count = count($tpl_thumbnails_var);
 	for($i =0; $i<$count;$i++){
 		if($tpl_thumbnails_var[$i]['level']==1 and $tpl_thumbnails_var[$i]['added_by']!=$user['id']){
@@ -936,7 +980,7 @@ function community_loc_end_index_thumbnails($tpl_thumbnails_var){
 
 add_event_handler('picture_items', 'community_picture_items');
 function community_picture_items($pic_items ){
-	global $user;
+	global $user,$template;
 	$query='SELECT id,level,added_by 
 			 FROM '.IMAGES_TABLE.'
 		  WHERE id IN ('.implode(',',$pic_items).');';
@@ -945,17 +989,72 @@ function community_picture_items($pic_items ){
 	while($row=pwg_db_fetch_assoc($result)){
 			if($row['level']==0 or $row['added_by']==$user['id']){
 				$new_items[]=$row['id'];
-		}
+				$template->assign( 'if_visible', 'visible');
+		 }
+		 if ($row['added_by']!=$user['id']){
+			$template->assign( 'if_visible', 'invisible');
+		 }
 	}
 	return $new_items;
 }
+
+add_event_handler('get_src_image_url', 'community_get_src_image_url');
+function community_get_src_image_url($url){
+ //echo "<div> a_src_url :".$url."</div>";
+//   if('_data'==substr($url,0,5)  ){
+//   	$url=".".substr($url,7);
+//   }else if('i.php'==substr($url,0,5)){
+//   	$url=".".substr($url,6);
+//   }
+  	
+//   if('-'==substr($url,-7,-6) and '-th.'!=substr($url,-7,-3)){
+//   	$url=substr($url,0,-7)."-nt".substr($url,-4);
+//   }
+	//echo "<div> da_src_url :".$url."</div>";
+	return $url;
+	//$template->assign( 'new_img_src', $user['bkt_img_src'] );
+}
+
+
+add_event_handler('get_derivative_url', 'community_get_derivative_url');
+
+function community_get_derivative_url($url){
+	//echo "<div> b_src_url :".$url."</div>";
+// 	  if('_data'==substr($url,0,5)  ){
+// 	  	$url=".".substr($url,7);
+// 	  }else if('i.php'==substr($url,0,5)){
+// 	  	$url=".".substr($url,6);
+// 	  }
+// 	  if('-'==substr($url,-7,-6) and'-th.'!=substr($url,-7,-3)){
+// 	  	$url=substr($url,0,-7)."-nt".substr($url,-4);
+// 	  }
+//	echo "<div> db_src_url :".$url."</div>";
+	return $url;
+	//$template->assign( 'new_img_src', $user['bkt_img_src'] );
+}
+
+
+add_event_handler('photo_level_updated', 'community_photo_level_updated');
+function community_photo_level_updated($image_id)
+{
+	 $updateSql='UPDATE '.IMAGES_TABLE.' SET level=1 WHERE id='.$image_id.';';
+	 pwg_query($updateSql);
+	 return $image_id;
+}
+
+add_event_handler('photo_uploaded', 'community_photo_uploaded');
+function community_photo_uploaded($photoinfo)
+{
+ 	//add_uploaded_file_to_emfs($photoinfo);
+	return $photoinfo;
+}
+
 
 function add_uploaded_file_to_emfs(&$photoinfo)
 {
   // 1) move uploaded file to temp directory
   // 2) keep/resize original
   // 3) register in database
-
   // TODO
   // * check md5sum (already exists?)
 
@@ -964,7 +1063,7 @@ function add_uploaded_file_to_emfs(&$photoinfo)
 	$photoinfo["uid"] = $user["id"];
 	$photoinfo["mail_dir"] = "1";
 	$photoinfo["owner"] = "becktu.com ".$user["username"];
-	$photoinfo["now_time"] = pwg_db_fetch_row(pwg_query('SELECT NOW();'));
+	list($photoinfo["now_time"]) = pwg_db_fetch_row(pwg_query('SELECT NOW();'));
 	$photoinfo["result"] = 0;
 
 	$task_msg = NULL;
@@ -977,8 +1076,8 @@ function add_uploaded_file_to_emfs(&$photoinfo)
 	$file_explode = explode('.', $original_filename);
 	if(count($file_explode) > 1) $file_ext = $file_explode[count($file_explode)-1];
 	else $file_ext="";
-
 	$source_filepath = $photoinfo["src_img_file"] = source_image_tmpfile($photoinfo["source_filepath"], $file_ext);
+
 	/* code need here, 缩略图, Note: thumbnail URL */
 	$photoinfo["th_img_file"] = $th_img_file = thumbnail_image_tmpfile($source_filepath, $file_ext);
 	/* code need here, 网络查看图*/
@@ -1041,6 +1140,10 @@ SELECT
     list($dbnow) = pwg_db_fetch_row(pwg_query('SELECT NOW();'));
     list($year, $month, $day) = preg_split('/[^\d]/', $dbnow, 4);
 
+	// 图片地址规则:
+	// http://host/imgbkt/year/month/day/[t|i]/uid/catid/imgid/imagefilename
+	// t
+
     // upload directory hierarchy
     $upload_dir = sprintf(
       //PHPWG_ROOT_PATH.$conf['upload_dir'].'/%s/%s/%s',
@@ -1080,7 +1183,6 @@ SELECT
 	$file_path_for_saving = $source_filepath; //$photoinfo["src_img_file"];
 	$file_path = $source_filepath;
 	$task_flag = 1;
-
   //if ($is_tiff and pwg_image::get_library() == 'ext_imagick')
   if (false and $is_tiff and pwg_image::get_library() == 'ext_imagick') // 指定只采用ImageMagick软件
   {
@@ -1193,7 +1295,7 @@ SELECT
       'file' => $file,
       'name' => get_name_from_file($file),
       'date_available' => $dbnow,
-      'path' => preg_replace('#^'.preg_quote(PHPWG_ROOT_PATH).'#', '', $file_path_for_saving),
+      'path' => preg_replace('#^'.preg_quote(PHPWG_ROOT_PATH).'#', '', basename($file_path_for_saving)),
       'filesize' => $file_infos['filesize'],
       'width' => $file_infos['width'],
       'height' => $file_infos['height'],
@@ -1252,31 +1354,30 @@ SELECT
 
   invalidate_user_cache();
 
-
   // thumbnail 存于邮件的MIME头中
-
 	$photoinfo["result"] = 1;
   return $image_id;
 }
 
 function add_upload_task(&$photoinfo)
 {
-    $insert_task = array(
-	 	'uid' => $photoinfo["uid"],
-	 	'fid' => $photoinfo["image_id"],
-	 	'catid' => $photoinfo["categories"],
-	 	'orig_file' => $photoinfo["src_img_file"],
-	 	'net_file' => $photoinfo["nt_img_file"],
-	 	'th_file' => $photoinfo["th_img_file"],
-	 	'add_time' => $photoinfo["now_time"],
-	 	//'exec_time' => "",
-	 	'status' => 0,
-	 	'owner' => $photoinfo["owner"],
-	 	'orig_filename' => $photoinfo["original_filename"],
-    );
+	foreach($photoinfo["categories"] as $cat_id){
+    	$insert_task = array(
+		 	'uid' => $photoinfo["uid"],
+		 	'fid' => $photoinfo["image_id"],
+		 	'catid' => $cat_id,
+		 	'orig_file' => basename($photoinfo["src_img_file"]),
+		 	'net_file' => basename($photoinfo["nt_img_file"]),
+		 	'th_file' => basename($photoinfo["th_img_file"]),
+		 	'add_time' => $photoinfo["now_time"],
+		 	//'exec_time' => "",
+		 	'status' => 0,
+		 	'owner' => $photoinfo["owner"],
+		 	'orig_filename' => $photoinfo["original_filename"],
+    	);
 
-    single_insert(EMFS_TASKS_TABLE, $insert_task);
+    	single_insert(EMFS_TASKS_TABLE, $insert_task);
+	}
 }
-
 
 ?>

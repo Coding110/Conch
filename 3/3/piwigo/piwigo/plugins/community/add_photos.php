@@ -315,7 +315,7 @@ SELECT *
     // the level of a user upload photo with no moderation is 0
     $query = '
 UPDATE '.IMAGES_TABLE.'
-  SET level = 0
+  SET level = 1
   WHERE id IN ('.implode(',', $image_ids).')
 ;';
     pwg_query($query);
