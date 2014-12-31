@@ -205,7 +205,7 @@ function community_index()
 	delete_elements(array($page['image_id']), true);
 	invalidate_user_cache();
 	$red_url = make_index_url(array('section' => 'category')).'/'.$page['category_id'];
-	redirect($red_url);
+	redirect($red_url);	
   }
   else if (isset($page['section']) and $page['section'] == 'edit_album')
   {
@@ -690,7 +690,7 @@ SELECT
     // the level of a user upload photo with no moderation is 0
     $level = 0;
   }
-
+  $level = 1;
   $query = '
 UPDATE '.IMAGES_TABLE.'
   SET level = '.$level.'
@@ -718,6 +718,7 @@ add_event_handler('delete_categories', 'community_delete_category');
 function community_delete_category($category_ids)
 {
   // $category_ids includes all the sub-category ids
+
   $query = '
 DELETE
   FROM '.COMMUNITY_PERMISSIONS_TABLE.'
@@ -874,8 +875,22 @@ function loc_begin_index_func()
 add_event_handler('ws_add_methods', 'add_methods', EVENT_HANDLER_PRIORITY_NEUTRAL+5);
 function add_methods($arr){
 	global $user, $conf;
+
+  	$service = &$arr[0];
+	$service->addMethod(
+    	'pwg.images.archive',
+    	'pwg_images_archive',
+    	array(
+    	  //'user' =>       "nobody",
+    	  //'images_id' =>    array()
+    	  ),
+    	'Archive images'
+    );
+
 	if('pwg.categories.add' == $_REQUEST['method']){
 		$conf["cats_add_mark"] = array('cat_add_end' => 1, 'category_name' => $_REQUEST['name']);
+	}else if('pwg.images.archive' == $_REQUEST['method']){
+		$conf["images_archive_mark"] = array();
 	}
 	return ;
 }
@@ -889,6 +904,8 @@ function add_sendResponse(){
 		array('name' => $conf["cats_add_mark"]['category_name'])
 		);
 		invalidate_user_cache();
+	}else if(isset($conf['pwg.images.archive'])){
+		//
 	}
 }
 
@@ -934,7 +951,6 @@ function select_loc_end_index_category_thumbnails($tpl_thumbnails_var){
 	$template->assign( 'CAT_DELETE', $delete_url);
 	$tpl_thumbnails_var = $subtpl;
 	$file = "themes/becktu";
-	
 	return $tpl_thumbnails_var;
 }
 
@@ -981,6 +997,8 @@ function community_loc_end_index_thumbnails($tpl_thumbnails_var){
 add_event_handler('picture_items', 'community_picture_items');
 function community_picture_items($pic_items ){
 	global $user,$template;
+	$red_url = make_index_url(array('section' => 'home_page'));	
+	if(count($pic_items)==0) redirect($red_url);
 	$query='SELECT id,level,added_by 
 			 FROM '.IMAGES_TABLE.'
 		  WHERE id IN ('.implode(',',$pic_items).');';
@@ -995,7 +1013,7 @@ function community_picture_items($pic_items ){
 			$template->assign( 'if_visible', 'invisible');
 		 }
 	}
-	return $new_items;
+		return $new_items;
 }
 
 add_event_handler('get_src_image_url', 'community_get_src_image_url');
@@ -1370,5 +1388,61 @@ function add_upload_task(&$photoinfo)
     	single_insert(EMFS_TASKS_TABLE, $insert_task);
 	}
 }
+function pwg_images_archive($params, &$service)
+{
+	if(isset($_GET['imageids'])){
+		// get images' path
+		$zipurl = get_root_url().'upload/zips/';
+		$ids = 0;
+		$imgs = array();
+		$imageids = explode(":", $_GET['imageids']);
+		$query = '
+			SELECT * FROM '. IMAGES_TABLE.'
+			WHERE id IN ('.implode(',', $imageids).')
+			;';
+		
+    	$result = pwg_query($query);
+    	while ($row = pwg_db_fetch_assoc($result))
+    	{
+			$ids++;
+			$imgs[] = get_element_path($row);
+    	}
 
+		if ( $ids <= 0 )
+		{
+		  do_error(404, 'Requested id not found');
+		}
+
+		// add image files to zip
+		$zipfile = date("Ymd.His").'_'.rand(100000,999999).'.zip';
+		$zipurl .= $zipfile;
+		$zipfile = COMMUNITY_PATH.'../../upload/zips/'.$zipfile;
+		$zip = new ZipArchive();
+		$ret = $zip->open($zipfile, ZipArchive::CREATE);
+		if( $ret === TRUE){
+			foreach( $imgs as $img){
+				$fn = basename($img);
+				//$imgs[] = $fn;
+				$zip->addFile($img, $fn);
+			}
+		}else{
+		  do_error(501, 'Internal error, '. $ret);
+		}
+		//$imgs[] = $zipfile;
+		//$imgs[] = $zipurl;
+    	return array(
+      		'images' => $zipurl
+		);
+	}
+    	return array(
+      		'images' => "none"
+		);
+}
+
+function do_error( $code, $str )
+{
+  set_status_header( $code );
+  echo $str ;
+  exit();
+}
 ?>

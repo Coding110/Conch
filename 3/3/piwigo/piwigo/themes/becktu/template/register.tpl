@@ -17,6 +17,9 @@
             <form method="post" action="{$F_ACTION}" class="properties" name="register_form">			  
 			  <span></span>
               <ul>
+                <li><span>{'Email address'|@translate}</span>
+				  <input type="text"  name="mail_address" id="mail_address"  class="email error form-control" value="{$F_EMAIL}" >	
+                </li>
                 <li><span>{'Username'|@translate}</span>
 				  <input type="text" name="login" id="login" class="user-name  error form-control " value="{$F_LOGIN}" >
                 </li>
@@ -28,10 +31,7 @@
 				  <input type="password" name="password_conf" id="password_conf" class="password error form-control" >
                 </li>
 				
-                <li><span>{'Email address'|@translate}</span>
-				  <input type="text"  name="mail_address" id="mail_address"  class="email error form-control" value="{$F_EMAIL}" >	
-                </li>
-                    <li>
+                 <li>
 				<span class="property">
 				<label for="send_password_by_mail">{'Send my connection settings by email'|@translate}</label>
 				</span>

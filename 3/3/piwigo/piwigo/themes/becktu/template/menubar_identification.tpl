@@ -29,10 +29,10 @@
 	<form method="post" action="{$U_LOGIN}" id="quickconnect">
  <fieldset>
 	<li role="presentation">
-	<!--<label for="username">{'Username'|@translate}</label><br>-->
+	<!--<label for="username">{'Email'|@translate}</label><br>-->
 	 <div class="input-group">
          <span class="input-group-addon glyphicon glyphicon-user" style="position:relative;float:left;width:25%;left:1px;"></span>
-         <input class="form-control" type="text" name="username" id="username" value="" style="float:right;width:75%">
+         <input class="form-control" type="text" name="mail_address" id="mail_address" value="" style="float:right;width:75%">
       </div>
 	</li>
 	<li><span></span>&nbsp;</li>
@@ -66,3 +66,5 @@
 	{/if}
 </ul>
 </div>
+<input type="hidden" id="test" value="test"/>
+  <script src="{$ROOT_URL}/themes/becktu/js/remote.js"></script>   

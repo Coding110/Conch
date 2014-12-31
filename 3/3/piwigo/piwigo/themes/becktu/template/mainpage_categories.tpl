@@ -44,7 +44,7 @@ function getScrollTop(){
 </script>
 <div id="cat_dlg_1"></div>
 <div id="cat_dlg_2">
-  <div style="margin: 0 auto; background: #ffffff;width:30%;text-align:left;border-style: solid;">
+  <div style="margin: 0 auto; background: #ffffff;width:30%;text-align:left;border:1px solid #c0c0c0;">
   <div style="border-bottom: 1px solid #ebebeb;background: #f9f9f9;width:90%;">
     <div style="padding-left: 10px;line-height: 36px;font-size:15px;height: 36px;">更新相册</div>
   </div>

@@ -18,7 +18,8 @@
               <ul>
                 <li>
 			         <span class="input-group-addon glyphicon glyphicon-user" style="position:relative;width:5%;left:21px;"></span>
-			          <input tabindex="1" class="user-name  error form-control " style="position:relative;top:1px;width:35%" type="text" name="username" id="username" size="25" maxlength="40">             
+			          <input tabindex="1" 
+			          class="user-name  error form-control " style="position:relative;top:1px;width:35%" type="text" name="mail_address" id="mail_address" size="25" maxlength="40">             
                 </li>
                
                 <li>
@@ -38,6 +39,7 @@
 				    <input tabindex="4" class="btn btn-primary" type="submit" name="login" value="{'Submit'|@translate}">			</li>			
 	            </li>
 	            <li>
+	            
 	            {if isset($U_REGISTER)}
 				<a href="{$U_REGISTER}" title="{'Register'|@translate}" class="pwg-state-default pwg-button">
 				  <span>{'Register'|@translate}</span>
