@@ -171,7 +171,7 @@ function get_cat_info($id)
   $query = '
 SELECT *
   FROM '.CATEGORIES_TABLE.'
-  WHERE id = '.$id.'
+  WHERE id = '.$id.' 
 ;';
   $cat = pwg_db_fetch_assoc(pwg_query($query));
   if (empty($cat))
