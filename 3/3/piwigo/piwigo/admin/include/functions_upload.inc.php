@@ -432,7 +432,6 @@ SELECT
   unset_make_full_url();
   
   fetchRemote($thumb_url, $dest);
- // $image_id= trigger_event('photo_level_updated', $image_id);
   return $image_id;
 }
 
