@@ -30,7 +30,19 @@ $modified_files = array(
 	"index.php",
 	"picture.php",
 	"ws.php",
-	"identification.php"
+	"identification.php",
+	"themes/fonts/font-awesome/css/font-awesome.css",
+	"themes/fonts/font-awesome/font/fontawesome-webfont.svg",
+	"themes/fonts/font-awesome/font/fontawesome-webfontd41d.eot",
+	"themes/fonts/font-awesome/font/fontawesome-webfontf77b.eot",
+	"themes/fonts/font-awesome/font/fontawesome-webfontf77b.ttf",
+	"themes/fonts/font-awesome/font/fontawesome-webfontf77b.woff",
+	"themes/fonts/glyphicons-halflings-regular.eot",
+	"themes/fonts/glyphicons-halflings-regular.svg",
+	"themes/fonts/glyphicons-halflings-regular.ttf",
+	"themes/fonts/glyphicons-halflings-regular.woff",
+	"language/zh_CN/admin.lang.php",
+	"language/zh_CN/common.lang.php"
 );
 
 //$src_files = array();
