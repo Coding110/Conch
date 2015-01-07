@@ -30,6 +30,8 @@ include_once( PHPWG_ROOT_PATH.'include/common.inc.php' );
 // +-----------------------------------------------------------------------+
 check_status(ACCESS_FREE);
 
+
+
 trigger_action('loc_begin_identification');
 
 //-------------------------------------------------------------- identification
@@ -59,12 +61,15 @@ if (isset($_POST['login']))
     $redirect_to = isset($_POST['redirect']) ? urldecode($_POST['redirect']) : '';
     $remember_me = isset($_POST['remember_me']) and $_POST['remember_me']==1;
     
-    if ( try_log_user($_POST['username'], $_POST['password'], $remember_me) )
+    if ( try_log_user($_POST['mail_address'], $_POST['password'], $remember_me) )
     {
-      redirect(empty($redirect_to) ? get_gallery_home_url() : $redirect_to);
+      setcookie('username', $_POST['mail_address'], time()+3600);
+    // redirect(empty($redirect_to) ? get_gallery_home_url() : $redirect_to);
+     redirect(get_gallery_home_url());
     }
     else
     {
+      setcookie("username");
       $page['errors'][] = l10n('Invalid password!');
     }
   }
