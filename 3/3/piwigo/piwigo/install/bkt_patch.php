@@ -42,7 +42,8 @@ $modified_files = array(
 	"themes/fonts/glyphicons-halflings-regular.ttf",
 	"themes/fonts/glyphicons-halflings-regular.woff",
 	"language/zh_CN/admin.lang.php",
-	"language/zh_CN/common.lang.php"
+	"language/zh_CN/common.lang.php",
+	"include/config_default.inc.php"
 );
 
 //$src_files = array();
