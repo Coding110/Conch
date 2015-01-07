@@ -47,8 +47,9 @@
             <div class="footer-bottom">
                <div class="container">
                   <div class="footer-row">
-                     Copyright &copy; 2014 Becktu.com&nbsp;&nbsp; <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14053565号</a>
+                     Copyright &copy; 2015 贝壳图(www.becktu.com)&nbsp;&nbsp; <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备14053565号</a>
                     &nbsp;&nbsp;<strong>Email:</strong><a href="mailto:info@fifothemes.com">becktu@163.com</a>
+					<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1253436510'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/z_stat.php%3Fid%3D1253436510%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
                   </div>
                </div>
             </div>
