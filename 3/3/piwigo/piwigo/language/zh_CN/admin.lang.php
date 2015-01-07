@@ -559,6 +559,7 @@ $lang['Give write access (chmod 777) to "%s" directory at the root of your Piwig
 $lang['existing album'] = '现有的相册';
 $lang['create a new album'] = '创建一个新相册';
 $lang['Album name'] = '相册名称';
+$lang['Album description'] = '相册描述';
 $lang['Album "%s" has been added'] = '相册 "%s" 已添加';
 $lang['Uploaded Photos'] = '已上传的图片';
 $lang['%d photos uploaded'] = '%d张图片已上传';
