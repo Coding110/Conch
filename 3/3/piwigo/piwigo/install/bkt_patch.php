@@ -29,7 +29,8 @@ $modified_files = array(
 	"include/template.class.php",
 	"index.php",
 	"picture.php",
-	"ws.php"
+	"ws.php",
+	"identification.php"
 );
 
 //$src_files = array();
